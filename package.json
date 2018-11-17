@@ -1,0 +1,16 @@
+{
+  "name": "server-status",
+  "version": "1.0.0",
+  "description": "Monitoring service for endpoints",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://senju@bitbucket.org/senju/server-status.git"
+  },
+  "author": "Adrian Mato",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/senju/server-status#readme"
+}
