@@ -12,5 +12,8 @@
   },
   "author": "Adrian Mato",
   "license": "ISC",
-  "homepage": "https://bitbucket.org/senju/server-status#readme"
+  "homepage": "https://bitbucket.org/senju/server-status#readme",
+  "dependencies": {
+    "ping": "^0.2.2"
+  }
 }
