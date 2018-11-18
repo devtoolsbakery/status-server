@@ -1,4 +1,4 @@
-// import libraries
+// Configuration
 let ping = require("ping");
 let endpoints = [
   { name: "Personal site", address: "adrianmato.com" },
@@ -8,10 +8,19 @@ let endpoints = [
   { name: "Overwatch Taiwan", address: "203.66.81.98" }
 ];
 
-endpoints.forEach(host => {
-  pingHost(host);
+let allPingPromises = endpoints.map(host => {
+  return pingHost(host);
+});
+Promise.all(allPingPromises).then(() => {
+  // Get data from firebase
+  // @TODO: Write instead of read (I'm currently just testing this)
+  let db = firebaseLogin();
+  if (typeof db !== "undefined") {
+    firebaseGetData(db, "endpoints");
+  }
 });
 
+// Functions
 function pingHost(endpoint) {
   return ping.promise.probe(endpoint.address).then(result => {
     console.log(`\n${endpoint.name} (${endpoint.address})`);
@@ -24,6 +33,32 @@ function pingHost(endpoint) {
 }
 
 function savePing() {
-  // saves last registry in firebase
   console.log("⏳ saving data…");
+}
+
+function firebaseLogin() {
+  let firebase = require("firebase-admin");
+  let firebaseAccount = require("./serviceAccountKey.json");
+
+  firebase.initializeApp({
+    credential: firebase.credential.cert(firebaseAccount)
+  });
+
+  console.log(`\n 🔑 Logged into Firebase`);
+  return firebase.firestore();
+}
+
+function firebaseGetData(db, collection) {
+  db.collection(collection)
+    .get()
+    .then(snapshot => {
+      console.log("\n📄 Data retrieved: \n");
+
+      snapshot.forEach(doc => {
+        console.log(doc.data());
+      });
+    })
+    .catch(error => {
+      console.log(`Error: ${error}`);
+    });
 }
