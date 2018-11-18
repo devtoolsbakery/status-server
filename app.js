@@ -8,15 +8,16 @@ let endpoints = [
   { name: "Overwatch Taiwan", address: "203.66.81.98" }
 ];
 
+// Connect to Firebase
+let db = firebaseLogin();
+db.settings({ timestampsInSnapshots: true });
+
 let allPingPromises = endpoints.map(host => {
   return pingHost(host);
 });
 Promise.all(allPingPromises).then(() => {
-  // Get data from firebase
-  // @TODO: Write instead of read (I'm currently just testing this)
-  let db = firebaseLogin();
   if (typeof db !== "undefined") {
-    firebaseGetData(db, "endpoints");
+    console.log("\n🏁 Promises finished!");
   }
 });
 
@@ -28,12 +29,11 @@ function pingHost(endpoint) {
       console.log(`✅ ${result.time}ms`);
     } else console.log(`🔴 failed`);
 
-    savePing();
+    firebaseSetData(db, "endpoints", endpoint, {
+      date: new Date(),
+      response: result.time
+    });
   });
-}
-
-function savePing() {
-  console.log("⏳ saving data…");
 }
 
 function firebaseLogin() {
@@ -44,7 +44,7 @@ function firebaseLogin() {
     credential: firebase.credential.cert(firebaseAccount)
   });
 
-  console.log(`\n 🔑 Logged into Firebase`);
+  console.log(`\n🔑 Logged into Firebase`);
   return firebase.firestore();
 }
 
@@ -52,7 +52,7 @@ function firebaseGetData(db, collection) {
   db.collection(collection)
     .get()
     .then(snapshot => {
-      console.log("\n📄 Data retrieved: \n");
+      console.log("\n📄 Data retrieved:");
 
       snapshot.forEach(doc => {
         console.log(doc.data());
@@ -60,5 +60,28 @@ function firebaseGetData(db, collection) {
     })
     .catch(error => {
       console.log(`Error: ${error}`);
+    });
+}
+
+function firebaseSetData(db, collection, endpoint, data) {
+  // Create an entry in the feed and update parent collection fields
+  let document = endpoint.address;
+
+  return db
+    .collection(collection)
+    .doc(document)
+    .collection("feed")
+    .add({ data })
+    .then(ref => {
+      console.log(`✏️  New entry created: ${ref.id}`);
+    })
+    .then(() => {
+      db.collection(collection)
+        .doc(document)
+        .set({
+          name: endpoint.name,
+          updated: data.date,
+          status: data.response != "unknown" ? true : false
+        });
     });
 }
