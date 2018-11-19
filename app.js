@@ -29,7 +29,7 @@ function pingHost(endpoint) {
       console.log(`✅ ${result.time}ms`);
     } else console.log(`🔴 failed`);
 
-    firebaseSetData(db, "endpoints", endpoint, {
+    return firebaseSetData(db, "endpoints", endpoint, {
       date: new Date(),
       response: result.time
     });
@@ -73,7 +73,7 @@ function firebaseSetData(db, collection, endpoint, data) {
     .collection("feed")
     .add({ data })
     .then(ref => {
-      console.log(`✏️  New entry created: ${ref.id}`);
+      console.log(`\n✏️  Entry created: ${ref.id}`);
     })
     .then(() => {
       db.collection(collection)
