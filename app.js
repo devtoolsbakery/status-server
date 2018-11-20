@@ -8,20 +8,40 @@ let endpoints = [
   { name: "Overwatch Taiwan", address: "203.66.81.98" }
 ];
 
-// Connect to Firebase
-let db = firebaseLogin();
-db.settings({ timestampsInSnapshots: true });
+async function App() {
+  await loginDB();
+  await pingAll(endpoints);
+}
 
-let allPingPromises = endpoints.map(host => {
-  return pingHost(host);
-});
-Promise.all(allPingPromises).then(() => {
-  if (typeof db !== "undefined") {
-    console.log("\n🏁 Promises finished!");
-  }
-});
+App();
+
+// let allPingPromises = endpoints.map(host => {
+//   return pingHost(host);
+// });
+// Promise.all(allPingPromises).then(() => {
+//   if (typeof db !== "undefined") {
+//     console.log("\n🏁 Promises finished!");
+//   }
+// });
 
 // Functions
+async function pingAll(endpoints) {
+  console.log();
+
+  endpoints.forEach(async host => {
+    result = await pingEndpoint(host.address);
+  });
+
+  console.log("\n🏁 Promises finished!");
+}
+
+async function pingEndpoint(host) {
+  let result = await ping.promise.probe(host);
+  if (result.alive === true) {
+    console.log(`✅ ${result.time}ms \t ${host}`);
+  } else console.log(`🔴 failed \t ${host}`);
+}
+
 function pingHost(endpoint) {
   return ping.promise.probe(endpoint.address).then(result => {
     console.log(`\n${endpoint.name} (${endpoint.address})`);
@@ -36,16 +56,22 @@ function pingHost(endpoint) {
   });
 }
 
-function firebaseLogin() {
+async function loginDB() {
   let firebase = require("firebase-admin");
   let firebaseAccount = require("./serviceAccountKey.json");
 
   firebase.initializeApp({
     credential: firebase.credential.cert(firebaseAccount)
   });
+  let db = firebase.firestore();
 
-  console.log(`\n🔑 Logged into Firebase`);
-  return firebase.firestore();
+  if (typeof db !== "undefined") {
+    db.settings({ timestampsInSnapshots: true });
+    console.log(`🔑 Logged into Firebase`);
+    return Promise.resolve(db);
+  }
+
+  return false;
 }
 
 function firebaseGetData(db, collection) {
