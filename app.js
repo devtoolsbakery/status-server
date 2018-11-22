@@ -1,5 +1,8 @@
 // Configuration
 let ping = require("ping");
+let firebase = require("firebase-admin");
+let firebaseAccount = require("./serviceAccountKey.json");
+
 let endpoints = [
   { name: "Personal site", address: "adrianmato.com" },
   { name: "PUBG US West", address: "dynamodb.us-west-1.amazonaws.com" },
@@ -15,23 +18,12 @@ async function App() {
 
 App();
 
-// let allPingPromises = endpoints.map(host => {
-//   return pingHost(host);
-// });
-// Promise.all(allPingPromises).then(() => {
-//   if (typeof db !== "undefined") {
-//     console.log("\n🏁 Promises finished!");
-//   }
-// });
-
 // Functions
 async function pingAll(endpoints) {
   console.log();
 
-  endpoints.forEach(async host => {
-    result = await pingEndpoint(host.address);
-  });
-
+  const promises = endpoints.map(host => pingEndpoint(host.address)); // [p1,p2,p3]
+  await Promise.all(promises);
   console.log("\n🏁 Promises finished!");
 }
 
@@ -56,10 +48,24 @@ function pingHost(endpoint) {
   });
 }
 
-async function loginDB() {
-  let firebase = require("firebase-admin");
-  let firebaseAccount = require("./serviceAccountKey.json");
+function loginDB() {
+  return new Promise((resolve, reject) => {
+    firebase.initializeApp({
+      credential: firebase.credential.cert(firebaseAccount)
+    });
+    let db = firebase.firestore();
 
+    if (typeof db !== "undefined") {
+      db.settings({ timestampsInSnapshots: true });
+      console.log(`🔑 Logged into Firebase`);
+      return resolve(db);
+    }
+
+    return reject("Not initialized");
+  });
+}
+
+async function loginDB() {
   firebase.initializeApp({
     credential: firebase.credential.cert(firebaseAccount)
   });
@@ -67,11 +73,11 @@ async function loginDB() {
 
   if (typeof db !== "undefined") {
     db.settings({ timestampsInSnapshots: true });
-    console.log(`🔑 Logged into Firebase`);
-    return Promise.resolve(db);
+    console.log("🔑 Logged into Firebase");
+    return db;
   }
 
-  return false;
+  throw Error("🛑 Firebase couldn't be initialized");
 }
 
 function firebaseGetData(db, collection) {
