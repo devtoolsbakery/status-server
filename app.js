@@ -1,8 +1,9 @@
-// Configuration
+// Dependencies
 let ping = require("ping");
 let firebase = require("firebase-admin");
 let firebaseAccount = require("./serviceAccountKey.json");
 
+// Configuration
 let endpoints = [
   { name: "Personal site", address: "adrianmato.com" },
   { name: "PUBG US West", address: "dynamodb.us-west-1.amazonaws.com" },
@@ -10,31 +11,43 @@ let endpoints = [
   { name: "Overwatch Korea", address: "211.234.110.1" },
   { name: "Overwatch Taiwan", address: "203.66.81.98" }
 ];
+let collection = "endpoints";
 
-async function App() {
-  let db = await dbLogin();
-  await pingAll(endpoints);
-  process.exit();
-  await dbSetData(db, "collection", "host", "data");
-}
-
-App();
+// Run app
+App(endpoints);
 
 // Functions
+async function App(endpoints) {
+  let db;
+
+  try {
+    db = await dbLogin();
+    await pingAll(endpoints);
+  } catch (error) {
+    console.log("\n🛑 ERROR! Exiting app…");
+    process.exit();
+  }
+
+  await dbSetData(db, collection, "host", "data");
+  console.log("\n🏁 Finished!");
+}
+
 async function pingAll(endpoints) {
   console.log();
-
-  const promises = endpoints.map(host => pingEndpoint(host.address)); // [p1,p2,p3]
+  const promises = endpoints.map(host => pingEndpoint(host.address)); // returns an array of promises [p1,p2,p3]
   await Promise.all(promises);
-  console.log("\n🏁 Promises finished!");
+
+  return promises;
 }
 
 async function pingEndpoint(host) {
-  let config = { timeout: 5 };
+  let config = { timeout: 1 };
   let result = await ping.promise.probe(host, config);
   if (result.alive === true) {
     console.log(`✅ ${result.time}ms \t ${host}`);
   } else console.log(`🔴 failed \t ${host}`);
+
+  return result;
 }
 
 async function dbLogin() {
@@ -53,7 +66,7 @@ async function dbLogin() {
 }
 
 async function dbSetData(db, collection, host, data) {
-  console.log(db);
+  // console.log(db);
 }
 
 function firebaseSetData(db, collection, endpoint, data) {
