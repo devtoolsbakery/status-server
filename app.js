@@ -12,8 +12,10 @@ let endpoints = [
 ];
 
 async function App() {
-  await loginDB();
+  let db = await dbLogin();
   await pingAll(endpoints);
+  process.exit();
+  await dbSetData(db, "collection", "host", "data");
 }
 
 App();
@@ -28,13 +30,14 @@ async function pingAll(endpoints) {
 }
 
 async function pingEndpoint(host) {
-  let result = await ping.promise.probe(host);
+  let config = { timeout: 5 };
+  let result = await ping.promise.probe(host, config);
   if (result.alive === true) {
     console.log(`✅ ${result.time}ms \t ${host}`);
   } else console.log(`🔴 failed \t ${host}`);
 }
 
-async function loginDB() {
+async function dbLogin() {
   firebase.initializeApp({
     credential: firebase.credential.cert(firebaseAccount)
   });
@@ -47,6 +50,10 @@ async function loginDB() {
   }
 
   throw Error("🛑 Firebase couldn't be initialized");
+}
+
+async function dbSetData(db, collection, host, data) {
+  console.log(db);
 }
 
 function firebaseSetData(db, collection, endpoint, data) {
