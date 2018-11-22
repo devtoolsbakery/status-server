@@ -34,37 +34,6 @@ async function pingEndpoint(host) {
   } else console.log(`🔴 failed \t ${host}`);
 }
 
-function pingHost(endpoint) {
-  return ping.promise.probe(endpoint.address).then(result => {
-    console.log(`\n${endpoint.name} (${endpoint.address})`);
-    if (result.alive === true) {
-      console.log(`✅ ${result.time}ms`);
-    } else console.log(`🔴 failed`);
-
-    return firebaseSetData(db, "endpoints", endpoint, {
-      date: new Date(),
-      response: result.time
-    });
-  });
-}
-
-function loginDB() {
-  return new Promise((resolve, reject) => {
-    firebase.initializeApp({
-      credential: firebase.credential.cert(firebaseAccount)
-    });
-    let db = firebase.firestore();
-
-    if (typeof db !== "undefined") {
-      db.settings({ timestampsInSnapshots: true });
-      console.log(`🔑 Logged into Firebase`);
-      return resolve(db);
-    }
-
-    return reject("Not initialized");
-  });
-}
-
 async function loginDB() {
   firebase.initializeApp({
     credential: firebase.credential.cert(firebaseAccount)
@@ -78,21 +47,6 @@ async function loginDB() {
   }
 
   throw Error("🛑 Firebase couldn't be initialized");
-}
-
-function firebaseGetData(db, collection) {
-  db.collection(collection)
-    .get()
-    .then(snapshot => {
-      console.log("\n📄 Data retrieved:");
-
-      snapshot.forEach(doc => {
-        console.log(doc.data());
-      });
-    })
-    .catch(error => {
-      console.log(`Error: ${error}`);
-    });
 }
 
 function firebaseSetData(db, collection, endpoint, data) {
@@ -115,5 +69,20 @@ function firebaseSetData(db, collection, endpoint, data) {
           updated: data.date,
           status: data.response != "unknown" ? true : false
         });
+    });
+}
+
+function firebaseGetData(db, collection) {
+  db.collection(collection)
+    .get()
+    .then(snapshot => {
+      console.log("\n📄 Data retrieved:");
+
+      snapshot.forEach(doc => {
+        console.log(doc.data());
+      });
+    })
+    .catch(error => {
+      console.log(`Error: ${error}`);
     });
 }
