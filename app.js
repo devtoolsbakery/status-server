@@ -4,30 +4,13 @@ let firebase = require("firebase-admin");
 let firebaseAccount = require("./serviceAccountKey.json");
 
 // Configuration
-let endpoints = [{
-    name: "Personal site",
-    address: "adrianmato.com"
-  },
-  {
-    name: "Lucia's website site",
-    address: "luciagm.net"
-  },
-  {
-    name: "PUBG US West",
-    address: "dynamodb.us-west-1.amazonaws.com"
-  },
-  {
-    name: "Overwatch US West",
-    address: "24.105.30.129"
-  },
-  {
-    name: "Overwatch Korea",
-    address: "211.234.110.1"
-  },
-  {
-    name: "Overwatch Taiwan",
-    address: "203.66.81.98"
-  }
+let endpoints = [
+  { name: "Personal site", address: "adrianmato.com" },
+  { name: "Lucia's website site", address: "luciagm.net" },
+  { name: "PUBG US West", address: "dynamodb.us-west-1.amazonaws.com" },
+  { name: "Overwatch US West", address: "24.105.30.129" },
+  { name: "Overwatch Korea", address: "211.234.110.1" },
+  { name: "Overwatch Taiwan", address: "203.66.81.98" }
 ];
 let db;
 let dbCollection = "endpoints";
