@@ -59,7 +59,7 @@ async function pingAll(endpoints) {
 
 async function pingEndpoint(host) {
   let config = {
-    timeout: 1
+    timeout: 2
   };
   let result = await ping.promise.probe(host, config);
   if (result.alive === true) {
