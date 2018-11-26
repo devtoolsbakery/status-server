@@ -7,6 +7,11 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Adrian Mato",
+  "license": "TBD",
+  "repository": {
+    "type": "git",
+    "url": "https://senju@bitbucket.org/senju/server-status.git"
+  },
   "dependencies": {
     "firebase-admin": "^6.1.0",
     "ping": "^0.2.2"
