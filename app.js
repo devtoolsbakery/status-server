@@ -13,16 +13,18 @@ let endpoints = [
   { name: "Overwatch Taiwan", address: "203.66.81.98" }
 ];
 let db;
-let dbCollection = "endpoints";
-let dbDocument = "feed";
+const dbCollection = "endpoints";
+const dbDocument = "feed";
+const repeat = 10 * (60 * 1000); // desired minutes translated to milliseconds
 
 // Run app
 App(endpoints);
 
+
 // Functions
 async function App(endpoints) {
   try {
-    db = await dbLogin();
+    await dbLogin();
     await pingAll(endpoints);
   } catch (error) {
     console.log(`\n🛑 ERROR! Exiting app… (${error})`);
@@ -30,14 +32,18 @@ async function App(endpoints) {
   }
 
   console.log("\n🏁 Finished!");
+  setTimeout(() => App(endpoints), repeat);
 }
 
 async function dbLogin() {
+  if (typeof db !== "undefined") { // avoid initialize twice
+    return db;
+  }
+
   firebase.initializeApp({
     credential: firebase.credential.cert(firebaseAccount)
   });
-  let db = firebase.firestore();
-
+  db = firebase.firestore();
   if (typeof db !== "undefined") {
     db.settings({
       timestampsInSnapshots: true
@@ -59,7 +65,7 @@ async function pingAll(endpoints) {
 
 async function pingEndpoint(host) {
   let config = {
-    timeout: 2
+    timeout: 1
   };
   let result = await ping.promise.probe(host, config);
   if (result.alive === true) {
@@ -80,6 +86,7 @@ async function writeEndpoint(result) {
 
   try {
     // Add or update existing endpoint
+    console.log(`db: ${db}`);
     let endpoint = db.collection(dbCollection).doc(entry.document);
     await endpoint.set({
       name: entry.document,
