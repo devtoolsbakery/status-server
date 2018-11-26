@@ -15,7 +15,8 @@ let endpoints = [
 let db;
 const dbCollection = "endpoints";
 const dbDocument = "feed";
-const repeat = 10 * (60 * 1000); // desired minutes translated to milliseconds
+const repeat = 15 * (60 * 1000); // desired minutes translated to milliseconds
+
 
 // Run app
 App(endpoints);
@@ -23,6 +24,9 @@ App(endpoints);
 
 // Functions
 async function App(endpoints) {
+  let date = new Date();
+  console.log(`\n⚡️ Triggered at: ${date.getUTCHours()}:${date.getUTCMinutes()}:${date.getUTCSeconds()} (UTC)\n`);
+
   try {
     await dbLogin();
     await pingAll(endpoints);
@@ -31,7 +35,7 @@ async function App(endpoints) {
     process.exit();
   }
 
-  console.log("\n🏁 Finished!");
+  console.log("\n🏁 Finished!\n");
   setTimeout(() => App(endpoints), repeat);
 }
 
@@ -86,7 +90,6 @@ async function writeEndpoint(result) {
 
   try {
     // Add or update existing endpoint
-    console.log(`db: ${db}`);
     let endpoint = db.collection(dbCollection).doc(entry.document);
     await endpoint.set({
       name: entry.document,
