@@ -1,7 +1,7 @@
 // Dependencies
 let ping = require("ping");
 let firebase = require("firebase-admin");
-let firebaseAccount = require("./serviceAccountKey.json");
+let firebaseAccount = require("./serviceAccountKey.json"); // @todo: use secrets when developing + deploying
 
 // Configuration
 let endpoints = [
