@@ -14,12 +14,11 @@ const repeat = 15 * (60 * 1000); // desired minutes translated to milliseconds
 const db = require("./src/db");
 const pingAll = require("./src/ping")
 
-//db.connect();
+db.connect();
 
 // Run app
 App(endpoints);
 
-// Functions
 async function App(endpoints) {
   let date = new Date();
   console.log(`\n⚡️ Triggered at: ${date.getUTCHours()}:${date.getUTCMinutes()}:${date.getUTCSeconds()} (UTC)\n`);
