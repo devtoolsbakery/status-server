@@ -1,7 +1,7 @@
-const ping = require('ping');
 const { EndpointStatusRepository } = require('../repository')
+const pingImpl = require('../../infrastructure/ping');
 
 module.exports = {
-  ping: require('./ping')({ ping }),
+  ping: require('./ping')({ pingImpl }),
   savePingResult: require('./savePingResult')({ EndpointStatusRepository })
 }
