@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint ./src"
   },
   "author": "Adrian Mato",
   "license": "UNLICENSED",
@@ -16,5 +17,8 @@
   "dependencies": {
     "firebase-admin": "^6.1.0",
     "ping": "^0.2.2"
+  },
+  "devDependencies": {
+    "eslint": "^5.9.0"
   }
 }

@@ -1,4 +1,4 @@
-const { ping } = require("../domain/service");
+const { ping } = require('../domain/service');
 const { savePingResult } = require('../domain/service');
 
 module.exports = {

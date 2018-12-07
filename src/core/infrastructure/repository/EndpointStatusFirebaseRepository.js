@@ -1,6 +1,6 @@
-const firebase = require("firebase-admin");
-const dbCollection = "endpoints";
-const dbDocument = "feed";
+const firebase = require('firebase-admin');
+const dbCollection = 'endpoints';
+const dbDocument = 'feed';
 const firebaseAccount = require('../../../../serviceAccountKey.json');
 
 module.exports = class EndpointStatusFirebaseRepository {

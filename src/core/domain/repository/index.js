@@ -2,6 +2,6 @@ const EndpointStatusFirebaseRepository = require('../../infrastructure/repositor
 
 module.exports = {
   EndpointStatusRepository: require('./EndpointStatusRepository')({ 
-		EndpointStatusRepositoryImpl: EndpointStatusFirebaseRepository 
-	})
+    EndpointStatusRepositoryImpl: EndpointStatusFirebaseRepository 
+  })
 }
