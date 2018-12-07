@@ -1,7 +1,7 @@
 module.exports = ({ savePingResult, ping }) => (endpoints) => {
   
   const iterator = async endpointStatus => {
-    const pingResult = await ping(endpointStatus.getAddress());
+    const pingResult = await ping(endpointStatus.getHost());
     return savePingResult({ endpointStatus, pingResult })
   };
 

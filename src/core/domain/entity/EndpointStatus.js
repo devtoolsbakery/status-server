@@ -4,7 +4,7 @@ module.exports = class EndpointStatus {
 
   constructor(id, host, address, name, time, updated) {
     assert(id, 'The id is mandatory');
-    assert(host, 'The name is mandatory');
+    assert(host, 'The host is mandatory');
     assert(name, 'The name is mandatory');
 
     this.id = id;

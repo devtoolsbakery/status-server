@@ -23,8 +23,8 @@ module.exports = class EndpointStatusFirebaseRepository {
 
   async save (endpoint) {
     const entry = {
-      document: endpoint.getName(),
-      response: endpoint.getStatus(),
+      document: endpoint.getId().toString(),
+      name: endpoint.getName(),
       address: endpoint.getAddress(),
       time: endpoint.getTime(),
       date: endpoint.getUpdated()
