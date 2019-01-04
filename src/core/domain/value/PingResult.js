@@ -8,7 +8,4 @@ module.exports = class PingResult {
   getHost() { return this.host }
   getIp() { return this.ip }
   getTimeInMilliseconds() { return this.timeInMilliseconds }
-  isAlive() { 
-    return !isNaN(this.timeInMilliseconds) && this.timeInMilliseconds > 0 
-  }
 }

@@ -12,7 +12,7 @@ module.exports =  async ({ host, timeout }) => {
 
   const pingResult = new PingResult(result.host, result.numeric_host, result.time);
 
-  if (pingResult.isAlive() === true) {
+  if (result.alive) {
     console.log(`✅ ${pingResult.getTimeInMilliseconds()}ms \t ${host}`);
   } else console.log(`🔴 failed \t ${host}`);
 
