@@ -9,7 +9,7 @@ module.exports = class EndpointStatus {
 
     this.id = id;
     this.host = host;
-    this.address = address;
+    this.address = address || '';
     this.name = name;
     this.time = time;
     this.updated = updated;
@@ -31,7 +31,7 @@ module.exports = class EndpointStatus {
   }
 
   updateFromPing({ time, address }) {
-    this.address = address;
+    this.address = address || '';
     this.time = time;
     this.updated = new Date();
   }
