@@ -1,26 +1,46 @@
+const assert = require('assert');
+
 module.exports = class EndpointStatus {
 
-  constructor(id, address, name, status, time, updated) {
+  constructor(id, host, address, name, time, updated) {
+    assert(id, 'The id is mandatory');
+    assert(host, 'The host is mandatory');
+    assert(name, 'The name is mandatory');
+
     this.id = id;
-    this.address = address;
+    this.host = host;
+    this.address = address || '';
     this.name = name;
-    this.status = status;
     this.time = time;
     this.updated = updated;
   }
 
   getId() { return this.id; }
+  getHost() { return this.host; }
   getAddress() { return this.address; }
   getName() { return this.name; }
-  getStatus() { return this.status; }
   getTime() { return this.time; }
   getUpdated() { return this.updated; }
 
-  updateFromPing({ status, time, address }) {
-    this.status = status;
-    this.address = address;
+  getStatus() { 
+    return this.time ? Statuses.UP : Statuses.DOWN;
+  }
+
+  isAlive() {
+    return this.getStatus() === Statuses.UP;
+  }
+
+  updateFromPing({ time, address }) {
+    this.address = address || '';
     this.time = time;
     this.updated = new Date();
   }
 
 }
+
+const Statuses = {
+  UP: Symbol('up'),
+  DOWN: Symbol('down')
+};
+
+module.exports.Statuses = Statuses;

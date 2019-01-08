@@ -5,8 +5,9 @@ const EndpointStatus = require('./src/core/domain/entity/EndpointStatus');
 
 // Configuration
 const endpoints = [
-  new EndpointStatus(1, 'adrianmato.com', 'Adrian Mato Web', 'up', 215, Date.now())
+  new EndpointStatus(1, 'adrianmato.com', '', 'Adrian Mato Web', 1, null)
 ];
+
 const repeat = 15 * (60 * 1000); // desired minutes translated to milliseconds
 
 // Run app
