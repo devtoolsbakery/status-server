@@ -1,24 +1,18 @@
 /* eslint-disable no-console */
 
 const { pingAllEndpoints } = require('./src/core/usecase');
-const EndpointStatus = require('./src/core/domain/entity/EndpointStatus');
-
-// Configuration
-const endpoints = [
-  new EndpointStatus(1, 'adrianmato.com', '', 'Adrian Mato Web', 1, null)
-];
 
 const repeat = 15 * (60 * 1000); // desired minutes translated to milliseconds
 
 // Run app
-App(endpoints);
+App();
 
-async function App(endpoints) {
+async function App() {
   const date = new Date();
   console.log(`\n⚡️ Triggered at: ${date.getUTCHours()}:${date.getUTCMinutes()}:${date.getUTCSeconds()} (UTC)\n`);
   
   try {
-    await pingAllEndpoints(endpoints)
+    await pingAllEndpoints()
   } 
   catch (error) {
     console.error(`\n🛑 ERROR! Exiting app… (${error})`);
@@ -26,5 +20,5 @@ async function App(endpoints) {
   }
 
   console.log('\n🏁 Finished!\n');
-  setTimeout(() => App(endpoints), repeat);
+  setTimeout(() => App(), repeat);
 }

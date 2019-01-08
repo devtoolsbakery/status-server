@@ -11,13 +11,11 @@ describe('Scenario: Ping all endpoints usecase', () => {
     const web2 = new EndpointStatus('2', 'ivanguardado.com', '', 'Ivan Guardado Web', 0, null);
 
     before(async () => await endpointStatusRepository.deleteAll());
+    before(() => endpointStatusRepository.save(web1));
+    before(() => endpointStatusRepository.save(web2));
 
     it('should save the statuses', async () => {
-      const endpoints = [
-        web1,
-        web2
-      ]
-      await pingAllEndpoints(endpoints);
+      await pingAllEndpoints();
       const statuses = await endpointStatusRepository.findAll();
       should(statuses.length).be.eql(2);
     });
@@ -28,6 +26,7 @@ describe('Scenario: Ping all endpoints usecase', () => {
     const web2 = new EndpointStatus('2', 'invalid.ivanguardado.com', '', 'Ivan Guardado Web', 100, null);
     
     before(async () => {
+      await endpointStatusRepository.deleteAll()
       await endpointStatusRepository.save(web1);
       await endpointStatusRepository.save(web2);
       const endpoints = [
