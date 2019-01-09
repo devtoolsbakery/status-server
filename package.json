@@ -4,8 +4,8 @@
   "description": "Monitoring service for endpoints",
   "main": "app.js",
   "scripts": {
-    "start": "node index.js",
-    "test": "NODE_ENV=test mocha --timeout 5000 test/**/*_spec.js",
+    "start": "ts-node index.ts",
+    "test": "NODE_ENV=test mocha -r ts-node/register --timeout 5000 test/**/*_spec.*",
     "lint": "eslint ./src"
   },
   "author": "Adrian Mato",
@@ -19,8 +19,11 @@
     "ping": "^0.2.2"
   },
   "devDependencies": {
+    "@types/mocha": "^5.2.5",
     "eslint": "^5.9.0",
     "mocha": "^5.2.0",
-    "should": "^13.2.3"
+    "should": "^13.2.3",
+    "ts-node": "^7.0.1",
+    "typescript": "^3.2.2"
   }
 }

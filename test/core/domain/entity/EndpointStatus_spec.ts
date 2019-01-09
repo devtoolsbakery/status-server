@@ -1,5 +1,5 @@
 const should = require('should');
-const EndpointStatus = require('../../../../src/core/domain/entity/EndpointStatus');
+const EndpointStatus = require('../../../../src/core/domain/EndpointStatus');
 const Statuses = EndpointStatus.Statuses;
 
 describe('EndpointStatus entity', () => {

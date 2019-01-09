@@ -2,6 +2,13 @@ const assert = require('assert');
 
 module.exports = class EndpointStatus {
 
+  id: string;
+  host: string;
+  address: string;
+  name: string;
+  time: number;
+  updated: Date;
+
   constructor(id, host, address, name, time, updated) {
     assert(id, 'The id is mandatory');
     assert(host, 'The host is mandatory');
