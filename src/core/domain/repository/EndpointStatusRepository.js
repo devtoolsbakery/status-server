@@ -7,4 +7,8 @@ module.exports = ({ EndpointStatusRepositoryImpl }) => class EndpointStatusRepos
   static save(endpointStatus) {
     this._getInstance().save(endpointStatus);
   }
+
+  static findAll() {
+    return this._getInstance().findAll();
+  }
 }
