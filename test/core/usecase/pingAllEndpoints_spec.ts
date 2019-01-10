@@ -1,7 +1,7 @@
 const should = require('should');
-const { pingAllEndpoints } = require('../../../src/core/usecase');
-const EndpointStatus = require('../../../src/core/domain/entity/EndpointStatus');
+const EndpointStatus = require('../../../src/core/domain/EndpointStatus');
 const endpointStatusRepository = require('../../../src/core/infrastructure/repository/EndpointStatusFirebaseRepository').getInstance();
+import { pingAllEndpoints } from '../../../src/core/usecase';
 
 describe('Scenario: Ping all endpoints usecase', () => {
 
@@ -33,7 +33,7 @@ describe('Scenario: Ping all endpoints usecase', () => {
         web1,
         web2        
       ]
-      await pingAllEndpoints(endpoints);
+      await pingAllEndpoints();
     });
 
     it('should save the failed status', async() => {

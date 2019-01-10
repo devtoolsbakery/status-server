@@ -1,12 +1,18 @@
 const firebase = require('firebase-admin');
 const dbCollection = 'endpoints';
 const dbDocument = 'feed';
-const EndpointStatus = require('../../domain/entity/EndpointStatus');
+const EndpointStatus = require('../../domain/EndpointStatus');
 const firebaseAccount = process.env['NODE_ENV'] == 'test'
   ? require('../../../../serviceAccountTestKey.json')
   : require('../../../../serviceAccountKey.json')
+
+  import EndpointStatusRepository from '../../domain/EndpointStatusRepository';
   
-module.exports = class EndpointStatusFirebaseRepository {
+module.exports = class EndpointStatusFirebaseRepository implements EndpointStatusRepository {
+
+  static instance: EndpointStatusFirebaseRepository;
+
+  db;
 
   static getInstance() {
     if (this.instance) return this.instance;

@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 
-const { pingAllEndpoints } = require('./src/core/usecase');
+import { pingAllEndpoints } from './src/core/usecase';
 
 const repeat = 15 * (60 * 1000); // desired minutes translated to milliseconds
 
