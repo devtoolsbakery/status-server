@@ -1,6 +1,6 @@
-const should = require('should');
-const EndpointStatus = require('../../../../src/core/domain/EndpointStatus');
-const Statuses = EndpointStatus.Statuses;
+import * as should from 'should';
+import EndpointStatus from '../../../../src/core/domain/EndpointStatus';
+import { Statuses } from '../../../../src/core/domain/EndpointStatus';
 
 describe('EndpointStatus entity', () => {
   
@@ -41,7 +41,7 @@ describe('EndpointStatus entity', () => {
   });
 
   it('should update the last time it was modified', () => {
-    const oneHourAgo = Date.now() - 3600000;
+    const oneHourAgo = new Date(Date.now() - 3600000);
     const oneSecond = 1000;
     const endpointStatus = new EndpointStatus(1, 
       'test.com',
@@ -50,9 +50,9 @@ describe('EndpointStatus entity', () => {
       100,
       oneHourAgo
     );
-    should(Date.now() - endpointStatus.getUpdated()).be.above(oneSecond);
+    should(Date.now() - endpointStatus.getUpdated().getTime()).be.above(oneSecond);
     endpointStatus.updateFromPing({ time: 100, address: '127.0.0.1'});
-    should(Date.now() - endpointStatus.getUpdated()).be.below(oneSecond);
+    should(Date.now() - endpointStatus.getUpdated().getTime()).be.below(oneSecond);
   })
 
   it('should update the status to DOWN correctly', () => {

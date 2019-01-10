@@ -1,5 +1,8 @@
-const EndpointStatusRepository = require('../../infrastructure/repository/EndpointStatusFirebaseRepository');
+import EndpointStatusRepository from '../../infrastructure/repository/EndpointStatusFirebaseRepository';
+import savePingResultBuilder from './savePingResult';
 
-module.exports = {
-  savePingResult: require('./savePingResult')(EndpointStatusRepository.getInstance())
-}
+const savePingResult = savePingResultBuilder(EndpointStatusRepository.getInstance());
+
+export {
+  savePingResult
+};
