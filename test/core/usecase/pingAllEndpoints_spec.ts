@@ -1,7 +1,9 @@
-const should = require('should');
-const EndpointStatus = require('../../../src/core/domain/EndpointStatus');
-const endpointStatusRepository = require('../../../src/core/infrastructure/repository/EndpointStatusFirebaseRepository').getInstance();
+import * as should from 'should';
+import EndpointStatus from '../../../src/core/domain/EndpointStatus';
+import EndpointStatusRepository from '../../../src/core/infrastructure/repository/EndpointStatusFirebaseRepository';
 import { pingAllEndpoints } from '../../../src/core/usecase';
+
+const endpointStatusRepository = EndpointStatusRepository.getInstance();
 
 describe('Scenario: Ping all endpoints usecase', () => {
 

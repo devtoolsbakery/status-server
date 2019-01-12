@@ -1,6 +1,6 @@
 const assert = require('assert');
 
-module.exports = class EndpointStatus {
+export default class EndpointStatus {
 
   id: string;
   host: string;
@@ -45,9 +45,7 @@ module.exports = class EndpointStatus {
 
 }
 
-const Statuses = {
-  UP: Symbol('up'),
-  DOWN: Symbol('down')
-};
-
-module.exports.Statuses = Statuses;
+export enum Statuses {
+  UP, 
+  DOWN
+}

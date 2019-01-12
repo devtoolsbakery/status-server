@@ -1,5 +1,6 @@
 import EndpointStatusRepository from '../domain/EndpointStatusRepository';
 import PingService from '../domain/service/PingService'
+
 export default (endpointStatusRepository: EndpointStatusRepository, savePingResult, pingService: PingService) => async () => {
   
   const iterator = async endpointStatus => {
