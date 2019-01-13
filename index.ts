@@ -1,6 +1,8 @@
 /* eslint-disable no-console */
 
-import { pingAllEndpoints } from './src/core/usecase';
+import container from './src/core/infrastructure/DependencyInjection';
+
+const pingAllEndpoints = container.get('app.usecase.PingAllEndpoints');
 
 const repeat = 15 * (60 * 1000); // desired minutes translated to milliseconds
 
@@ -12,7 +14,7 @@ async function App() {
   console.log(`\n⚡️ Triggered at: ${date.getUTCHours()}:${date.getUTCMinutes()}:${date.getUTCSeconds()} (UTC)\n`);
   
   try {
-    await pingAllEndpoints()
+    await pingAllEndpoints.execute();
   } 
   catch (error) {
     console.error(`\n🛑 ERROR! Exiting app… (${error})`);

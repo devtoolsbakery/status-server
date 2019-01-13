@@ -1,0 +1,22 @@
+services:
+  app.domain.EndpointStatusRepository:
+    factory:
+      class: ../repository/EndpointStatusFirebaseRepository
+      method: getInstance
+
+  app.domain.service.SavePingResult:
+    class: '../../domain/service/SavePingResult'
+    arguments: [
+      "@app.domain.EndpointStatusRepository"
+    ]
+  
+  app.domain.service.PingService:
+    class: '../PingServiceImpl'
+
+  app.usecase.PingAllEndpoints:
+    class: '../../usecase/PingAllEndpoints'
+    arguments: [
+      "@app.domain.EndpointStatusRepository",
+      "@app.domain.service.SavePingResult",
+      "@app.domain.service.PingService"
+    ]
