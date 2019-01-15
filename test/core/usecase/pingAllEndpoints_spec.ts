@@ -1,7 +1,8 @@
 import * as should from 'should';
 import EndpointStatus from '../../../src/core/domain/EndpointStatus';
 import EndpointStatusRepository from '../../../src/core/infrastructure/repository/EndpointStatusFirebaseRepository';
-import { pingAllEndpoints } from '../../../src/core/usecase';
+import container from '../../../src/core/infrastructure/DependencyInjection';
+const pingAllEndpoints = container.get('app.usecase.PingAllEndpoints');
 
 const endpointStatusRepository = EndpointStatusRepository.getInstance();
 
@@ -17,7 +18,7 @@ describe('Scenario: Ping all endpoints usecase', () => {
     before(() => endpointStatusRepository.save(web2));
 
     it('should save the statuses', async () => {
-      await pingAllEndpoints();
+      await pingAllEndpoints.execute();
       const statuses = await endpointStatusRepository.findAll();
       should(statuses.length).be.eql(2);
     });
@@ -35,7 +36,7 @@ describe('Scenario: Ping all endpoints usecase', () => {
         web1,
         web2        
       ]
-      await pingAllEndpoints();
+      await pingAllEndpoints.execute();
     });
 
     it('should save the failed status', async() => {
