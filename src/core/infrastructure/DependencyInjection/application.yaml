@@ -4,6 +4,9 @@ services:
       class: ../repository/EndpointStatusFirebaseRepository
       method: getInstance
 
+  app.domain.PubSub:
+    class: ../PubSub
+
   app.domain.service.SavePingResult:
     class: '../../domain/service/SavePingResult'
     arguments: [
@@ -18,5 +21,6 @@ services:
     arguments: [
       "@app.domain.EndpointStatusRepository",
       "@app.domain.service.SavePingResult",
-      "@app.domain.service.PingService"
+      "@app.domain.service.PingService",
+      "@app.domain.PubSub"
     ]

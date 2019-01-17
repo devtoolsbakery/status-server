@@ -1,8 +1,11 @@
 import * as should from 'should';
 import EndpointStatus from '../../../src/core/domain/EndpointStatus';
+import EndpointUpdatedEvent from '../../../src/core/domain/event/EndpointUpdatedEvent';
 import EndpointStatusRepository from '../../../src/core/infrastructure/repository/EndpointStatusFirebaseRepository';
 import container from '../../../src/core/infrastructure/DependencyInjection';
+
 const pingAllEndpoints = container.get('app.usecase.PingAllEndpoints');
+const PubSub = container.get('app.domain.PubSub');
 
 const endpointStatusRepository = EndpointStatusRepository.getInstance();
 
@@ -11,33 +14,35 @@ describe('Scenario: Ping all endpoints usecase', () => {
   context('When all endpoints return ok', () => {
     
     const web1 = new EndpointStatus('1', 'adrianmato.com', '', 'Adrian Mato Web', 0, null);
-    const web2 = new EndpointStatus('2', 'ivanguardado.com', '', 'Ivan Guardado Web', 0, null);
 
-    before(async () => await endpointStatusRepository.deleteAll());
-    before(() => endpointStatusRepository.save(web1));
-    before(() => endpointStatusRepository.save(web2));
+    before(_clean);
+    before(() => _insertEndpointStatuses([web1]));
+    after(_clean)
 
-    it('should save the statuses', async () => {
+    it('should save the status', async () => {
       await pingAllEndpoints.execute();
       const statuses = await endpointStatusRepository.findAll();
-      should(statuses.length).be.eql(2);
+      should(statuses.length).be.eql(1);
     });
-  })
+
+    it('should emit the endpoint_updated event', (done) => {
+      PubSub.subscribe(EndpointUpdatedEvent.eventName, data => {
+        done();
+      });
+      pingAllEndpoints.execute();
+    });
+  });
 
   context('When some endpoint fails', () => {
     const web1 = new EndpointStatus('1', 'adrianmato.com', '', 'Adrian Mato Web', 0, null);
     const web2 = new EndpointStatus('2', 'invalid.ivanguardado.com', '', 'Ivan Guardado Web', 100, null);
     
+    before(_clean);
     before(async () => {
-      await endpointStatusRepository.deleteAll()
-      await endpointStatusRepository.save(web1);
-      await endpointStatusRepository.save(web2);
-      const endpoints = [
-        web1,
-        web2        
-      ]
+      await _insertEndpointStatuses([web1, web2]);
       await pingAllEndpoints.execute();
     });
+    after(_clean);
 
     it('should save the failed status', async() => {
       const statusWeb2 = await endpointStatusRepository.get(web2.getId());
@@ -51,5 +56,14 @@ describe('Scenario: Ping all endpoints usecase', () => {
       should(statusWeb1.isAlive()).be.eql(true);
     });
   })
+
+  async function _clean() {
+    await endpointStatusRepository.deleteAll();
+    PubSub.removeAllListeners()
+  }
+
+  async function _insertEndpointStatuses(list) {
+    return Promise.all(list.map(endpoint => endpointStatusRepository.save(endpoint)));
+  }
 
 })
