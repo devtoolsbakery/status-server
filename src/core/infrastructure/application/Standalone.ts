@@ -1,7 +1,7 @@
 import Application from './Application';
 import container from '../DependencyInjection';
 import PubSub from '../PubSub';
-import EndpointUpdatedEvent, { EndpointUpdatedEventData } from '../../domain/event/EndpointUpdatedEvent';
+import EndpointUpdatedEvent, { EndpointUpdatedEventData } from '../../domain/model/event/EndpointUpdatedEvent';
 import { lookup } from 'dns';
 
 const saveEndpointUpdatedEvent = container.get('app.usecase.SaveEndpointUpdatedEvent');

@@ -1,9 +1,9 @@
 /* eslint-disable no-console */
 
-import PingService from '../domain/service/PingService';
-import PingResult from '../domain/PingResult';
+import PingService from '../domain/model/service/PingService';
+import PingResult from '../domain/model/PingResult';
 import * as ping from 'ping';
-import EndpointStatus from '../domain/EndpointStatus';
+import EndpointStatus from '../domain/model/EndpointStatus';
 
 export default class PingServiceImpl implements PingService {
 

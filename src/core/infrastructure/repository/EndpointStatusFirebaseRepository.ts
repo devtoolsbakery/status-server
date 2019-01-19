@@ -1,5 +1,5 @@
-import EndpointStatus from '../../domain/EndpointStatus';
-import EndpointStatusRepository from '../../domain/EndpointStatusRepository';
+import EndpointStatus from '../../domain/model/EndpointStatus';
+import EndpointStatusRepository from '../../domain/model/EndpointStatusRepository';
 import { Firestore } from '@google-cloud/firestore';
 
 const dbCollection = 'endpoints';

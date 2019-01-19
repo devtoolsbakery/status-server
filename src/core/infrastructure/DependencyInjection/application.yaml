@@ -20,7 +20,7 @@ services:
     class: ../PubSub
 
   app.domain.service.SavePingResult:
-    class: '../../domain/service/SavePingResult'
+    class: '../../domain/model/service/SavePingResult'
     arguments: [
       "@app.domain.EndpointStatusRepository"
     ]
@@ -29,7 +29,7 @@ services:
     class: '../PingServiceImpl'
 
   app.usecase.PingAllEndpoints:
-    class: '../../usecase/PingAllEndpoints'
+    class: '../../domain/usecase/PingAllEndpoints'
     arguments: [
       "@app.domain.EndpointStatusRepository",
       "@app.domain.service.SavePingResult",
@@ -38,7 +38,7 @@ services:
     ]
 
   app.usecase.SaveEndpointUpdatedEvent:
-    class: "../../usecase/SaveEndpointUpdatedEvent"
+    class: "../../domain/usecase/SaveEndpointUpdatedEvent"
     arguments: [
       "@app.infrastructure.repository.EndpointUpdatedEventRepository"
     ]

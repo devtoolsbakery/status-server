@@ -1,5 +1,5 @@
-import EndpointUpdatedEventRepository from "../domain/EndpointUpdatedEventRepository";
-import EndpointUpdatedEvent, { EndpointUpdatedEventData } from "../domain/event/EndpointUpdatedEvent";
+import EndpointUpdatedEventRepository from "../model/EndpointUpdatedEventRepository";
+import EndpointUpdatedEvent, { EndpointUpdatedEventData } from "../model/event/EndpointUpdatedEvent";
 
 export default class SaveEndpointUpdatedEvent {
 

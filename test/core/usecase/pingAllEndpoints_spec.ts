@@ -1,7 +1,6 @@
 import * as should from 'should';
-import EndpointStatus from '../../../src/core/domain/EndpointStatus';
-import EndpointUpdatedEvent from '../../../src/core/domain/event/EndpointUpdatedEvent';
-import EndpointStatusRepository from '../../../src/core/infrastructure/repository/EndpointStatusFirebaseRepository';
+import EndpointStatus from '../../../src/core/domain/model/EndpointStatus';
+import EndpointUpdatedEvent from '../../../src/core/domain/model/event/EndpointUpdatedEvent';
 import container from '../../../src/core/infrastructure/DependencyInjection';
 
 const pingAllEndpoints = container.get('app.usecase.PingAllEndpoints');
