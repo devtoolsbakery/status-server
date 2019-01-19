@@ -1,34 +1,16 @@
-const firebaseAccount = process.env['NODE_ENV'] == 'test'
-  ? require('../../../../serviceAccountTestKey.json')
-  : require('../../../../serviceAccountKey.json')
-
-import * as firebase from 'firebase-admin';
 import EndpointStatus from '../../domain/EndpointStatus';
 import EndpointStatusRepository from '../../domain/EndpointStatusRepository';
+import { Firestore } from '@google-cloud/firestore';
 
 const dbCollection = 'endpoints';
 const dbDocument = 'feed';
 
 export default class EndpointStatusFirebaseRepository implements EndpointStatusRepository {
 
-  static instance: EndpointStatusFirebaseRepository;
-
-  db;
-
-  static getInstance() {
-    if (this.instance) return this.instance;
-
-    this.instance = new EndpointStatusFirebaseRepository();
-    this.instance.connect();
-    return this.instance;
-  }
-
-  connect() {
-    firebase.initializeApp({
-      credential: firebase.credential.cert(firebaseAccount)
-    });
+  private db: Firestore;
   
-    this.db = firebase.firestore();
+  constructor(db: Firestore) {
+    this.db = db;
   }
 
   async deleteAll() {
@@ -44,18 +26,19 @@ export default class EndpointStatusFirebaseRepository implements EndpointStatusR
     return new EndpointStatus(doc.id, data.host, data.address, data.name, data.time, data.date)
   }
 
-  findAll() {
-    return this.db
+  async findAll() {
+    const docs = [];
+
+    const querySnapshot = await this.db
       .collection(dbCollection)
-      .get()
-      .then(querySnapshot => {
-        const docs = [];
-        querySnapshot.forEach(doc => {
-          const data = doc.data();
-          docs.push(new EndpointStatus(doc.id, data.host, data.address, data.name, data.time, data.date));
-        });
-        return docs;
-      });
+      .get();
+
+    querySnapshot.forEach(doc => {
+      const data = doc.data();
+      docs.push(new EndpointStatus(doc.id, data.host, data.address, data.name, data.time, data.date));
+    });
+
+    return docs as [EndpointStatus];
   }
 
   async save (endpoint) {
@@ -72,17 +55,5 @@ export default class EndpointStatusFirebaseRepository implements EndpointStatusR
       .collection(dbCollection)
       .doc(entry.document)
       .set(entry);
-
-    const feed = this.db
-      .collection(dbCollection)
-      .doc(entry.document)
-      .collection(dbDocument)
-      .doc(Date.now().toString());
-
-    await feed.set({
-      date: endpoint.getUpdated(),
-      time: endpoint.getTime(),
-      address: endpoint.getAddress()
-    })
   }
 }

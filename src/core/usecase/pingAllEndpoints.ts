@@ -1,21 +1,30 @@
 import EndpointStatusRepository from '../domain/EndpointStatusRepository';
 import PingService from '../domain/service/PingService'
+import EventPublisher from '../domain/event/EventPublisher';
+import SavePingResult from '../domain/service/savePingResult';
+import EndpointUpdatedEvent from '../domain/event/EndpointUpdatedEvent';
+import EndpointStatus from '../domain/EndpointStatus';
 
 export default class PingAllEndpoints {
   pingService: PingService;
   endpointStatusRepository: EndpointStatusRepository
-  savePingResult;
+  savePingResult: SavePingResult;
+  eventPublisher: EventPublisher
 
-  constructor(endpointStatusRepository: EndpointStatusRepository, savePingResult, pingService: PingService) {
+  constructor(endpointStatusRepository: EndpointStatusRepository, savePingResult, pingService: PingService,
+    eventPublisher: EventPublisher) {
     this.endpointStatusRepository = endpointStatusRepository;
     this.savePingResult = savePingResult;
     this.pingService = pingService;
+    this.eventPublisher = eventPublisher;
   }
 
   async execute() {
-    const iterator = async endpointStatus => {
-      const pingResult = await this.pingService.ping(endpointStatus.getHost());
-      return this.savePingResult.save({ endpointStatus, pingResult })
+    const iterator = async (endpointStatus: EndpointStatus) => {
+      const pingResult = await this.pingService.ping(endpointStatus);
+      const result = await this.savePingResult.save({ endpointStatus, pingResult });
+      this.eventPublisher.publish(EndpointUpdatedEvent.from(endpointStatus));
+      return result;
     };
   
     const endpoints = await this.endpointStatusRepository.findAll();

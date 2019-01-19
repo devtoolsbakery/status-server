@@ -1,8 +1,23 @@
 services:
-  app.domain.EndpointStatusRepository:
+  app.infrastructure.repository.FireBaseConnection:
     factory:
-      class: ../repository/EndpointStatusFirebaseRepository
-      method: getInstance
+      class: ../repository/Connection
+      method: getConnection
+
+  app.domain.EndpointStatusRepository:
+    class: ../repository/EndpointStatusFirebaseRepository
+    arguments: [
+      "@app.infrastructure.repository.FireBaseConnection"
+    ]
+
+  app.infrastructure.repository.EndpointUpdatedEventRepository:
+    class: ../repository/EndpointUpdatedEventFirebaseRepository
+    arguments: [
+      "@app.infrastructure.repository.FireBaseConnection"
+    ]
+
+  app.domain.PubSub:
+    class: ../PubSub
 
   app.domain.service.SavePingResult:
     class: '../../domain/service/SavePingResult'
@@ -18,5 +33,12 @@ services:
     arguments: [
       "@app.domain.EndpointStatusRepository",
       "@app.domain.service.SavePingResult",
-      "@app.domain.service.PingService"
+      "@app.domain.service.PingService",
+      "@app.domain.PubSub"
+    ]
+
+  app.usecase.SaveEndpointUpdatedEvent:
+    class: "../../usecase/SaveEndpointUpdatedEvent"
+    arguments: [
+      "@app.infrastructure.repository.EndpointUpdatedEventRepository"
     ]
