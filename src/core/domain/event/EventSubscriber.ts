@@ -1,3 +1,3 @@
 export default interface EventSubscriber {
-    subscribe(eventName: string, fn: (data: Map<string, string>) => void) : void
+    subscribe(eventName: string, fn: (data: any) => void) : void
 }

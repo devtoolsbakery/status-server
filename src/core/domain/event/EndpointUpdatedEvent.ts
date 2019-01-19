@@ -46,4 +46,8 @@ export default class EndpointUpdatedEvent extends Event {
             )
         );
     }
+
+    static fromData(data: EndpointUpdatedEventData): EndpointUpdatedEvent {
+      return new EndpointUpdatedEvent(data);
+    }
 }
