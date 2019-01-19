@@ -1,12 +1,31 @@
-import PingResult from "../PingResult";
 import Event from './Event';
 import EndpointStatus from "../EndpointStatus";
 
-class EndpointUpdatedEventData {
-    id: string;
-    ip: string;
-    host: string;
-    time: number;
+export class EndpointUpdatedEventData {
+    private _id: string;
+    private _ip: string;
+    private _host: string;
+    private _time: number;
+
+    constructor(id, ip, host, time) {
+        this._id = id;
+        this._ip = ip;
+        this._host = host;
+        this._time = time;
+    }
+
+    public get id(): string {
+        return this._id;
+    }
+    public get ip(): string {
+        return this._ip;
+    }
+    public get host(): string {
+        return this._host;
+    }
+    public get time(): number {
+        return this._time;
+    }
 }
 
 export default class EndpointUpdatedEvent extends Event {
@@ -18,11 +37,13 @@ export default class EndpointUpdatedEvent extends Event {
     }
 
     static from(endpointStatus: EndpointStatus): EndpointUpdatedEvent {
-        return new EndpointUpdatedEvent({
-            id: endpointStatus.getId(),
-            ip: endpointStatus.getAddress(),
-            host: endpointStatus.getHost(),
-            time: endpointStatus.getTime()
-        });
+        return new EndpointUpdatedEvent(
+            new EndpointUpdatedEventData(
+                endpointStatus.getId(),
+                endpointStatus.getAddress(),
+                endpointStatus.getHost(),
+                endpointStatus.getTime()
+            )
+        );
     }
 }

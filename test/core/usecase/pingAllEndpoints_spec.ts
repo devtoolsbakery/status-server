@@ -6,8 +6,7 @@ import container from '../../../src/core/infrastructure/DependencyInjection';
 
 const pingAllEndpoints = container.get('app.usecase.PingAllEndpoints');
 const PubSub = container.get('app.domain.PubSub');
-
-const endpointStatusRepository = EndpointStatusRepository.getInstance();
+const endpointStatusRepository = container.get('app.domain.EndpointStatusRepository');
 
 describe('Scenario: Ping all endpoints usecase', () => {
 

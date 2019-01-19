@@ -13,11 +13,7 @@ export default class PingServiceImpl implements PingService {
     const result = await ping.promise.probe(host, config);
   
     const pingResult = new PingResult(result.host, result.numeric_host, result.time);
-  
-    if (result.alive) {
-      console.log(`✅ ${pingResult.getTimeInMilliseconds()}ms \t ${host}`);
-    } else console.log(`🔴 failed \t ${host}`);
-  
+
     return pingResult;
   }
 
