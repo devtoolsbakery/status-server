@@ -3,6 +3,7 @@ import PingService from '../domain/service/PingService'
 import EventPublisher from '../domain/event/EventPublisher';
 import SavePingResult from '../domain/service/savePingResult';
 import EndpointUpdatedEvent from '../domain/event/EndpointUpdatedEvent';
+import EndpointStatus from '../domain/EndpointStatus';
 
 export default class PingAllEndpoints {
   pingService: PingService;
@@ -19,8 +20,8 @@ export default class PingAllEndpoints {
   }
 
   async execute() {
-    const iterator = async endpointStatus => {
-      const pingResult = await this.pingService.ping(endpointStatus.getHost());
+    const iterator = async (endpointStatus: EndpointStatus) => {
+      const pingResult = await this.pingService.ping(endpointStatus);
       const result = await this.savePingResult.save({ endpointStatus, pingResult });
       this.eventPublisher.publish(EndpointUpdatedEvent.from(pingResult));
       return result;

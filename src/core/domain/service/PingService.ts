@@ -1,5 +1,6 @@
 import PingResult from '../PingResult';
+import EndpointStatus from '../EndpointStatus';
 
 export default interface PingService {
-  ping(host: string): Promise<PingResult>
+  ping(endpointStatus: EndpointStatus): Promise<PingResult>
 }
