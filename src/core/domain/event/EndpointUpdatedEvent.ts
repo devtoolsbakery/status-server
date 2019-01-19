@@ -1,7 +1,9 @@
 import PingResult from "../PingResult";
 import Event from './Event';
+import EndpointStatus from "../EndpointStatus";
 
 class EndpointUpdatedEventData {
+    id: string;
     ip: string;
     host: string;
     time: number;
@@ -15,11 +17,12 @@ export default class EndpointUpdatedEvent extends Event {
         this.data = data;
     }
 
-    static from(result: PingResult): EndpointUpdatedEvent {
+    static from(endpointStatus: EndpointStatus): EndpointUpdatedEvent {
         return new EndpointUpdatedEvent({
-            ip: result.getIp(),
-            host: result.getHost(),
-            time: result.getTimeInMilliseconds()
+            id: endpointStatus.getId(),
+            ip: endpointStatus.getAddress(),
+            host: endpointStatus.getHost(),
+            time: endpointStatus.getTime()
         });
     }
 }

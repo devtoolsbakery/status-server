@@ -13,7 +13,8 @@ export default class PubSub implements EventPublisher, EventSubscriber {
     }
 
     publish(event: Event): void {
-        this.emitter.emit(event.getName() , event.getData());
+        const json = event.getJSON();
+        this.emitter.emit(json.event, json);
     }
 
     subscribe(eventName: string, fn: (data: Map<string, string>) => void): void {
