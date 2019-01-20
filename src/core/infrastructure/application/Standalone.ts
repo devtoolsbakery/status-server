@@ -2,11 +2,12 @@ import Application from './Application';
 import container from '../DependencyInjection';
 import PubSub from '../PubSub';
 import EndpointUpdatedEvent, { EndpointUpdatedEventData } from '../../domain/model/event/EndpointUpdatedEvent';
-import { lookup } from 'dns';
+import SaveEndpointUpdatedEvent from '../../domain/usecase/SaveEndpointUpdatedEvent';
+import PingAllEndpoints from '../../domain/usecase/PingAllEndpoints';
 
-const saveEndpointUpdatedEvent = container.get('app.usecase.SaveEndpointUpdatedEvent');
-const pingAllEndpoints = container.get('app.usecase.PingAllEndpoints');
-const listener = container.get('app.domain.PubSub') as PubSub;
+const saveEndpointUpdatedEvent = container.get('app.usecase.SaveEndpointUpdatedEvent', SaveEndpointUpdatedEvent);
+const listener = container.get('app.domain.PubSub', PubSub);
+const pingAllEndpoints = container.get('app.usecase.PingAllEndpoints', PingAllEndpoints);
 
 export default class Standalone implements Application {
   

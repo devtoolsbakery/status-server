@@ -1,11 +1,14 @@
 import * as should from 'should';
 import EndpointStatus from '../../../../src/core/domain/model/EndpointStatus';
+import EndpointStatusFirebaseRepository from '../../../../src/core/infrastructure/repository/EndpointStatusFirebaseRepository';
 import EndpointUpdatedEvent from '../../../../src/core/domain/model/event/EndpointUpdatedEvent';
 import container from '../../../../src/core/infrastructure/DependencyInjection';
+import PingAllEndpoints from '../../../../src/core/domain/usecase/PingAllEndpoints';
+import PubSub from '../../../../src/core/infrastructure/PubSub';
 
-const pingAllEndpoints = container.get('app.usecase.PingAllEndpoints');
-const PubSub = container.get('app.domain.PubSub');
-const endpointStatusRepository = container.get('app.domain.EndpointStatusRepository');
+const pingAllEndpoints = container.get('app.usecase.PingAllEndpoints', PingAllEndpoints);
+const Subscriber = container.get('app.domain.PubSub', PubSub);
+const endpointStatusRepository = container.get('app.domain.EndpointStatusRepository', EndpointStatusFirebaseRepository);
 
 describe('Scenario: Ping all endpoints usecase', () => {
 
@@ -24,7 +27,7 @@ describe('Scenario: Ping all endpoints usecase', () => {
     });
 
     it('should emit the endpoint_updated event', (done) => {
-      PubSub.subscribe(EndpointUpdatedEvent.eventName, data => {
+      Subscriber.subscribe(EndpointUpdatedEvent.eventName, data => {
         done();
       });
       pingAllEndpoints.execute();
@@ -57,7 +60,7 @@ describe('Scenario: Ping all endpoints usecase', () => {
 
   async function _clean() {
     await endpointStatusRepository.deleteAll();
-    PubSub.removeAllListeners()
+    Subscriber.removeAllListeners()
   }
 
   async function _insertEndpointStatuses(list) {

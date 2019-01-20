@@ -5,8 +5,8 @@ import EndpointUpdatedEvent from '../../../../src/core/domain/model/event/Endpoi
 import EndpointStatus from '../../../../src/core/domain/model/EndpointStatus';
 import EndpointUpdatedEventFirebaseRepository from '../../../../src/core/infrastructure/repository/EndpointUpdatedEventFirebaseRepository';
 
-const saveEndpointUpdatedEvent = container.get('app.usecase.SaveEndpointUpdatedEvent') as SaveEndpointUpdatedEvent;
-const endpointUpdatedEventRepository = container.get('app.infrastructure.repository.EndpointUpdatedEventRepository') as EndpointUpdatedEventFirebaseRepository
+const saveEndpointUpdatedEvent = container.get('app.usecase.SaveEndpointUpdatedEvent', SaveEndpointUpdatedEvent);
+const endpointUpdatedEventRepository = container.get('app.infrastructure.repository.EndpointUpdatedEventRepository', EndpointUpdatedEventFirebaseRepository);
 
 describe('Scenario: Saved endpoint updated event', () => {
   

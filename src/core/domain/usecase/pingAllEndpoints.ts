@@ -6,10 +6,10 @@ import EndpointUpdatedEvent from '../model/event/EndpointUpdatedEvent';
 import EndpointStatus from '../model/EndpointStatus';
 
 export default class PingAllEndpoints {
-  pingService: PingService;
-  endpointStatusRepository: EndpointStatusRepository
-  savePingResult: SavePingResult;
-  eventPublisher: EventPublisher
+  private pingService: PingService;
+  private endpointStatusRepository: EndpointStatusRepository
+  private savePingResult: SavePingResult;
+  private eventPublisher: EventPublisher
 
   constructor(endpointStatusRepository: EndpointStatusRepository, savePingResult, pingService: PingService,
     eventPublisher: EventPublisher) {
