@@ -1,5 +1,5 @@
-import EndpointUpdatedEventRepository from "../../domain/EndpointUpdatedEventRepository";
-import { EndpointUpdatedEventData } from "../../domain/event/EndpointUpdatedEvent";
+import EndpointUpdatedEventRepository from "../../domain/model/EndpointUpdatedEventRepository";
+import { EndpointUpdatedEventData } from "../../domain/model/event/EndpointUpdatedEvent";
 import FirebaseConnection from "./Connection";
 import { Firestore } from "@google-cloud/firestore";
 

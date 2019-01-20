@@ -1,15 +1,15 @@
-import EndpointStatusRepository from '../domain/EndpointStatusRepository';
-import PingService from '../domain/service/PingService'
-import EventPublisher from '../domain/event/EventPublisher';
-import SavePingResult from '../domain/service/savePingResult';
-import EndpointUpdatedEvent from '../domain/event/EndpointUpdatedEvent';
-import EndpointStatus from '../domain/EndpointStatus';
+import EndpointStatusRepository from '../model/EndpointStatusRepository';
+import PingService from '../model/service/PingService'
+import EventPublisher from '../model/event/EventPublisher';
+import SavePingResult from '../model/service/savePingResult';
+import EndpointUpdatedEvent from '../model/event/EndpointUpdatedEvent';
+import EndpointStatus from '../model/EndpointStatus';
 
 export default class PingAllEndpoints {
-  pingService: PingService;
-  endpointStatusRepository: EndpointStatusRepository
-  savePingResult: SavePingResult;
-  eventPublisher: EventPublisher
+  private pingService: PingService;
+  private endpointStatusRepository: EndpointStatusRepository
+  private savePingResult: SavePingResult;
+  private eventPublisher: EventPublisher
 
   constructor(endpointStatusRepository: EndpointStatusRepository, savePingResult, pingService: PingService,
     eventPublisher: EventPublisher) {

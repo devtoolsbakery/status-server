@@ -1,44 +1,44 @@
 services:
-  app.infrastructure.repository.FireBaseConnection:
+  core.infrastructure.repository.FireBaseConnection:
     factory:
       class: ../repository/Connection
       method: getConnection
 
-  app.domain.EndpointStatusRepository:
+  core.infrastructure.repository.EndpointStatusFirebaseRepository:
     class: ../repository/EndpointStatusFirebaseRepository
     arguments: [
-      "@app.infrastructure.repository.FireBaseConnection"
+      "@core.infrastructure.repository.FireBaseConnection"
     ]
 
-  app.infrastructure.repository.EndpointUpdatedEventRepository:
+  core.infrastructure.repository.EndpointUpdatedEventRepository:
     class: ../repository/EndpointUpdatedEventFirebaseRepository
     arguments: [
-      "@app.infrastructure.repository.FireBaseConnection"
+      "@core.infrastructure.repository.FireBaseConnection"
     ]
 
-  app.domain.PubSub:
+  core.infrastructure.PubSub:
     class: ../PubSub
 
-  app.domain.service.SavePingResult:
-    class: '../../domain/service/SavePingResult'
+  core.domain.service.SavePingResult:
+    class: '../../domain/model/service/SavePingResult'
     arguments: [
-      "@app.domain.EndpointStatusRepository"
+      "@core.infrastructure.repository.EndpointStatusFirebaseRepository"
     ]
   
-  app.domain.service.PingService:
+  core.infrastructure.PingService:
     class: '../PingServiceImpl'
 
-  app.usecase.PingAllEndpoints:
-    class: '../../usecase/PingAllEndpoints'
+  core.usecase.PingAllEndpoints:
+    class: '../../domain/usecase/PingAllEndpoints'
     arguments: [
-      "@app.domain.EndpointStatusRepository",
-      "@app.domain.service.SavePingResult",
-      "@app.domain.service.PingService",
-      "@app.domain.PubSub"
+      "@core.infrastructure.repository.EndpointStatusFirebaseRepository",
+      "@core.domain.service.SavePingResult",
+      "@core.infrastructure.PingService",
+      "@core.infrastructure.PubSub"
     ]
 
-  app.usecase.SaveEndpointUpdatedEvent:
-    class: "../../usecase/SaveEndpointUpdatedEvent"
+  core.usecase.SaveEndpointUpdatedEvent:
+    class: "../../domain/usecase/SaveEndpointUpdatedEvent"
     arguments: [
-      "@app.infrastructure.repository.EndpointUpdatedEventRepository"
+      "@core.infrastructure.repository.EndpointUpdatedEventRepository"
     ]
