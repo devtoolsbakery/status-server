@@ -1,7 +1,7 @@
 import {EventEmitter} from 'events';
-import Event from '../domain/event/Event';
-import EventPublisher from "../domain/event/EventPublisher";
-import EventSubscriber from '../domain/event/EventSubscriber';
+import Event from '../domain/model/event/Event';
+import EventPublisher from "../domain/model/event/EventPublisher";
+import EventSubscriber from '../domain/model/event/EventSubscriber';
 
 
 export default class PubSub implements EventPublisher, EventSubscriber {

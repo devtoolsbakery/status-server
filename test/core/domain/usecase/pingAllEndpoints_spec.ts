@@ -1,7 +1,7 @@
 import * as should from 'should';
-import EndpointStatus from '../../../src/core/domain/model/EndpointStatus';
-import EndpointUpdatedEvent from '../../../src/core/domain/model/event/EndpointUpdatedEvent';
-import container from '../../../src/core/infrastructure/DependencyInjection';
+import EndpointStatus from '../../../../src/core/domain/model/EndpointStatus';
+import EndpointUpdatedEvent from '../../../../src/core/domain/model/event/EndpointUpdatedEvent';
+import container from '../../../../src/core/infrastructure/DependencyInjection';
 
 const pingAllEndpoints = container.get('app.usecase.PingAllEndpoints');
 const PubSub = container.get('app.domain.PubSub');

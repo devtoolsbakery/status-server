@@ -1,9 +1,9 @@
 import * as should from 'should';
-import container from '../../../src/core/infrastructure/DependencyInjection';
-import SaveEndpointUpdatedEvent from '../../../src/core/domain/usecase/SaveEndpointUpdatedEvent';
-import EndpointUpdatedEvent from '../../../src/core/domain/model/event/EndpointUpdatedEvent';
-import EndpointStatus from '../../../src/core/domain/model/EndpointStatus';
-import EndpointUpdatedEventFirebaseRepository from '../../../src/core/infrastructure/repository/EndpointUpdatedEventFirebaseRepository';
+import container from '../../../../src/core/infrastructure/DependencyInjection';
+import SaveEndpointUpdatedEvent from '../../../../src/core/domain/usecase/SaveEndpointUpdatedEvent';
+import EndpointUpdatedEvent from '../../../../src/core/domain/model/event/EndpointUpdatedEvent';
+import EndpointStatus from '../../../../src/core/domain/model/EndpointStatus';
+import EndpointUpdatedEventFirebaseRepository from '../../../../src/core/infrastructure/repository/EndpointUpdatedEventFirebaseRepository';
 
 const saveEndpointUpdatedEvent = container.get('app.usecase.SaveEndpointUpdatedEvent') as SaveEndpointUpdatedEvent;
 const endpointUpdatedEventRepository = container.get('app.infrastructure.repository.EndpointUpdatedEventRepository') as EndpointUpdatedEventFirebaseRepository
