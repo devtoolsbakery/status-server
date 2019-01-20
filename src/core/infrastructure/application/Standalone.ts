@@ -5,9 +5,9 @@ import EndpointUpdatedEvent, { EndpointUpdatedEventData } from '../../domain/mod
 import SaveEndpointUpdatedEvent from '../../domain/usecase/SaveEndpointUpdatedEvent';
 import PingAllEndpoints from '../../domain/usecase/PingAllEndpoints';
 
-const saveEndpointUpdatedEvent = container.get('app.usecase.SaveEndpointUpdatedEvent', SaveEndpointUpdatedEvent);
-const listener = container.get('app.domain.PubSub', PubSub);
-const pingAllEndpoints = container.get('app.usecase.PingAllEndpoints', PingAllEndpoints);
+const saveEndpointUpdatedEvent = container.get('core.usecase.SaveEndpointUpdatedEvent', SaveEndpointUpdatedEvent);
+const listener = container.get('core.infrastructure.PubSub', PubSub);
+const pingAllEndpoints = container.get('core.usecase.PingAllEndpoints', PingAllEndpoints);
 
 export default class Standalone implements Application {
   

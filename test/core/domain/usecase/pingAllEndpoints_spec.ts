@@ -6,9 +6,9 @@ import container from '../../../../src/core/infrastructure/DependencyInjection';
 import PingAllEndpoints from '../../../../src/core/domain/usecase/PingAllEndpoints';
 import PubSub from '../../../../src/core/infrastructure/PubSub';
 
-const pingAllEndpoints = container.get('app.usecase.PingAllEndpoints', PingAllEndpoints);
-const Subscriber = container.get('app.domain.PubSub', PubSub);
-const endpointStatusRepository = container.get('app.domain.EndpointStatusRepository', EndpointStatusFirebaseRepository);
+const pingAllEndpoints = container.get('core.usecase.PingAllEndpoints', PingAllEndpoints);
+const Subscriber = container.get('core.infrastructure.PubSub', PubSub);
+const endpointStatusRepository = container.get('core.infrastructure.repository.EndpointStatusFirebaseRepository', EndpointStatusFirebaseRepository);
 
 describe('Scenario: Ping all endpoints usecase', () => {
 
