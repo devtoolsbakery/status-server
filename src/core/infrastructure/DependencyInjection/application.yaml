@@ -26,7 +26,7 @@ services:
     ]
   
   core.infrastructure.PingService:
-    class: '../PingServiceImpl'
+    class: '../PingService'
 
   core.usecase.PingAllEndpoints:
     class: '../../domain/usecase/PingAllEndpoints'
