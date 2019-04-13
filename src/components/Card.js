@@ -6,8 +6,12 @@ const Card = () => (
   <h1 class="card-title status-online">azure devops</h1>
   {/* <!-- Endpoint --> */}
   <div class="card-endpoint">
-    <h2 class="card-endpoint-title">repositories</h2>
+    <div class="card-endpoint-header">
+      <h2 class="card-endpoint-header-title">API</h2>
+      <h3 class="card-endpoint-header-uptime">99.75% uptime</h3>
+    </div>
     <div class="card-timeline">
+      {/* <!-- 30 days --> */}
       <div class="card-day"></div>
       <div class="card-day"></div>
       <div class="card-day"></div>
@@ -21,8 +25,8 @@ const Card = () => (
 
       <div class="card-day"></div>
       <div class="card-day"></div>
-      <div class="card-day status-error"></div>
-      <div class="card-day status-error"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
       <div class="card-day"></div>
       <div class="card-day"></div>
       <div class="card-day status-warning"></div>
@@ -41,48 +45,84 @@ const Card = () => (
       <div class="card-day"></div>
       <div class="card-day"></div>
 
-      {/* <!-- 30 days --> */}
-
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-
       {/* <!-- 60 days --> */}
+
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+
+      {/* <!-- 90 days --> */}
+
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
     </div>
   </div>
-  {/* <!-- Endpoint --> */}
   <div class="card-endpoint">
-    <h2 class="card-endpoint-title">pipelines</h2>
+    <div class="card-endpoint-header">
+      <h2 class="card-endpoint-header-title">Production</h2>
+      <h3 class="card-endpoint-header-uptime">99.75% uptime</h3>
+    </div>
     <div class="card-timeline">
+      {/* <!-- 30 days --> */}
       <div class="card-day"></div>
       <div class="card-day"></div>
       <div class="card-day"></div>
@@ -90,13 +130,10 @@ const Card = () => (
       <div class="card-day"></div>
       <div class="card-day"></div>
       <div class="card-day"></div>
-      <div class="card-day status-error"></div>
+      <div class="card-day"></div>
       <div class="card-day"></div>
       <div class="card-day"></div>
 
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
       <div class="card-day"></div>
       <div class="card-day"></div>
       <div class="card-day"></div>
@@ -104,6 +141,22 @@ const Card = () => (
       <div class="card-day"></div>
       <div class="card-day"></div>
       <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day status-warning"></div>
+      <div class="card-day status-warning"></div>
+      <div class="card-day status-warning"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+
+      {/* <!-- 60 days --> */}
 
       <div class="card-day"></div>
       <div class="card-day"></div>
@@ -116,19 +169,7 @@ const Card = () => (
       <div class="card-day"></div>
       <div class="card-day"></div>
 
-      {/* <!-- 30 days --> */}
-
       <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-
       <div class="card-day"></div>
       <div class="card-day"></div>
       <div class="card-day"></div>
@@ -138,7 +179,6 @@ const Card = () => (
       <div class="card-day"></div>
       <div class="card-day"></div>
       <div class="card-day status-error"></div>
-      <div class="card-day"></div>
 
       <div class="card-day"></div>
       <div class="card-day"></div>
@@ -151,91 +191,71 @@ const Card = () => (
       <div class="card-day"></div>
       <div class="card-day"></div>
 
-      {/* <!-- 60 days --> */}
+      {/* <!-- 90 days --> */}
+
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+
+      <div class="card-day"></div>
+      <div class="card-day status-warning"></div>
+      <div class="card-day status-warning"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
     </div>
   </div>
-  {/* <!-- Endpoint --> */}
   <div class="card-endpoint">
-    <h2 class="card-endpoint-title">boards</h2>
-    <div class="card-timeline">
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day status-warning"></div>
-      <div class="card-day"></div>
-
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day status-error"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-
-      <div class="card-day"></div>
-      <div class="card-day status-error"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-
-      {/* <!-- 30 days --> */}
-
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-
-      {/* <!-- 60 days --> */}
+    <div class="card-endpoint-header">
+      <h2 class="card-endpoint-header-title">Staging</h2>
+      <h3 class="card-endpoint-header-uptime">99.75% uptime</h3>
     </div>
-  </div>
-  {/* <!-- Endpoint --> */}
-  <div class="card-endpoint">
-    <h2 class="card-endpoint-title">artifacts</h2>
     <div class="card-timeline">
+      {/* <!-- 30 days --> */}
       <div class="card-day"></div>
       <div class="card-day"></div>
       <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day status-error"></div>
+      <div class="card-day status-error"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day status-warning"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+
       <div class="card-day"></div>
       <div class="card-day"></div>
       <div class="card-day"></div>
@@ -243,65 +263,79 @@ const Card = () => (
       <div class="card-day"></div>
       <div class="card-day status-warning"></div>
       <div class="card-day"></div>
-
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day status-error"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-
-      <div class="card-day"></div>
-      <div class="card-day status-error"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-
-      {/* <!-- 30 days --> */}
-
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
-      <div class="card-day"></div>
       <div class="card-day"></div>
       <div class="card-day"></div>
       <div class="card-day"></div>
 
       {/* <!-- 60 days --> */}
+
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+
+      {/* <!-- 90 days --> */}
+
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
+      <div class="card-day"></div>
     </div>
   </div>
 </div>
