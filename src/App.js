@@ -5,7 +5,7 @@ import Card from './components/Card';
 class App extends Component {
   render() {
     return (
-      <Card name='company name' dayLimit='90' theme='minimal' />
+      <Card name='microchoft servers' dayLimit='90' theme='' />
     );
   }
 }
