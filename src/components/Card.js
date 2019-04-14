@@ -8,7 +8,6 @@ class Card extends Component {
     super();
 
     this.state = {
-      name : 'azure devops',
       data : this.loadMockData(props.dayLimit)
     }
   }
@@ -26,7 +25,7 @@ class Card extends Component {
   render() {
     return (
       <div className="card">
-        <h1 className="card-title status-online">{this.state.name}</h1>
+        <h1 className="card-title status-online">{this.props.name}</h1>
         {
           this.state.data.map(endpoint =>
             <div className="card-endpoint">
