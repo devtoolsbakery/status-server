@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import '../css/Card.scss';
+import '../css/components/Card.scss';
 const THRESHOLD = 0.7;
 const ENDPOINTS = ['API', 'Production', 'Staging', 'QA'];
 
@@ -16,7 +16,7 @@ class Card extends Component {
     // Checks for theme and loads if needed
     if (this.props.theme) {
       try {
-        require(`../css/themes/${this.props.theme}.scss`); 
+        require(`../css/themes/${this.props.theme}.scss`);
       } catch (error) {
         console.error(error);
       }
