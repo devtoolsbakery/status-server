@@ -3,9 +3,30 @@ import Card from './components/Card';
 import './css/components/App.scss';
 
 class App extends Component {
+  constructor(props) {
+    super();
+
+    this.state = {
+      theme : '' // example: use 'monkey' or 'minimal'
+    }
+  }
+
+  componentDidMount() {
+    // Checks for theme and loads if needed
+    if (this.state.theme) {
+      try {
+        require(`./css/themes/${this.state.theme}.scss`);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  }
+
   render() {
     return (
-      <Card name='Company servers' dayLimit='90' theme='monkey' />
+      <div className={this.state.theme && `theme-${this.state.theme}`}>
+        <Card name='Company servers' dayLimit='90' />
+      </div>
     );
   }
 }

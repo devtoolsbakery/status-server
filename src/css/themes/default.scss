@@ -4,14 +4,14 @@
 
 // Variables
 
-:root {
+#root {
+  --theme-body-font-color: #FFF;
+  --theme-body-background: #1E2129;
+
   --theme-color-primary: #22A7E9;
   --theme-color-error: rgba(236, 62, 134, .5);
   --theme-color-warning: rgb(34, 167, 233, .5);
   --theme-color-uptime: var(--theme-color-primary);
-
-  --theme-body-font-color: #FFF;
-  --theme-body-background: #1E2129;
 
   --theme-card-background: rgba(31, 48, 65, 0.75);
   --theme-card-border: .1rem solid #21729C;
@@ -23,7 +23,9 @@
 
 // Default style
 
-body {
+.card__module {
+  display: flex;
+  justify-content: center;
   color: var(--theme-body-font-color);
   background: var(--theme-body-background);
 }

@@ -1,7 +1,7 @@
 // User account front-page
 
-body {
+#root {
+  height: 100%;
   padding-top: 20vh;
-  display: flex;
-  justify-content: center;
+  background: var(--theme-body-background);
 }
