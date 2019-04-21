@@ -7,7 +7,7 @@ class App extends Component {
     super();
 
     this.state = {
-      theme : '' // example: use 'monkey' or 'minimal'
+      theme : 'minimal' // example: use 'monkey' or 'minimal'
     }
   }
 
