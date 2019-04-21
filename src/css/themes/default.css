@@ -1,8 +1,8 @@
-// Import partials
+/* Import partials */
 
 @import "../index";
 
-// Variables
+/* Variables */
 
 #root {
   --theme-body-font-color: #FFF;
@@ -21,7 +21,7 @@
   --theme-card-day-height: 2.0rem;
 }
 
-// Default style
+/* Default style */
 
 .card__module {
   display: flex;

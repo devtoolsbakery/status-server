@@ -1,4 +1,4 @@
-// Default style
+/* Default style */
 
 .card {
   margin: 0 auto;
@@ -9,6 +9,6 @@
   border-radius: .4rem;
 }
 
-// Load default theme
+/* Load default theme */
 
 @import "../themes/default"
