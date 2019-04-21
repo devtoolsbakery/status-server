@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import '../css/components/Card.scss';
+import '../css/components/Card.css';
 const THRESHOLD = 0.7;
 const ENDPOINTS = ['API', 'Production', 'Staging', 'QA'];
 

@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import Card from './components/Card';
-import './css/components/App.scss';
+import './css/components/App.css';
 
 class App extends Component {
   constructor(props) {
     super();
 
     this.state = {
-      theme : 'minimal' // example: use 'monkey' or 'minimal'
+      theme : '' // example: use 'monkey' or 'minimal'
     }
   }
 
@@ -15,7 +15,7 @@ class App extends Component {
     // Checks for theme and loads if needed
     if (this.state.theme) {
       try {
-        require(`./css/themes/${this.state.theme}.scss`);
+        require(`./css/themes/${this.state.theme}.css`);
       } catch (error) {
         console.error(error);
       }
