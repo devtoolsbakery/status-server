@@ -2,7 +2,7 @@
 
 * { padding: 0; margin: 0; -moz-box-sizing: border-box; box-sizing: border-box; }
 
-html{ font-size: 62.5% }
+html{ font-size: 62.5%; }
 
 body {
   margin: 0;
@@ -19,3 +19,5 @@ body {
   scroll-behavior: smooth;
 }
 code { font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace; }
+
+h1, h2, h3, h4 { font-weight: normal; }
