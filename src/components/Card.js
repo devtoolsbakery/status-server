@@ -24,7 +24,7 @@ class Card extends Component {
   }
   render() {
     return (
-      <div className="card">
+      <div className={`card theme-${this.props.theme}`}>
         <h1 className="card__title card__title--online">{this.props.name}</h1>
         <div className='card__container'>
         {
