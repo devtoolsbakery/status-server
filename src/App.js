@@ -5,7 +5,7 @@ import './css/components/App.scss';
 class App extends Component {
   render() {
     return (
-      <Card name='company name' dayLimit='90' theme='' />
+      <Card name='company name' dayLimit='90' />
     );
   }
 }
