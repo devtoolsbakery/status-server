@@ -2,6 +2,8 @@
 
 .card {
   margin: 0 auto;
+  opacity: 0;
+  transform: translateY(.8rem) scale(.98);
 }
 
 .card__container {
@@ -12,3 +14,10 @@
 /* Load default theme */
 
 @import "../themes/default.css";
+
+/* Animations */
+.card--ready {
+  transition: all 1.0s ease;
+  opacity: 1.0;
+  transform: translateY(0rem) scale(1.0);
+}

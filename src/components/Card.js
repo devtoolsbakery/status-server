@@ -8,14 +8,22 @@ class Card extends Component {
     super();
 
     this.state = {
-      data : this.loadMockData(props.dayLimit)
+      data  : this.loadMockData(props.dayLimit),
+      ready : false,
+      time  : 300
     }
+  }
+
+  componentDidMount(){
+    setTimeout(() => {
+      this.setState({ready : 'card--ready'});
+    }, this.state.time)
   }
 
   render() {
     return (
       <div className="card__module">
-        <div className="card">
+        <div className={`card ${this.state.ready}`}>
           <h1 className="card__title card__title--online">{this.props.name}</h1>
           <div className='card__container'>
           {
