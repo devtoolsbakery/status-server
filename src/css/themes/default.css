@@ -118,8 +118,3 @@ body {
 .card__timeline__card-day--status-warning {
   background: var(--theme-color-warning);
 }
-
-
-/* Loading active themes */
-@import "minimal.css";
-@import "monkey.css";

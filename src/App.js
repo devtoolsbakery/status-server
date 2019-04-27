@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Helmet from 'react-helmet';
 import Card from './components/Card';
 import './css/components/App.css';
+loadCSSThemes();
+
 
 class App extends Component {
   constructor(props) {
@@ -9,7 +11,7 @@ class App extends Component {
 
     this.state = {
       username : 'Company server',
-      theme : '' // example: use 'monkey' or 'minimal'
+      theme : 'monkey' // example: use 'monkey' or 'minimal'
     }
   }
 
@@ -30,3 +32,8 @@ class App extends Component {
 }
 
 export default App;
+
+function loadCSSThemes() {
+  let requireCSS = require.context('./css/themes/', true, /\.css$/);
+  requireCSS.keys().forEach(requireCSS);
+}
