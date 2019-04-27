@@ -25,7 +25,7 @@ class App extends Component {
         <body class={this.state.theme && `theme-${this.state.theme}`} />
       </Helmet>
 
-      <Card name={`${this.state.username}`} dayLimit='90' />
+      <Card name={`${this.state.username}`} status='warning' dayLimit='90' />
       </>
     );
   }
