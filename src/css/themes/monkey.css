@@ -2,12 +2,10 @@
 
 /* Variables */
 
-#root {
+body.theme-monkey {
   --theme-body-font-color: #D5CAFA;
   --theme-body-background: #1D1C2F;
-}
-
-.theme-monkey {
+  
   --theme-color-primary: #B29FF9;
   --theme-color-error: #EC3E86;
   --theme-color-warning: rgba(178, 159, 249, .5);

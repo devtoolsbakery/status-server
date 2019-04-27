@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Helmet from 'react-helmet';
 import Card from './components/Card';
 import './css/components/App.css';
 
@@ -7,26 +8,23 @@ class App extends Component {
     super();
 
     this.state = {
+      username : 'Company server',
       theme : '' // example: use 'monkey' or 'minimal'
     }
   }
 
-  componentDidMount() {
-    // Checks for theme and loads if needed
-    if (this.state.theme) {
-      try {
-        require(`./css/themes/${this.state.theme}.css`);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-  }
-
   render() {
+    const description = `${this.state.username} system status`;
     return (
-      <div className={this.state.theme && `theme-${this.state.theme}`}>
-        <Card name='Company servers' dayLimit='90' />
-      </div>
+      <>
+      <Helmet>
+        <title>{this.state.username}</title>
+        <meta name="description" content={`${description}`} />
+        <body class={this.state.theme && `theme-${this.state.theme}`} />
+      </Helmet>
+
+      <Card name={`${this.state.username}`} dayLimit='90' />
+      </>
     );
   }
 }

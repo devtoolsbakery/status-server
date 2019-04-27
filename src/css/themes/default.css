@@ -1,6 +1,6 @@
 /* Variables */
 
-#root {
+body {
   --theme-body-font-color: #FFF;
   --theme-body-background: #1E2129;
 
@@ -118,3 +118,8 @@
 .card__timeline__card-day--status-warning {
   background: var(--theme-color-warning);
 }
+
+
+/* Loading active themes */
+@import "minimal.css";
+@import "monkey.css";

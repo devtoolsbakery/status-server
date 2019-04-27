@@ -2,12 +2,10 @@
 
 /* Variables */
 
-#root {
+body.theme-minimal {
   --theme-body-font-color: #333;
   --theme-body-background: #FFF;
-}
 
-.theme-minimal {
   --theme-color-primary: #333;
   --theme-color-error: #fff;
   --theme-color-warning: #999;
