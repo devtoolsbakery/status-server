@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import '../css/Card.scss';
+import React, { Component } from 'react';
+import '../css/components/Card.scss';
 const THRESHOLD = 0.7;
 const ENDPOINTS = ['API', 'Production', 'Staging', 'QA'];
 
@@ -12,44 +12,41 @@ class Card extends Component {
     }
   }
 
-  componentDidMount() {
-    // Checks for theme and loads if needed
-    if (this.props.theme) {
-      try {
-        require(`../css/themes/${this.props.theme}.scss`); 
-      } catch (error) {
-        console.error(error);
-      }
-    }
-  }
   render() {
     return (
-      <div className="card">
-        <h1 className="card-title status-online">{this.props.name}</h1>
-        {
-          this.state.data.map(endpoint =>
-            <div className="card-endpoint">
-              <div className="card-endpoint-header">
-                <h2 className="card-endpoint-header-title">{endpoint.name}</h2>
-                <h3 className="card-endpoint-header-uptime">{endpoint.uptime}% uptime</h3>
-              </div>
-              <div className="card-timeline">
-                {
-                  endpoint.days.map((dayValue, i) => {
-                    let status;
-                    if (dayValue < 1 && dayValue >= THRESHOLD) {
-                      status = 'status-warning';
+      <div className="card__module">
+        <div className="card">
+          <h1 className="card__title card__title--online">{this.props.name}</h1>
+          <div className='card__container'>
+          {
+            this.state.data.map((endpoint, i) => {
+              return(
+                <div key={i} className="card__container__endpoint">
+                  <div className="card__container__endpoint__header">
+                    <h2 className="card__container__endpoint__header__title">{endpoint.name}</h2>
+                    <h3 className="card__container__endpoint__header__uptime">{endpoint.uptime}% uptime</h3>
+                  </div>
+                  <div className="card__container__endpoint__timeline">
+                    {
+                      endpoint.days.map((dayValue, i) => {
+                        // @todo: fix undefined return of a status
+                        let status;
+                        if (dayValue < 1 && dayValue >= THRESHOLD) {
+                          status = 'card__container__endpoint__timeline__card-day--status-warning';
+                        }
+                        else if (dayValue < THRESHOLD) {
+                          status = 'card__container__endpoint__timeline__card-day--status-error';
+                        }
+                        return <div key={i} className={`card__container__endpoint__timeline__card-day ${status}`}></div>;
+                      })
                     }
-                    else if (dayValue < THRESHOLD) {
-                      status = 'status-error';
-                    }
-                    return <div key={i} className={`card-day ${status}`}></div>;
-                  })
-                }
-              </div>
-            </div>
-          )
-        }
+                  </div>
+                </div>
+              )
+            })
+          }
+          </div>
+        </div>
       </div>
     );
   }
