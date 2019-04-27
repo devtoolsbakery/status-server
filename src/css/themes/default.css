@@ -53,8 +53,8 @@
   width: 1.6rem;
   height: 1.6rem;
   position: absolute;
-  top: .1rem;
-  left: 0;
+  top: 0;
+  left: -.2rem;
   content: '';
   background: var(--theme-color-primary);
   border-radius: 100%;
