@@ -1,0 +1,17 @@
+/* Inspired by Monkey Island color palette */
+
+/* Variables */
+
+body.theme-monkey {
+  --theme-body-font-color: #D5CAFA;
+  --theme-body-background: #1D1C2F;
+  
+  --theme-color-primary: #B29FF9;
+  --theme-color-error: #EC3E86;
+  --theme-color-warning: rgba(178, 159, 249, .5);
+  --theme-color-uptime: var(--theme-color-primary);
+
+  --theme-card-background: #242238;
+  --theme-card-border: .1rem solid #403B5E;
+  --theme-card-day-height: 1.6rem;
+}
