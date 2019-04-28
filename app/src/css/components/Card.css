@@ -1,0 +1,23 @@
+/* Default style */
+
+.card {
+  margin: 0 auto;
+  opacity: 0;
+  transform: translateY(.8rem) scale(.98);
+}
+
+.card__container {
+  padding: 2.4rem 3.2rem;
+  border-radius: .4rem;
+}
+
+/* Load default theme */
+
+@import "../themes/default.css";
+
+/* Animations */
+.card--ready {
+  transition: all 1.0s ease;
+  opacity: 1.0;
+  transform: translateY(0rem) scale(1.0);
+}
