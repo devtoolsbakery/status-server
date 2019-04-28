@@ -1,34 +1,39 @@
 import React, { Component } from 'react';
+import Helmet from 'react-helmet';
 import Card from './components/Card';
 import './css/components/App.css';
+loadCSSThemes();
+
 
 class App extends Component {
   constructor(props) {
     super();
 
     this.state = {
-      theme : '' // example: use 'monkey' or 'minimal'
-    }
-  }
-
-  componentDidMount() {
-    // Checks for theme and loads if needed
-    if (this.state.theme) {
-      try {
-        require(`./css/themes/${this.state.theme}.css`);
-      } catch (error) {
-        console.error(error);
-      }
+      username : 'Company server',
+      theme : 'monkey' // example: use 'monkey' or 'minimal'
     }
   }
 
   render() {
+    const description = `${this.state.username} system status`;
     return (
-      <div className={this.state.theme && `theme-${this.state.theme}`}>
-        <Card name='Company servers' dayLimit='90' />
-      </div>
+      <>
+      <Helmet>
+        <title>{this.state.username}</title>
+        <meta name="description" content={`${description}`} />
+        <body class={this.state.theme && `theme-${this.state.theme}`} />
+      </Helmet>
+
+      <Card name={`${this.state.username}`} status='warning' dayLimit='90' />
+      </>
     );
   }
 }
 
 export default App;
+
+function loadCSSThemes() {
+  let requireCSS = require.context('./css/themes/', true, /\.css$/);
+  requireCSS.keys().forEach(requireCSS);
+}

@@ -8,9 +8,10 @@ class Card extends Component {
     super();
 
     this.state = {
-      data  : this.loadMockData(props.dayLimit),
-      ready : false,
-      time  : 300
+      status  : props.status,
+      data    : this.loadMockData(props.dayLimit),
+      ready   : false,
+      time    : 300 // fade-in animation
     }
   }
 
@@ -24,7 +25,7 @@ class Card extends Component {
     return (
       <div className="card__module">
         <div className={`card ${this.state.ready}`}>
-          <h1 className="card__title card__title--online">{this.props.name}</h1>
+          <h1 className={`card__title card__title--status ${this.state.status}`}>{this.props.name}</h1>
           <div className='card__container'>
           {
             this.state.data.map((endpoint, i) => {

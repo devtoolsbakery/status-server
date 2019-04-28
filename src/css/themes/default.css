@@ -1,12 +1,14 @@
 /* Variables */
 
-#root {
+body {
   --theme-body-font-color: #FFF;
   --theme-body-background: #1E2129;
 
   --theme-color-primary: #22A7E9;
-  --theme-color-error: rgba(236, 62, 134, .5);
-  --theme-color-warning: rgb(34, 167, 233, .5);
+  --theme-color-error: rgb(236, 62, 134);
+  --theme-color-warning: rgb(34, 167, 233);
+  --theme-color-status-warning: #FFC22B;
+  
   --theme-color-uptime: var(--theme-color-primary);
 
   --theme-card-background: rgba(31, 48, 65, 0.75);
@@ -36,30 +38,55 @@
   display: inline-block;
 }
 
-.card__title--online:after {
+.card__title--status:after {
   width: 1.2rem;
   height: 1.2rem;
   position: absolute;
-  top: .2rem;
+  top: .4rem;
   left: 0;
   content: '';
-  background: var(--theme-color-primary);
   z-index: 1;
   border-radius: 100%;
   border: .2rem solid rgba(#000, .5);
 }
 
-.card__title--online:before {
+.card__title--status:before {
   width: 1.6rem;
   height: 1.6rem;
   position: absolute;
-  top: 0;
+  top: .2rem;
   left: -.2rem;
   content: '';
-  background: var(--theme-color-primary);
   border-radius: 100%;
-  box-shadow: 0 0 2.4rem var(--theme-color-primary);
   filter: blur(.4rem);
+}
+
+.card__title--status.online:after {
+  background: var(--theme-color-primary);
+}
+
+.card__title--status.online:before {
+  background: var(--theme-color-primary);
+  box-shadow: 0 0 2.4rem var(--theme-color-primary);
+}
+
+.card__title--status.error:after {
+  background: var(--theme-color-error);
+}
+
+.card__title--status.error:before {
+  background: var(--theme-color-error);
+  box-shadow: 0 0 2.4rem var(--theme-color-error);
+}
+
+.card__title--status.warning:after {
+  background: var(--theme-color-status-warning);
+}
+
+.card__title--status.warning:before {
+  background: var(--theme-color-status-warning);
+  box-shadow: 0 0 2.4rem var(--theme-color-status-warning);
+  /* opacity: .5; */
 }
 
 .card__container {
@@ -113,8 +140,10 @@
       
 .card__timeline__card-day--status-error {
   background: var(--theme-color-error);
+  opacity: .5;
 }
       
 .card__timeline__card-day--status-warning {
   background: var(--theme-color-warning);
+  opacity: .5;
 }
