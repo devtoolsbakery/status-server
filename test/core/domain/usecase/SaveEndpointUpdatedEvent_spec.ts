@@ -14,7 +14,7 @@ describe('Scenario: Saved endpoint updated event', () => {
   after(_clean);
 
   it('should save the event in the collection', async () => {
-    const endpointStatus = new EndpointStatus('id', 'test.com', '10.0.0.1', 'Test', 100, new Date());
+    const endpointStatus = new EndpointStatus('id', 'testUsername', 'test.com', '10.0.0.1', 'Test', 100, new Date());
     const event = EndpointUpdatedEvent.from(endpointStatus);
     
     saveEndpointUpdatedEvent.execute(event);

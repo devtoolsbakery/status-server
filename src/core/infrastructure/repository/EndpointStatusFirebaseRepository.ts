@@ -23,7 +23,7 @@ export default class EndpointStatusFirebaseRepository implements EndpointStatusR
   async get(id) {
     const doc = await this.db.collection(dbCollection).doc(id).get();
     const data = doc.data();
-    return new EndpointStatus(doc.id, data.host, data.address, data.name, data.time, data.date)
+    return new EndpointStatus(doc.id, data.username, data.host, data.address, data.name, data.time, data.date)
   }
 
   async findAll() {
@@ -35,7 +35,7 @@ export default class EndpointStatusFirebaseRepository implements EndpointStatusR
 
     querySnapshot.forEach(doc => {
       const data = doc.data();
-      docs.push(new EndpointStatus(doc.id, data.host, data.address, data.name, data.time, data.date));
+      docs.push(new EndpointStatus(doc.id, data.username, data.host, data.address, data.name, data.time, data.date));
     });
 
     return docs as [EndpointStatus];
@@ -44,6 +44,7 @@ export default class EndpointStatusFirebaseRepository implements EndpointStatusR
   async save (endpoint) {
     const entry = {
       document: endpoint.getId().toString(),
+      username: endpoint.getUsername(),
       name: endpoint.getName(),
       address: endpoint.getAddress(),
       time: endpoint.getTime(),

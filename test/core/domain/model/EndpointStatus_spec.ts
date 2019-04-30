@@ -7,6 +7,20 @@ describe('EndpointStatus entity', () => {
   it('should fail if the id is missing', () => {
     should.throws(() => {
       new EndpointStatus(null, 
+        'testUserName',
+        'test.com',
+        '127.0.0.1',
+        'Test', 
+        100,
+        Date.now()
+      );
+    })
+  });
+
+  it('should fail if the username is missing', () => {
+    should.throws(() => {
+      new EndpointStatus(1, 
+        null,
         'test.com',
         '127.0.0.1',
         'Test', 
@@ -19,6 +33,7 @@ describe('EndpointStatus entity', () => {
   it('should fail if the host is missing', () => {
     should.throws(() => {
       new EndpointStatus(1, 
+        'testUserName',
         null,
         '127.0.0.1',
         'Test', 
@@ -31,6 +46,7 @@ describe('EndpointStatus entity', () => {
   it('should fail if the name is missing', () => {
     should.throws(() => {
       new EndpointStatus(1, 
+        'testUserName',
         'test.com',
         '127.0.0.1',
         null, 
@@ -44,6 +60,7 @@ describe('EndpointStatus entity', () => {
     const oneHourAgo = new Date(Date.now() - 3600000);
     const oneSecond = 1000;
     const endpointStatus = new EndpointStatus(1, 
+      'testUserName',
       'test.com',
       '127.0.0.1',
       'Test', 
@@ -57,6 +74,7 @@ describe('EndpointStatus entity', () => {
 
   it('should update the status to DOWN correctly', () => {
     const endpointStatus = new EndpointStatus(1, 
+      'testUserName',
       'test.com',
       '127.0.0.1',
       'Test', 
@@ -70,6 +88,7 @@ describe('EndpointStatus entity', () => {
 
   it('should update the status to UP correctly', () => {
     const endpointStatus = new EndpointStatus(1, 
+      'testUserName',
       'test.com',
       '127.0.0.1',
       'Test', 
@@ -83,6 +102,7 @@ describe('EndpointStatus entity', () => {
 
   it('should return DOWN when time is null', () => {
     const endpointStatus = new EndpointStatus(1, 
+      'testUserName',
       'test.com',
       '127.0.0.1',
       'Test', 
@@ -94,6 +114,7 @@ describe('EndpointStatus entity', () => {
 
   it('should return DOWN when time is empty', () => {
     const endpointStatus = new EndpointStatus(1, 
+      'testUserName',
       'test.com',
       '127.0.0.1',
       'Test', 
@@ -105,6 +126,7 @@ describe('EndpointStatus entity', () => {
 
   it('should return DOWN when time is undefined', () => {
     const endpointStatus = new EndpointStatus(1, 
+      'testUserName',
       'test.com',
       '127.0.0.1',
       'Test', 
@@ -116,6 +138,7 @@ describe('EndpointStatus entity', () => {
   
   it('should be alive when the status is UP', () => {
     const endpointStatus = new EndpointStatus(1, 
+      'testUserName',
       'test.com',
       '127.0.0.1',
       'Test', 
@@ -127,6 +150,7 @@ describe('EndpointStatus entity', () => {
 
   it('should not be alive when the status is DOWN', () => {
     const endpointStatus = new EndpointStatus(1, 
+      'testUserName',
       'test.com',
       '127.0.0.1',
       'Test', 

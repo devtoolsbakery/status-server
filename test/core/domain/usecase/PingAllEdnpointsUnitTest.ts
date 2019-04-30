@@ -9,7 +9,7 @@ import EndpointStatus from "../../../../src/core/domain/model/EndpointStatus";
 import PingResult from "../../../../src/core/domain/model/PingResult";
 import PingAllEndpoints from "../../../../src/core/domain/usecase/PingAllEndpoints";
 
-const endpoint = new EndpointStatus('1', 'ivanguardado.com', '', 'Ivan Site', 0, null);
+const endpoint = new EndpointStatus('1', 'ivangc', 'ivanguardado.com', '', 'Ivan Site', 0, null);
 
 export default class PingAllEndpointsUnitTest {
 
