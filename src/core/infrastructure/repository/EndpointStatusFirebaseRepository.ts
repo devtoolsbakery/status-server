@@ -41,6 +41,22 @@ export default class EndpointStatusFirebaseRepository implements EndpointStatusR
     return docs as [EndpointStatus];
   }
 
+  async findByUsername(username: string): Promise<EndpointStatus[]> {
+    const docs = [];
+
+    const querySnapshot = await this.db
+      .collection(dbCollection)
+      .where('username', '==', username)
+      .get();
+
+    querySnapshot.forEach(doc => {
+      const data = doc.data();
+      docs.push(new EndpointStatus(doc.id, data.username, data.host, data.address, data.name, data.time, data.date));
+    });
+
+    return docs as [EndpointStatus];  }
+
+
   async save (endpoint) {
     const entry = {
       document: endpoint.getId().toString(),
