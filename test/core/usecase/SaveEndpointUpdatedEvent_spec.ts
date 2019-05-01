@@ -4,6 +4,7 @@ import SaveEndpointUpdatedEvent from '../../../src/core/usecase/SaveEndpointUpda
 import EndpointUpdatedEvent from '../../../src/core/domain/Endpoint/EndpointUpdatedEvent';
 import EndpointStatus from '../../../src/core/domain/Endpoint/EndpointStatus';
 import EndpointUpdatedEventFirebaseRepository from '../../../src/core/infrastructure/repository/EndpointUpdatedEventFirebaseRepository';
+import PingResult from '../../../src/core/domain/HealthCheck/PingResult';
 
 const saveEndpointUpdatedEvent = container.get('core.usecase.SaveEndpointUpdatedEvent', SaveEndpointUpdatedEvent);
 const endpointUpdatedEventRepository = container.get('core.infrastructure.repository.EndpointUpdatedEventRepository', EndpointUpdatedEventFirebaseRepository);
@@ -14,8 +15,9 @@ describe('Scenario: Saved endpoint updated event', () => {
   after(_clean);
 
   it('should save the event in the collection', async () => {
-    const endpointStatus = new EndpointStatus('id', 'testUsername', 'test.com', '10.0.0.1', 'Test', 100, new Date());
-    const event = EndpointUpdatedEvent.from(endpointStatus);
+    const endpointStatus = EndpointStatus.create('testUsername', 'test.com', 'Test');
+    const pingResult = new PingResult('test.com', '127.0.0.1', 120);
+    const event = EndpointUpdatedEvent.from(endpointStatus.getId(), pingResult);
     
     saveEndpointUpdatedEvent.execute(event);
 

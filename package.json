@@ -18,7 +18,8 @@
     "express": "^4.16.4",
     "firebase-admin": "^6.1.0",
     "node-dependency-injection": "^2.2.1",
-    "ping": "^0.2.2"
+    "ping": "^0.2.2",
+    "uuid": "^3.3.2"
   },
   "devDependencies": {
     "@types/mocha": "^5.2.5",

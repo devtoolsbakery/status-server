@@ -1,15 +1,15 @@
 import { mock, verify, when, instance, anyOfClass, anything } from "ts-mockito";
 import EndpointStatusRepository from "../../../src/core/domain/Endpoint/EndpointStatusRepository";
 import EndpointStatusFirebaseRepository from "../../../src/core/infrastructure/repository/EndpointStatusFirebaseRepository";
-import PingService from "../../../src/core/domain/Endpoint/service/PingService";
-import EventPublisher from "../../../src/core/domain/Endpoint/event/EventPublisher";
+import PingService from "../../../src/core/domain/HealthCheck/PingService";
+import EventPublisher from "../../../src/core/domain/Shared/event/EventPublisher";
 import PingServiceImpl from "../../../src/core/infrastructure/PingService";
 import PubSub from "../../../src/core/infrastructure/PubSub";
 import EndpointStatus from "../../../src/core/domain/Endpoint/EndpointStatus";
 import PingResult from "../../../src/core/domain/HealthCheck/PingResult";
 import PingAllEndpoints from "../../../src/core/usecase/PingAllEndpoints";
 
-const endpoint = new EndpointStatus('1', 'ivangc', 'ivanguardado.com', '', 'Ivan Site', 0, null);
+const endpoint = new EndpointStatus('1', 'ivangc', 'ivanguardado.com', 'Ivan Site', new Date(), 100, []);
 
 export default class PingAllEndpointsUnitTest {
 

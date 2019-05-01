@@ -4,9 +4,9 @@ export default class PingResult {
   timeInMilliseconds: number;
 
   constructor(host, ip, timeMs) {
-    this.host = host;
-    this.ip = ip;
-    this.timeInMilliseconds = parseInt(timeMs);
+    this.host = host || '';
+    this.ip = ip || '';
+    this.timeInMilliseconds = parseInt(timeMs || 0);
   }
 
   getHost(): string { return this.host }

@@ -1,49 +1,43 @@
 const assert = require('assert');
+const uuid = require('uuid/v4');
 
 export default class EndpointStatus {
 
   id: string;
-  username: string;
+  userId: string;
   host: string;
-  address: string;
   name: string;
-  time: number;
   updated: Date;
+  uptime: number;
+  latestHealthChecks: [];
 
-  constructor(id, username, host, address, name, time, updated) {
-    assert(id, 'The id is mandatory');
-    assert(username, 'The username is mandatory');
+  constructor(id, userId, host, name, updated, uptime, lastHealthChecks) {
+    this.id = id;
+    this.userId = userId;
+    this.host = host;
+    this.name = name;
+    this.updated = updated;
+    this.uptime = uptime;
+    this.latestHealthChecks = lastHealthChecks;
+  }
+
+  static create(userId, host, name) {
+    assert(userId, 'The userId is mandatory');
     assert(host, 'The host is mandatory');
     assert(name, 'The name is mandatory');
 
-    this.id = id;
-    this.username = username;
-    this.host = host;
-    this.address = address || '';
-    this.name = name;
-    this.time = time;
-    this.updated = updated;
+    return new EndpointStatus(uuid(), userId, host, name, new Date(), 100, []);
   }
 
   getId() { return this.id; }
-  getUsername() { return this.username; }
+  getUserId() { return this.userId; }
   getHost() { return this.host; }
-  getAddress() { return this.address; }
   getName() { return this.name; }
-  getTime() { return this.time; }
   getUpdated() { return this.updated; }
-
-  getStatus() { 
-    return this.time ? Statuses.UP : Statuses.DOWN;
-  }
-
-  isAlive() {
-    return this.getStatus() === Statuses.UP;
-  }
+  getLatestHealthChecks() { return this.latestHealthChecks; }
+  getUptime() { return this.uptime; }
 
   updateFromPing({ time, address }) {
-    this.address = address || '';
-    this.time = time;
     this.updated = new Date();
   }
 
