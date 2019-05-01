@@ -28,7 +28,7 @@ export default class EndpointUpdatedEventFirebaseRepository implements EndpointU
     })
   } 
   
-  async findAll(endpointStatusId: string): Promise<[EndpointUpdatedEventData]> {
+  async findAll(endpointStatusId: string): Promise<EndpointUpdatedEventData[]> {
     const docs = [];
 
     const querySnapshot = await this.connection

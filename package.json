@@ -15,6 +15,7 @@
     "url": "https://senju@bitbucket.org/senju/server-status.git"
   },
   "dependencies": {
+    "express": "^4.16.4",
     "firebase-admin": "^6.1.0",
     "node-dependency-injection": "^2.2.1",
     "ping": "^0.2.2"
@@ -23,6 +24,7 @@
     "@types/mocha": "^5.2.5",
     "eslint": "^5.9.0",
     "mocha": "^5.2.0",
+    "node-mocks-http": "^1.7.3",
     "should": "^13.2.3",
     "ts-mockito": "^2.3.1",
     "ts-node": "^7.0.1",
