@@ -4,11 +4,8 @@ services:
       class: ../repository/Connection
       method: getConnection
 
-  core.infrastructure.repository.EndpointStatusFirebaseRepository:
-    class: ../repository/EndpointStatusFirebaseRepository
-    arguments: [
-      "@core.infrastructure.repository.FireBaseConnection"
-    ]
+  core.infrastructure.repository.EndpointStatusRepository:
+    class: ../Endpoint/EndpointStatusMongoRepository
 
   core.infrastructure.repository.EndpointUpdatedEventRepository:
     class: ../repository/EndpointUpdatedEventFirebaseRepository
@@ -25,7 +22,7 @@ services:
   core.usecase.PingAllEndpoints:
     class: '../../usecase/PingAllEndpoints'
     arguments: [
-      "@core.infrastructure.repository.EndpointStatusFirebaseRepository",
+      "@core.infrastructure.repository.EndpointStatusRepository",
       "@core.infrastructure.PingService",
       "@core.infrastructure.PubSub"
     ]

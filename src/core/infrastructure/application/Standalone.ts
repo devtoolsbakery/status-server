@@ -4,6 +4,7 @@ import PubSub from '../PubSub';
 import EndpointUpdatedEvent, { EndpointUpdatedEventData } from '../../domain/Endpoint/EndpointUpdatedEvent';
 import SaveEndpointUpdatedEvent from '../../usecase/SaveEndpointUpdatedEvent';
 import PingAllEndpoints from '../../usecase/PingAllEndpoints';
+import { connect } from 'mongoose';
 
 const saveEndpointUpdatedEvent = container.get('core.usecase.SaveEndpointUpdatedEvent', SaveEndpointUpdatedEvent);
 const listener = container.get('core.infrastructure.PubSub', PubSub);
@@ -12,6 +13,9 @@ const pingAllEndpoints = container.get('core.usecase.PingAllEndpoints', PingAllE
 export default class Standalone implements Application {
   
   async run() {
+    
+    connect('mongodb://localhost:27017/endpoint', { useNewUrlParser: true });
+
     listener.subscribe(EndpointUpdatedEvent.eventName, (message) => {
       const data = message.data;
       const eventData = new EndpointUpdatedEventData(data.id, data.ip, data.host, data.time);
