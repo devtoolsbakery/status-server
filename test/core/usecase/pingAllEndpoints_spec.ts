@@ -1,6 +1,6 @@
-import EndpointStatus from '../../../../src/core/domain/model/EndpointStatus';
-import PingAllEndpoints from '../../../../src/core/domain/usecase/PingAllEndpoints';
-import PingResult from '../../../../src/core/domain/model/PingResult';
+import EndpointStatus from '../../../src/core/domain/model/EndpointStatus';
+import PingAllEndpoints from '../../../src/core/usecase/PingAllEndpoints';
+import PingResult from '../../../src/core/domain/model/PingResult';
 import PingAllEndpointsUnitTest from './PingAllEdnpointsUnitTest';
 
 describe('Scenario: Ping all endpoints usecase', () => {

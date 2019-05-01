@@ -23,7 +23,7 @@ services:
     class: '../PingService'
 
   core.usecase.PingAllEndpoints:
-    class: '../../domain/usecase/PingAllEndpoints'
+    class: '../../usecase/PingAllEndpoints'
     arguments: [
       "@core.infrastructure.repository.EndpointStatusFirebaseRepository",
       "@core.infrastructure.PingService",
@@ -31,7 +31,7 @@ services:
     ]
 
   core.usecase.SaveEndpointUpdatedEvent:
-    class: "../../domain/usecase/SaveEndpointUpdatedEvent"
+    class: "../../usecase/SaveEndpointUpdatedEvent"
     arguments: [
       "@core.infrastructure.repository.EndpointUpdatedEventRepository"
     ]

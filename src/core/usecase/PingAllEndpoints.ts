@@ -1,9 +1,9 @@
-import EndpointStatusRepository from '../model/EndpointStatusRepository';
-import PingService from '../model/service/PingService'
-import EventPublisher from '../model/event/EventPublisher';
-import EndpointUpdatedEvent from '../model/event/EndpointUpdatedEvent';
-import EndpointStatus from '../model/EndpointStatus';
-import PingResult from '../model/PingResult';
+import EndpointStatusRepository from '../domain/model/EndpointStatusRepository';
+import PingService from '../domain/model/service/PingService'
+import EventPublisher from '../domain/model/event/EventPublisher';
+import EndpointUpdatedEvent from '../domain/model/event/EndpointUpdatedEvent';
+import EndpointStatus from '../domain/model/EndpointStatus';
+import PingResult from '../domain/model/PingResult';
 
 export default class PingAllEndpoints {
   private pingService: PingService;

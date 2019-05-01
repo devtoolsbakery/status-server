@@ -2,8 +2,8 @@ import Application from './Application';
 import container from '../DependencyInjection';
 import PubSub from '../PubSub';
 import EndpointUpdatedEvent, { EndpointUpdatedEventData } from '../../domain/model/event/EndpointUpdatedEvent';
-import SaveEndpointUpdatedEvent from '../../domain/usecase/SaveEndpointUpdatedEvent';
-import PingAllEndpoints from '../../domain/usecase/PingAllEndpoints';
+import SaveEndpointUpdatedEvent from '../../usecase/SaveEndpointUpdatedEvent';
+import PingAllEndpoints from '../../usecase/PingAllEndpoints';
 
 const saveEndpointUpdatedEvent = container.get('core.usecase.SaveEndpointUpdatedEvent', SaveEndpointUpdatedEvent);
 const listener = container.get('core.infrastructure.PubSub', PubSub);
