@@ -1,5 +1,4 @@
 import { Request, Response } from 'express';
-import FindEndpointsForUser from '../../../domain/usecase/FindEndpointsForUser';
 import fakeResponses from './fakeResponses';
 
 export default class ApiController {
