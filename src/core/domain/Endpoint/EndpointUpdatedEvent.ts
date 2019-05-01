@@ -1,5 +1,5 @@
-import Event from '../../Shared/event/Event';
-import EndpointStatus from "../EndpointStatus";
+import Event from '../Shared/event/Event';
+import EndpointStatus from "./EndpointStatus";
 
 export class EndpointUpdatedEventData {
     private _id: string;

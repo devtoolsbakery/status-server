@@ -1,7 +1,7 @@
 import EndpointStatusRepository from '../domain/Endpoint/EndpointStatusRepository';
 import PingService from '../domain/HealthCheck/PingService'
 import EventPublisher from '../domain/Shared/event/EventPublisher';
-import EndpointUpdatedEvent from '../domain/Endpoint/event/EndpointUpdatedEvent';
+import EndpointUpdatedEvent from '../domain/Endpoint/EndpointUpdatedEvent';
 import EndpointStatus from '../domain/Endpoint/EndpointStatus';
 import PingResult from '../domain/HealthCheck/PingResult';
 
