@@ -1,6 +1,5 @@
-import EndpointStatusRepository from "../domain/model/EndpointStatusRepository";
-import EndpointUpdatedEventRepository from "../domain/model/EndpointUpdatedEventRepository";
-import EndpointCollection from "../domain/model/EndpointCollection";
+import EndpointStatusRepository from "../domain/Endpoint/EndpointStatusRepository";
+import EndpointUpdatedEventRepository from "../domain/Endpoint/EndpointUpdatedEventRepository";
 
 
 export default class FindEndpointsForUser {
@@ -14,11 +13,10 @@ export default class FindEndpointsForUser {
     this.endpointUpdatedEventRepository = endpointUpdatedEventRepository;
   }
 
-  async execute(username: string): Promise<EndpointCollection> {
+  async execute(username: string): Promise<any> {
     const endpoints = await this.endpointStatusRepository.findByUsername(username);
     const pingResults = await Promise.all(endpoints.map(endpoint => 
       this.endpointUpdatedEventRepository.findAll(endpoint.getId()))
     );
-    return new EndpointCollection(endpoints, pingResults);
   }
 }

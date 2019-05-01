@@ -1,7 +1,7 @@
 import Application from './Application';
 import container from '../DependencyInjection';
 import PubSub from '../PubSub';
-import EndpointUpdatedEvent, { EndpointUpdatedEventData } from '../../domain/model/event/EndpointUpdatedEvent';
+import EndpointUpdatedEvent, { EndpointUpdatedEventData } from '../../domain/Endpoint/event/EndpointUpdatedEvent';
 import SaveEndpointUpdatedEvent from '../../usecase/SaveEndpointUpdatedEvent';
 import PingAllEndpoints from '../../usecase/PingAllEndpoints';
 

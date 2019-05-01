@@ -1,4 +1,4 @@
-import Event from './Event';
+import Event from '../../Shared/event/Event';
 import EndpointStatus from "../EndpointStatus";
 
 export class EndpointUpdatedEventData {

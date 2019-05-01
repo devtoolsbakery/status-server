@@ -1,6 +1,5 @@
-import EndpointUpdatedEventRepository from "../../domain/model/EndpointUpdatedEventRepository";
-import { EndpointUpdatedEventData } from "../../domain/model/event/EndpointUpdatedEvent";
-import FirebaseConnection from "./Connection";
+import EndpointUpdatedEventRepository from "../../domain/Endpoint/EndpointUpdatedEventRepository";
+import { EndpointUpdatedEventData } from "../../domain/Endpoint/event/EndpointUpdatedEvent";
 import { Firestore } from "@google-cloud/firestore";
 
 const dbCollection = 'endpoints';

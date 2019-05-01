@@ -1,6 +1,6 @@
 import * as should from 'should';
-import EndpointStatus from '../../../../src/core/domain/model/EndpointStatus';
-import { Statuses } from '../../../../src/core/domain/model/EndpointStatus';
+import EndpointStatus from '../../../../src/core/domain/Endpoint/EndpointStatus';
+import { Statuses } from '../../../../src/core/domain/Endpoint/EndpointStatus';
 
 describe('EndpointStatus entity', () => {
   
