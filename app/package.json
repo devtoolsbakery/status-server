@@ -9,13 +9,14 @@
     "start": "next start"
   },
   "dependencies": {
+    "@zeit/next-css": "^1.0.1",
     "next": "latest",
     "react": "^16.8.6",
     "react-dom": "^16.8.6"
   },
-  "devDependencies": {
-    "eslint": "^5.9.0",
-    "typescript": "^3.2.2"
+  "devDependencies": {},
+  "eslintConfig": {
+    "extends": "react-app"
   },
   "author": "Adrian Mato and Ivan Guardado",
   "license": "MIT"
