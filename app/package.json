@@ -4,7 +4,7 @@
   "description": "Front-end client to consume date from the server.",
   "main": "index.js",
   "scripts": {
-    "dev": "next",
+    "dev": "next -p 8080",
     "build": "next build",
     "start": "next start"
   },
