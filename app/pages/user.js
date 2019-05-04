@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import Head from 'next/head';
 import Card from '../components/Card';
 
 import '../styles/pages/user.css';
@@ -9,7 +10,7 @@ class User extends Component {
     super();
 
     this.state = {
-      username : 'Company server',
+      user : 'Company server',
       theme : 'monkey' // example: use 'monkey' or 'minimal'
     }
   }
@@ -17,10 +18,11 @@ class User extends Component {
   render () {
     return (
       <>
-      <Card name={`${this.state.username}`} status='online' dayLimit='90' />
-      {/* <>
-        User page, the theme loaded is: {this.props.theme}
-      </> */}
+        <Head>
+          <title>{`${this.state.user}`} – system status</title>
+          <meta name="description" content={`Real time system status of ${this.state.user}`} />
+        </Head>
+        <Card name={`${this.state.user}`} status='online' dayLimit='90' />
       </>
     )
   }

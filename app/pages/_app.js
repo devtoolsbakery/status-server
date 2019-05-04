@@ -1,5 +1,6 @@
 import React from 'react';
 import App, { Container } from 'next/app';
+import Head from 'next/head';
 
 import '../styles/index.css';
 
@@ -18,9 +19,15 @@ class MyApp extends App {
     const { Component, pageProps } = this.props;
 
     return (
-      <Container>
-        <Component {...pageProps} />
-      </Container>
+      <>
+        <Head>
+          <meta charset="utf-8" />
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+        </Head>
+        <Container>
+          <Component {...pageProps} />
+        </Container>
+      </>
     );
   }
 }
