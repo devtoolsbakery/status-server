@@ -1,0 +1,5 @@
+#__next {
+  height: 100%;
+  padding-top: 20vh;
+  background: var(--theme-body-background);
+}
