@@ -1,33 +1,22 @@
 {
   "name": "client-status",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "next": "^8.1.0",
-    "node-sass": "^4.12.0",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
-    "react-helmet": "^5.2.0",
-    "react-scripts": "^2.1.8"
-  },
+  "version": "1.0.0",
+  "description": "Front-end client to consume date from the server.",
+  "main": "index.js",
   "scripts": {
     "dev": "next",
     "build": "next build",
     "start": "next start"
   },
-  "eslintConfig": {
-    "extends": "react-app"
+  "dependencies": {
+    "next": "latest",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
   },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ],
-  "description": "Front-end client to consume date from the server.",
-  "main": "index.js",
-  "devDependencies": {},
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "devDependencies": {
+    "eslint": "^5.9.0",
+    "typescript": "^3.2.2"
+  },
+  "author": "Adrian Mato and Ivan Guardado",
+  "license": "MIT"
 }
