@@ -7,8 +7,8 @@ services:
   core.infrastructure.repository.EndpointStatusRepository:
     class: ../Endpoint/EndpointStatusMongoRepository
 
-  core.infrastructure.repository.EndpointUpdatedEventRepository:
-    class: ../Endpoint/HealthCheckMongoRepository
+  core.infrastructure.repository.HealthCheckRepository:
+    class: ../HealthCheck/HealthCheckMongoRepository
 
   core.infrastructure.PubSub:
     class: ../PubSub
@@ -24,8 +24,8 @@ services:
       "@core.infrastructure.PubSub"
     ]
 
-  core.usecase.SaveEndpointUpdatedEvent:
-    class: "../../usecase/SaveEndpointUpdatedEvent"
+  core.usecase.SaveHealthCheck:
+    class: "../../usecase/SaveHealthCheck"
     arguments: [
-      "@core.infrastructure.repository.EndpointUpdatedEventRepository"
+      "@core.infrastructure.repository.HealthCheckRepository"
     ]

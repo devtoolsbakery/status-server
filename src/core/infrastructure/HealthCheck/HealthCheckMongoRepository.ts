@@ -1,8 +1,8 @@
-import EndpointUpdatedEventRepository from "../../domain/Endpoint/EndpointUpdatedEventRepository";
+import HealthCheckRepository from "../../domain/HealthCheck/HealthCheckRepository";
 import { EndpointUpdatedEventData } from "../../domain/Endpoint/EndpointUpdatedEvent";
 import HealthCheckMongoDocument from "./HealthCheckMongoDocument";
 
-export default class HealthCheckMongoRepository implements EndpointUpdatedEventRepository {
+export default class HealthCheckMongoRepository implements HealthCheckRepository {
   
   save(event: EndpointUpdatedEventData): Promise<void> {
     return HealthCheckMongoDocument.create(new HealthCheckMongoDocument({

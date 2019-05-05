@@ -1,22 +1,22 @@
 import EndpointStatusRepository from "../domain/Endpoint/EndpointStatusRepository";
-import EndpointUpdatedEventRepository from "../domain/Endpoint/EndpointUpdatedEventRepository";
+import HealthCheckRepository from "../domain/HealthCheck/HealthCheckRepository";
 
 
 export default class FindEndpointsForUser {
   
   endpointStatusRepository: EndpointStatusRepository;
-  endpointUpdatedEventRepository: EndpointUpdatedEventRepository;
+  healthCheckRepository: HealthCheckRepository;
 
   constructor(endpointStatusRepository: EndpointStatusRepository, 
-    endpointUpdatedEventRepository: EndpointUpdatedEventRepository) {
+    healthCheckRepository: HealthCheckRepository) {
     this.endpointStatusRepository = endpointStatusRepository;
-    this.endpointUpdatedEventRepository = endpointUpdatedEventRepository;
+    this.healthCheckRepository = healthCheckRepository;
   }
 
   async execute(username: string): Promise<any> {
     const endpoints = await this.endpointStatusRepository.findByUsername(username);
     const pingResults = await Promise.all(endpoints.map(endpoint => 
-      this.endpointUpdatedEventRepository.findAll(endpoint.getId()))
+      this.healthCheckRepository.findAll(endpoint.getId()))
     );
   }
 }
