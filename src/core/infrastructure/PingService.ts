@@ -12,7 +12,7 @@ export default class PingServiceImpl implements PingService {
     const host = endpointStatus.getHost();
     const result = await ping.promise.probe(host, config);
   
-    const pingResult = new PingResult(host, result.numeric_host, this.getTime(result));
+    const pingResult = new PingResult(host, result.numeric_host, this.getTime(result), new Date());
 
     return pingResult;
   }

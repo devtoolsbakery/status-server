@@ -4,7 +4,7 @@ import EndpointMongoDocument from "./EndpointMongoDocument";
 
 export default class EndpointStatusMongoRepository implements EndpointStatusRepository {
   
-  save(endpoint: EndpointStatus): Promise<void> {
+  async save(endpoint: EndpointStatus): Promise<void> {
     const doc = new EndpointMongoDocument({
       _id: endpoint.getId(),
       host: endpoint.getHost(),
@@ -13,7 +13,7 @@ export default class EndpointStatusMongoRepository implements EndpointStatusRepo
       latestHealthChecks: endpoint.getLatestHealthChecks(),
       updated: endpoint.getUpdated()
     })
-    return EndpointMongoDocument.findOneAndUpdate({ _id: doc._id }, doc);
+    await EndpointMongoDocument.findOneAndUpdate({ _id: doc._id }, doc);
   }
   
   findByUsername(username: string): Promise<EndpointStatus[]> {
@@ -31,6 +31,21 @@ export default class EndpointStatusMongoRepository implements EndpointStatusRepo
       document.uptime, 
       document.latestHealthChecks
     ));
+  }
+
+  async findById(id: string): Promise<EndpointStatus> {
+    const document = await EndpointMongoDocument.findById(id);
+    if (document == null) return null;
+
+    return new EndpointStatus(
+      document._id, 
+      document.userId, 
+      document.host, 
+      document.name, 
+      document.updated, 
+      document.uptime, 
+      document.latestHealthChecks
+    )
   }
 
 }

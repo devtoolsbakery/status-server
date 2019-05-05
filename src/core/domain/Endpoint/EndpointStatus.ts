@@ -1,15 +1,20 @@
+import { EndpointUpdatedEventData } from './EndpointUpdatedEvent';
+
 const assert = require('assert');
 const uuid = require('uuid/v4');
 
-export default class EndpointStatus {
+const TOTAL_LATEST_CHECKS = 50;
+const FAILURE = 'FAILURE';
+const OK = 'OK';
 
+export default class EndpointStatus {
   id: string;
   userId: string;
   host: string;
   name: string;
   updated: Date;
   uptime: number;
-  latestHealthChecks: [];
+  latestHealthChecks: [{ date: Date, status: string, timeInMs: number }];
 
   constructor(id, userId, host, name, updated, uptime, lastHealthChecks) {
     this.id = id;
@@ -37,7 +42,13 @@ export default class EndpointStatus {
   getLatestHealthChecks() { return this.latestHealthChecks; }
   getUptime() { return this.uptime; }
 
-  updateFromPing({ time, address }) {
+  updateWithHealthCheck(eventData: EndpointUpdatedEventData) {
+    this.latestHealthChecks.unshift({
+      date: eventData.date,
+      status: eventData.time === 0? FAILURE : OK,
+      timeInMs: eventData.time
+    });
+    this.latestHealthChecks.splice(TOTAL_LATEST_CHECKS);
     this.updated = new Date();
   }
 

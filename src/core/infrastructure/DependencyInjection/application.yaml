@@ -27,5 +27,6 @@ services:
   core.usecase.SaveHealthCheck:
     class: "../../usecase/SaveHealthCheck"
     arguments: [
-      "@core.infrastructure.repository.HealthCheckRepository"
+      "@core.infrastructure.repository.HealthCheckRepository",
+      "@core.infrastructure.repository.EndpointStatusRepository"
     ]

@@ -1,6 +1,5 @@
 import { mock, verify, when, instance, anyOfClass, anything } from "ts-mockito";
 import EndpointStatusRepository from "../../../src/core/domain/Endpoint/EndpointStatusRepository";
-import EndpointStatusFirebaseRepository from "../../../src/core/infrastructure/repository/EndpointStatusFirebaseRepository";
 import PingService from "../../../src/core/domain/HealthCheck/PingService";
 import EventPublisher from "../../../src/core/domain/Shared/event/EventPublisher";
 import PingServiceImpl from "../../../src/core/infrastructure/PingService";
@@ -8,18 +7,19 @@ import PubSub from "../../../src/core/infrastructure/PubSub";
 import EndpointStatus from "../../../src/core/domain/Endpoint/EndpointStatus";
 import PingResult from "../../../src/core/domain/HealthCheck/PingResult";
 import PingAllEndpoints from "../../../src/core/usecase/PingAllEndpoints";
+import EndpointStatusMongoRepository from "../../../src/core/infrastructure/Endpoint/EndpointStatusMongoRepository";
 
 const endpoint = new EndpointStatus('1', 'ivangc', 'ivanguardado.com', 'Ivan Site', new Date(), 100, []);
 
 export default class PingAllEndpointsUnitTest {
 
-  private mockedEndpointStatusRepository: EndpointStatusRepository = mock(EndpointStatusFirebaseRepository);
+  private mockedEndpointStatusRepository: EndpointStatusRepository = mock(EndpointStatusMongoRepository);
   private mockedPingService: PingService = mock(PingServiceImpl);
   private mockedPubSub: PubSub = mock(PubSub);
 
   givenMultipleSuccessfullEndpoints(): void {
     this.whenRepositoryFind([endpoint, endpoint]);
-    this.whenSuccessfulPing(new PingResult('', '', 100));
+    this.whenSuccessfulPing(new PingResult('', '', 100, new Date()));
   }
 
   givenSomeFailedEndpoint() {
@@ -28,7 +28,7 @@ export default class PingAllEndpointsUnitTest {
   }
   
   whenFailedfulPing() {
-    const pingResult = new PingResult('error.com', null, 0);
+    const pingResult = new PingResult('error.com', null, 0, new Date());
     when(this.mockedPingService.ping(anyOfClass(EndpointStatus))).thenResolve(pingResult);
   }
 

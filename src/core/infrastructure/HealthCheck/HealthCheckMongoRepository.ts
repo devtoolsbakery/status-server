@@ -12,7 +12,7 @@ export default class HealthCheckMongoRepository implements HealthCheckRepository
       statusCode: 0,
       time: event.time,
       body: '',
-      createdAt: new Date()
+      createdAt: event.date
     }))
   }  
   

@@ -18,7 +18,7 @@ export default class Standalone implements Application {
 
     listener.subscribe(EndpointUpdatedEvent.eventName, (message) => {
       const data = message.data;
-      const eventData = new EndpointUpdatedEventData(data.id, data.ip, data.host, data.time);
+      const eventData = new EndpointUpdatedEventData(data.id, data.ip, data.host, data.time, data.date);
       saveHealthCheck.execute(EndpointUpdatedEvent.fromData(eventData));
     });
     

@@ -1,26 +1,43 @@
 import * as should from 'should';
-import { mock, verify, instance } from "ts-mockito";
+import { mock, verify, instance, anything, when } from "ts-mockito";
 import container from '../../../src/core/infrastructure/DependencyInjection';
 import SaveHealthCheck from '../../../src/core/usecase/SaveHealthCheck';
 import EndpointUpdatedEvent from '../../../src/core/domain/Endpoint/EndpointUpdatedEvent';
 import EndpointStatus from '../../../src/core/domain/Endpoint/EndpointStatus';
 import HealthCheckMongoRepository from '../../../src/core/infrastructure/HealthCheck/HealthCheckMongoRepository';
+import EndpointStatusMongoRepository from '../../../src/core/infrastructure/Endpoint/EndpointStatusMongoRepository';
 import PingResult from '../../../src/core/domain/HealthCheck/PingResult';
 
 describe('Scenario: Saved endpoint updated event', () => {
   
   const mockHealthCheckMongoRepository = mock(HealthCheckMongoRepository)
-
+  const mockEndpointStatusMongoRepository = mock(EndpointStatusMongoRepository)
   it('should save the event in the collection', async () => {
     const healthCheckMongoRepository = instance(mockHealthCheckMongoRepository);
+    const endpointRepository = instance(mockEndpointStatusMongoRepository);
     const endpointStatus = EndpointStatus.create('testUsername', 'test.com', 'Test');
-    const pingResult = new PingResult('test.com', '127.0.0.1', 120);
+    const pingResult = new PingResult('test.com', '127.0.0.1', 120, new Date());
     const event = EndpointUpdatedEvent.from(endpointStatus.getId(), pingResult);
     
-    const saveHealthCheck = new SaveHealthCheck(healthCheckMongoRepository);
+    const saveHealthCheck = new SaveHealthCheck(healthCheckMongoRepository, endpointRepository);
     await saveHealthCheck.execute(event);
   
     verify(mockHealthCheckMongoRepository.save(event.getData())).once();
+  })
+
+  it('should add the check to the EndpointStatus latestHealthChecks', async () => {
+    const endpointStatus = EndpointStatus.create('testUsername', 'test.com', 'Test');
+    const healthCheckMongoRepository = instance(mockHealthCheckMongoRepository);
+    const endpointRepository = instance(mockEndpointStatusMongoRepository);
+    const pingResult = new PingResult('test.com', '127.0.0.1', 120, new Date());
+    const event = EndpointUpdatedEvent.from(endpointStatus.getId(), pingResult);
+    when(mockEndpointStatusMongoRepository.findById(endpointStatus.getId())).thenResolve(endpointStatus);
+    
+    const saveHealthCheck = new SaveHealthCheck(healthCheckMongoRepository, endpointRepository);
+    await saveHealthCheck.execute(event);
+
+    should(endpointStatus.latestHealthChecks).not.be.empty();
+    verify(mockEndpointStatusMongoRepository.save(anything())).once();
   })
 
 })

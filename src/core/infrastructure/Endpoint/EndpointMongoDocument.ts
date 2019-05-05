@@ -6,7 +6,7 @@ export interface EndpointMongoDocument extends Document {
   host: number;
   name: string;
   uptime: number;
-  latestHealthChecks: [{}];
+  latestHealthChecks: [{status: string, timeInMs: number, date: Date }];
   updated: Date;
 };
 
@@ -16,7 +16,7 @@ export const EndpointMongoSchema = new Schema({
   host: { type:String, required: true },
   name: { type:String, required: true },
   uptime: { type: Number, required: true, default: 0 },
-  latestHealthChecks: { type: [{}] },
+  latestHealthChecks: [{ _id: false, status: String, timeInMs: Number, date: Date }],
   updated: { type: Date }
 });
 

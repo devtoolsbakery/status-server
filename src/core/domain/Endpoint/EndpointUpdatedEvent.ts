@@ -7,12 +7,14 @@ export class EndpointUpdatedEventData {
     private _ip: string;
     private _host: string;
     private _time: number;
+    private _date: Date;
 
-    constructor(id, ip, host, time) {
+    constructor(id, ip, host, time, date) {
         this._id = id;
         this._ip = ip;
         this._host = host;
         this._time = time;
+        this._date = date;
     }
 
     public get id(): string {
@@ -26,6 +28,9 @@ export class EndpointUpdatedEventData {
     }
     public get time(): number {
         return this._time;
+    }
+    public get date(): Date {
+      return this._date;
     }
 }
 
@@ -43,7 +48,8 @@ export default class EndpointUpdatedEvent extends Event {
                 endpointId,
                 pingResult.getIp(),
                 pingResult.getHost(),
-                pingResult.getTimeInMilliseconds()
+                pingResult.getTimeInMilliseconds(),
+                pingResult.getDate()
             )
         );
     }

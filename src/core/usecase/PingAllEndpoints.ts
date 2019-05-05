@@ -23,19 +23,10 @@ export default class PingAllEndpoints {
   async execute() {
     const iterator = async (endpointStatus: EndpointStatus) => {
       const pingResult = await this.pingService.ping(endpointStatus);
-      const result = await this.savePingResult(endpointStatus, pingResult);
       this.eventPublisher.publish(EndpointUpdatedEvent.from(endpointStatus.getId(), pingResult));
-      return result;
     };
   
     const endpoints = await this.endpointStatusRepository.findAll();
-    return Promise.all(endpoints.map(iterator));
-  }
-
-  private savePingResult(endpointStatus: EndpointStatus, pingResult: PingResult) {
-    const address = pingResult.getIp();
-    const time = pingResult.getTimeInMilliseconds();
-    endpointStatus.updateFromPing({ address, time });
-    return this.endpointStatusRepository.save(endpointStatus);
+    return await Promise.all(endpoints.map(iterator));
   }
 }
