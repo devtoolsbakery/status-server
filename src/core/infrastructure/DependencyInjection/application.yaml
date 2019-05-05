@@ -4,17 +4,11 @@ services:
       class: ../repository/Connection
       method: getConnection
 
-  core.infrastructure.repository.EndpointStatusFirebaseRepository:
-    class: ../repository/EndpointStatusFirebaseRepository
-    arguments: [
-      "@core.infrastructure.repository.FireBaseConnection"
-    ]
+  core.infrastructure.repository.EndpointStatusRepository:
+    class: ../Endpoint/EndpointStatusMongoRepository
 
-  core.infrastructure.repository.EndpointUpdatedEventRepository:
-    class: ../repository/EndpointUpdatedEventFirebaseRepository
-    arguments: [
-      "@core.infrastructure.repository.FireBaseConnection"
-    ]
+  core.infrastructure.repository.HealthCheckRepository:
+    class: ../HealthCheck/HealthCheckMongoRepository
 
   core.infrastructure.PubSub:
     class: ../PubSub
@@ -25,13 +19,13 @@ services:
   core.usecase.PingAllEndpoints:
     class: '../../usecase/PingAllEndpoints'
     arguments: [
-      "@core.infrastructure.repository.EndpointStatusFirebaseRepository",
+      "@core.infrastructure.repository.EndpointStatusRepository",
       "@core.infrastructure.PingService",
       "@core.infrastructure.PubSub"
     ]
 
-  core.usecase.SaveEndpointUpdatedEvent:
-    class: "../../usecase/SaveEndpointUpdatedEvent"
+  core.usecase.SaveHealthCheck:
+    class: "../../usecase/SaveHealthCheck"
     arguments: [
-      "@core.infrastructure.repository.EndpointUpdatedEventRepository"
+      "@core.infrastructure.repository.HealthCheckRepository"
     ]

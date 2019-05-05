@@ -1,12 +1,12 @@
-import EndpointUpdatedEventRepository from "../domain/Endpoint/EndpointUpdatedEventRepository";
+import HealthCheckRepository from "../domain/HealthCheck/HealthCheckRepository";
 import EndpointUpdatedEvent, { EndpointUpdatedEventData } from "../domain/Endpoint/EndpointUpdatedEvent";
 
 export default class SaveEndpointUpdatedEvent {
 
-  private endpointUpdatedEventRepository: EndpointUpdatedEventRepository;
+  private healthCheckRepository: HealthCheckRepository;
 
-  constructor(endpointUpdatedEventRepository: EndpointUpdatedEventRepository) {
-    this.endpointUpdatedEventRepository = endpointUpdatedEventRepository;
+  constructor(healthCheckRepository: HealthCheckRepository) {
+    this.healthCheckRepository = healthCheckRepository;
   }
   
   async execute(endpointUpdatedEvent: EndpointUpdatedEvent) {
@@ -16,7 +16,7 @@ export default class SaveEndpointUpdatedEvent {
       console.log(`✅ ${eventData.time}ms \t ${eventData.host}`);
     } else console.log(`🔴 failed \t ${eventData.host}`);
 
-    this.endpointUpdatedEventRepository.save(eventData);
+    this.healthCheckRepository.save(eventData);
   }
 
 }

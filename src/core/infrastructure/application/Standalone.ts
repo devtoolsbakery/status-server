@@ -2,20 +2,24 @@ import Application from './Application';
 import container from '../DependencyInjection';
 import PubSub from '../PubSub';
 import EndpointUpdatedEvent, { EndpointUpdatedEventData } from '../../domain/Endpoint/EndpointUpdatedEvent';
-import SaveEndpointUpdatedEvent from '../../usecase/SaveEndpointUpdatedEvent';
+import SaveHealthCheck from '../../usecase/SaveHealthCheck';
 import PingAllEndpoints from '../../usecase/PingAllEndpoints';
+import { connect } from 'mongoose';
 
-const saveEndpointUpdatedEvent = container.get('core.usecase.SaveEndpointUpdatedEvent', SaveEndpointUpdatedEvent);
+const saveHealthCheck = container.get('core.usecase.SaveHealthCheck', SaveHealthCheck);
 const listener = container.get('core.infrastructure.PubSub', PubSub);
 const pingAllEndpoints = container.get('core.usecase.PingAllEndpoints', PingAllEndpoints);
 
 export default class Standalone implements Application {
   
   async run() {
+    
+    connect('mongodb://localhost:27017/endpoint', { useNewUrlParser: true });
+
     listener.subscribe(EndpointUpdatedEvent.eventName, (message) => {
       const data = message.data;
       const eventData = new EndpointUpdatedEventData(data.id, data.ip, data.host, data.time);
-      saveEndpointUpdatedEvent.execute(EndpointUpdatedEvent.fromData(eventData));
+      saveHealthCheck.execute(EndpointUpdatedEvent.fromData(eventData));
     });
     
     this.loop(); 

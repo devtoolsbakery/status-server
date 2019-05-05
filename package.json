@@ -17,6 +17,7 @@
   "dependencies": {
     "express": "^4.16.4",
     "firebase-admin": "^6.1.0",
+    "mongoose": "^5.5.5",
     "node-dependency-injection": "^2.2.1",
     "ping": "^0.2.2",
     "uuid": "^3.3.2"
