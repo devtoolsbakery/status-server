@@ -1,5 +1,3 @@
-// Utilities for different contexts
-
 /**
  * Generate mock data for the card
  * @param {number} dayLimit Days to render (default: 90)
