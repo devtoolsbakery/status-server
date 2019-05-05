@@ -15,6 +15,7 @@
     "url": "https://senju@bitbucket.org/senju/server-status.git"
   },
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.16.4",
     "firebase-admin": "^6.1.0",
     "node-dependency-injection": "^2.2.1",
