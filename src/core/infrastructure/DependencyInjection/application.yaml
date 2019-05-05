@@ -8,10 +8,7 @@ services:
     class: ../Endpoint/EndpointStatusMongoRepository
 
   core.infrastructure.repository.EndpointUpdatedEventRepository:
-    class: ../repository/EndpointUpdatedEventFirebaseRepository
-    arguments: [
-      "@core.infrastructure.repository.FireBaseConnection"
-    ]
+    class: ../Endpoint/HealthCheckMongoRepository
 
   core.infrastructure.PubSub:
     class: ../PubSub
