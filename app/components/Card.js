@@ -19,7 +19,7 @@ class Card extends Component {
   componentDidMount(){
     setTimeout(() => {
       this.setState({ready : 'ready'});
-    }, this.state.timeAnimation)
+    }, this.timeAnimation)
   }
 
   render() {
