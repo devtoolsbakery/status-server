@@ -12,6 +12,7 @@ class User extends Component {
     this.state = {
       user : 'Company server',
       theme : 'monkey' // example: use 'monkey' or 'minimal'
+      // TODO: theming is not currently working nor propagated
     }
   }
 
