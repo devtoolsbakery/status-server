@@ -30,3 +30,9 @@ services:
       "@core.infrastructure.repository.HealthCheckRepository",
       "@core.infrastructure.repository.EndpointStatusRepository"
     ]
+
+  core.usecase.FindEndpointsForUser:
+    class: "../../usecase/FindEndpointsForUser"
+    arguments: [
+      "@core.infrastructure.repository.EndpointStatusRepository"
+    ]

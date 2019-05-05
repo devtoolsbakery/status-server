@@ -16,8 +16,17 @@ export default class EndpointStatusMongoRepository implements EndpointStatusRepo
     await EndpointMongoDocument.findOneAndUpdate({ _id: doc._id }, doc);
   }
   
-  findByUsername(username: string): Promise<EndpointStatus[]> {
-    throw new Error("Method not implemented.");
+  async findByUsername(username: string): Promise<EndpointStatus[]> {
+    const documents = await EndpointMongoDocument.find({ userId: username });
+    return documents.map(document => new EndpointStatus(
+      document._id, 
+      document.userId, 
+      document.host, 
+      document.name, 
+      document.updated, 
+      document.uptime, 
+      document.latestHealthChecks
+    ));
   }
 
   async findAll(): Promise<EndpointStatus[]> {

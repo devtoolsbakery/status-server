@@ -1,7 +1,8 @@
 import * as should from 'should';
 import * as httpMocks from 'node-mocks-http';
 import ApiController from '../../../../../src/core/infrastructure/http/express/ApiController';
-describe('HTTP Express Api Controller v1', () => {
+
+xdescribe('HTTP Express Api Controller v1', () => {
   
   class Response {
     private statusCode: number;
