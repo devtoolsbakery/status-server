@@ -71,8 +71,59 @@ const CardTitle = styled.h1`
   line-height: var(--theme-card-title-font);
   position: relative;
   display: inline-block;
-`
 
+  :after {
+    width: 1.2rem;
+    height: 1.2rem;
+    position: absolute;
+    top: .4rem;
+    left: 0;
+    content: '';
+    z-index: 1;
+    border-radius: 100%;
+    border: .2rem solid rgba(#000, .5);
+  }
+  :before {
+    width: 1.6rem;
+    height: 1.6rem;
+    position: absolute;
+    top: .2rem;
+    left: -.2rem;
+    content: '';
+    border-radius: 100%;
+    filter: blur(.4rem);
+  }
+
+  &.online {
+    :after {
+      background: var(--theme-color-primary);
+    }
+    :before {
+      background: var(--theme-color-primary);
+      box-shadow: 0 0 2.4rem var(--theme-color-primary);
+    }
+  }
+
+  &.warning {
+    :after {
+      background: var(--theme-color-status-warning);
+    }
+    :before {
+      background: var(--theme-color-status-warning);
+      box-shadow: 0 0 2.4rem var(--theme-color-status-warning);
+    }
+  }
+
+  &.error {
+    :after {
+      background: var(--theme-color-error);
+    }
+    :before {
+      background: var(--theme-color-error);
+      box-shadow: 0 0 2.4rem var(--theme-color-error);
+    }
+  }
+`
 const CardEndPointContainer = styled.div`
   padding: 2.4rem 3.2rem;
   border-radius: .4rem;
