@@ -16,6 +16,7 @@ class MyApp extends App {
     return { pageProps };
   }
 
+  // TODO: Enable server rendering for styled components
   render() {
     const { Component, pageProps } = this.props;
 
