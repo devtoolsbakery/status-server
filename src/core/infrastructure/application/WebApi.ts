@@ -9,7 +9,7 @@ export default class WebApi implements Application {
     const app = express();
     const apiController = new ApiController();
     
-    app.get('/:username/endpoints', apiController.getUserEndpoints);
+    app.get('/:username/endpoints', apiController.getUserEndpoints.bind(apiController));
     
     app.listen(3000)
   }

@@ -10,10 +10,6 @@ export default class FindEndpointsForUser {
 
   async execute(username: string): Promise<any> {
     const endpoints = await this.endpointStatusRepository.findByUsername(username);
-    return {
-      status: 'HEALTH',
-      endpoints
-    }
-    
+    return endpoints;
   }
 }
