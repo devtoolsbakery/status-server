@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import styled from 'styled-components';
+import * as Utils from '../utils';
 
 import '../styles/components/Card.css';
 
 const THRESHOLD = 0.7;
-const ENDPOINTS = ['API', 'Production', 'Staging', 'QA'];
 
 class Card extends Component {
   constructor(props) {
@@ -11,7 +12,7 @@ class Card extends Component {
 
     this.state = {
       status  : props.status,
-      data    : this.loadMockData(props.dayLimit),
+      data    : Utils.loadCardMockData(props.dayLimit),
       ready   : false,
       time    : 300 // fade-in animation
     }
@@ -60,30 +61,6 @@ class Card extends Component {
         </div>
       </div>
     );
-  }
-
-  loadMockData(dayLimit) {
-    let data = [];
-
-    ENDPOINTS.map(endpoint => {
-      let days = [];
-      let temp;
-
-      // randomize days
-      for (let i = 0; i < dayLimit; i++) {
-        temp = parseFloat(Math.random().toFixed(1));
-        if (i % 2 === 0 || temp < 0.6 || i % 3 === 0) {
-          days.push(1.0);
-        } else {
-          days.push(temp);
-        }
-      }
-
-      let dataEndpoint = {};
-      return data.push(dataEndpoint[endpoint] = {'name': endpoint,'uptime' : 95.7, 'days' : days});
-    });
-
-    return data;
   }
 }
 
