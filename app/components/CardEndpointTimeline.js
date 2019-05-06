@@ -1,28 +1,47 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
+import styled, {css} from 'styled-components';
 
 
-// TODO: refactor with styled components
 const CardEndpointTimeline = props => {
+  const theshold = 0.7;
+
   return (
-    <div className="card__endpoint__timeline">
+    <div className="flex">
       {
         props.data.days.map((dayValue, i) => {
-          let status = null;
-          const theshold = 0.7;
-
           if (dayValue < 1 && dayValue >= theshold) {
-            status = 'card__timeline__card-day--status-warning';
+            return <CardEndpointTimelineDayError key={i} />;
           }
           else if (dayValue < theshold) {
-            status = 'card__timeline__card-day--status-error';
+            return <CardEndpointTimelineDayWarning key={i} />;
           }
-          return <div key={i} className={`card__timeline__card-day ${status}`}></div>;
+          
+          return <CardEndpointTimelineDay key={i}  />;
         })
       }
     </div>
   )
 }
 
+const CardEndpointTimelineDay = styled.div`
+  width: var(--theme-card-day-width);
+  height: var(--theme-card-day-height);
+  margin-right: .2rem;
+  background: var(--theme-color-primary);
+  border-radius: .1rem;
+  display: flexbox;
+
+  :last-child {
+    margin-right: 0;
+  }
+`
+const CardEndpointTimelineDayWarning = styled(CardEndpointTimelineDay)`
+  background: var(--theme-color-warning);
+  opacity: .5;
+`
+const CardEndpointTimelineDayError = styled(CardEndpointTimelineDay)`
+  background: var(--theme-color-error);
+  opacity: .5;
+`
 
 export default CardEndpointTimeline;
