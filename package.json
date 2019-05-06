@@ -1,6 +1,6 @@
 {
-  "name": "server-status",
-  "version": "1.0.0",
+  "name": "status-server",
+  "version": "0.1.0",
   "description": "Monitoring service for endpoints",
   "main": "app.js",
   "scripts": {
@@ -8,11 +8,11 @@
     "test": "NODE_ENV=test mocha -r ts-node/register --timeout 5000 test/**/*_spec.*",
     "lint": "eslint ./src"
   },
-  "author": "Adrian Mato",
-  "license": "UNLICENSED",
+  "author": "Adrian Mato (@adrianmg) and Ivan Guardado (@ivanguardado)",
+  "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://senju@bitbucket.org/senju/server-status.git"
+    "url": "https://github.com/adrianmg/status-server.git"
   },
   "dependencies": {
     "express": "^4.16.4",
