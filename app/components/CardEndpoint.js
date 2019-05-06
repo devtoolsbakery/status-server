@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import CardEndpointTimeline from './CardEndpointTimeline';
 
@@ -29,8 +29,8 @@ const CardEndpointHeader = styled.div`
   align-items: baseline;
 `
 const CardEndpointTitle = styled.h2`
-margin: 0;
-font-size: var(--base-font-size);
+  margin: 0;
+  font-size: var(--base-font-size);
 `
 const CardEndpointUptime = styled.h3`
   margin: 0;
