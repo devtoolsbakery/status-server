@@ -2,8 +2,8 @@ import React from 'react';
 
 const Index = () => (
   <>
-    Hello here!
+    This is the Homepage
   </>
 )
 
-export default Index
+export default Index;

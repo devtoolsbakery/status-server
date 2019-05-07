@@ -1,0 +1,18 @@
+body {
+  --theme-body-font-color: #FFF;
+  --theme-body-background: #1E2129;
+
+  --theme-color-primary: #22A7E9;
+  --theme-color-error: rgb(236, 62, 134);
+  --theme-color-warning: rgb(34, 167, 233);
+  --theme-color-status-warning: #FFC22B;
+  
+  --theme-color-uptime: var(--theme-color-primary);
+
+  --theme-card-background: rgba(31, 48, 65, 0.75);
+  --theme-card-border: .1rem solid #21729C;
+  --theme-card-title-font: 1.9rem;
+  --theme-card-title-online: var(--theme-color-primary);
+  --theme-card-day-width: .4rem;
+  --theme-card-day-height: 2.0rem;
+}
