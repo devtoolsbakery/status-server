@@ -13,7 +13,8 @@ export default class EndpointStatusMongoRepository implements EndpointStatusRepo
       latestHealthChecks: endpoint.getLatestHealthChecks(),
       updated: endpoint.getUpdated(),
       firstHealthCheckDate: endpoint.getFirstHealthCheckDate(),
-      serviceDownDate: endpoint.getServiceDownDate()
+      serviceDownDate: endpoint.getServiceDownDate(),
+      downtimeMinutes: endpoint.getDowntimeMinutes()
     })
     await EndpointMongoDocument.findOneAndUpdate({ _id: doc._id }, doc);
   }

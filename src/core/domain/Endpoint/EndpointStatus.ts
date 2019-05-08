@@ -51,19 +51,28 @@ export default class EndpointStatus {
   getUptime() { return this.uptime; }
   getFirstHealthCheckDate() { return this.firstHealthCheckDate }
   getServiceDownDate() { return this.serviceDownDate; }
+  getDowntimeMinutes() { return this.downtimeMinutes }
 
   updateWithHealthCheck(eventData: EndpointUpdatedEventData) {
     this.updateLastHealthChecks(eventData);
     this.updateFirstHealthCheckDate();
-    this.updateServiceDownDate(eventData);
+    this.updateServiceDown(eventData);
     this.updated = new Date();
   }
 
-  private updateServiceDownDate(eventData: EndpointUpdatedEventData) {
+  private updateServiceDown(eventData: EndpointUpdatedEventData) {
+    this.increaseDowntimeMinutes();
+
     if (eventData.isFailed()) {
-      if (this.serviceDownDate === null) {
-        this.serviceDownDate = new Date();
-      }
+      this.serviceDownDate = new Date();
+    }
+  }
+
+  private increaseDowntimeMinutes() {
+    if (this.serviceDownDate) {
+      const diffSeconds = (Date.now() - this.serviceDownDate.getTime()) / 1000;
+      const diffMinutes = diffSeconds / 60;
+      this.downtimeMinutes += diffMinutes;
     }
   }
 
@@ -85,7 +94,7 @@ export default class EndpointStatus {
   getAvailability(): number {    
     if(!this.firstHealthCheckDate) return 0;
     
-    const diffSeconds = Date.now() - this.firstHealthCheckDate.getTime();
+    const diffSeconds = (Date.now() - this.firstHealthCheckDate.getTime()) / 1000;
     const diffMinutes = diffSeconds / 60;
     const availabilityRatio = (diffMinutes - this.downtimeMinutes) / diffMinutes;
     const percent = availabilityRatio * 100;

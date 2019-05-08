@@ -66,6 +66,17 @@ describe('EndpointStatus entity', () => {
       endpoint.updateWithHealthCheck(new EndpointUpdatedEventData('id', null, 'host', 0, new Date()));
       should.exist(endpoint.getServiceDownDate());
     })
+
+    it('should increase the downtime minutes after the first fail', () => {
+      const now = Date.now();
+      const lastFailedDate = new Date(now - (60 * 1000));
+      const initialMinutesDown = 10;
+      const endpoint = new EndpointStatus('id', 'userID', 'host', 'name', 'updated', 'uptime', [], new Date(), initialMinutesDown, lastFailedDate);
+      endpoint.updateWithHealthCheck(new EndpointUpdatedEventData('id', null, 'host', 1, new Date()));
+      
+      endpoint.getDowntimeMinutes().should.be.greaterThan(initialMinutesDown);
+      endpoint.getServiceDownDate().getTime().should.be.greaterThanOrEqual(now);
+    })
   });
 
   context('Availability calculation', () => {
@@ -77,7 +88,7 @@ describe('EndpointStatus entity', () => {
     })
 
     it('should calculate the availability from the first health check', () => {
-      const from = new Date(Date.now() - 3600*24);
+      const from = new Date(Date.now() - 3600*24*1000);
       const downtimeMinutes = 1;
       const endpoint = new EndpointStatus('id', 'userID', 'host', 'name', 'updated', 'uptime', [], from, downtimeMinutes, null);
       const availability = endpoint.getAvailability();
