@@ -12,7 +12,8 @@ export default class EndpointStatusMongoRepository implements EndpointStatusRepo
       uptime: endpoint.getUptime(),
       latestHealthChecks: endpoint.getLatestHealthChecks(),
       updated: endpoint.getUpdated(),
-      firstHealthCheckDate: endpoint.getFirstHealthCheckDate()
+      firstHealthCheckDate: endpoint.getFirstHealthCheckDate(),
+      serviceDownDate: endpoint.getServiceDownDate()
     })
     await EndpointMongoDocument.findOneAndUpdate({ _id: doc._id }, doc);
   }
@@ -28,7 +29,8 @@ export default class EndpointStatusMongoRepository implements EndpointStatusRepo
       document.uptime, 
       document.latestHealthChecks,
       document.firstHealthCheckDate,
-      document.downtimeMinutes
+      document.downtimeMinutes,
+      document.serviceDownDate
     ));
   }
 
@@ -43,7 +45,8 @@ export default class EndpointStatusMongoRepository implements EndpointStatusRepo
       document.uptime, 
       document.latestHealthChecks,
       document.firstHealthCheckDate,
-      document.downtimeMinutes
+      document.downtimeMinutes,
+      document.serviceDownDate
     ));
   }
 
@@ -60,7 +63,8 @@ export default class EndpointStatusMongoRepository implements EndpointStatusRepo
       document.uptime, 
       document.latestHealthChecks,
       document.firstHealthCheckDate,
-      document.downtimeMinutes
+      document.downtimeMinutes,
+      document.serviceDownDate
     )
   }
 

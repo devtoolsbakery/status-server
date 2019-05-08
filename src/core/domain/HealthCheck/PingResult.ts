@@ -15,4 +15,8 @@ export default class PingResult {
   getIp(): string { return this.ip }
   getTimeInMilliseconds(): number { return this.timeInMilliseconds }
   getDate(): Date { return this.date }
+
+  hasFailed(): boolean {
+    return !this.ip || this.timeInMilliseconds === 0;
+  }
 }

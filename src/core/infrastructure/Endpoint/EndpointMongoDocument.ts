@@ -10,6 +10,7 @@ export interface EndpointMongoDocument extends Document {
   updated: Date;
   downtimeMinutes: number;
   firstHealthCheckDate: Date;
+  serviceDownDate: Date;
 };
 
 export const EndpointMongoSchema = new Schema({
@@ -21,7 +22,8 @@ export const EndpointMongoSchema = new Schema({
   latestHealthChecks: [{ _id: false, status: String, timeInMs: Number, date: Date }],
   updated: { type: Date },
   downtimeMinutes: { type: Number, default: 0 },
-  firstHealthCheckDate: { type: Date }
+  firstHealthCheckDate: { type: Date },
+  serviceDownDate: { type: Date }
 });
 
 const EndpointMongoDocument = model<EndpointMongoDocument>('Endpoint', EndpointMongoSchema);

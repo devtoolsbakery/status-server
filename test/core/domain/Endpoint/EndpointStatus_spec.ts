@@ -50,7 +50,7 @@ describe('EndpointStatus entity', () => {
     it('should keep the latest 50 health checks', () => {
       const initialLastChecks = new Array(50);
       initialLastChecks.fill({}, 0, 49);
-      const endpoint = new EndpointStatus('id', 'userID', 'host', 'name', 'updated', 'uptime', initialLastChecks, new Date(), 0);
+      const endpoint = new EndpointStatus('id', 'userID', 'host', 'name', 'updated', 'uptime', initialLastChecks, new Date(), 0, null);
       endpoint.updateWithHealthCheck(new EndpointUpdatedEventData('id', 'ip', 'host', 123, new Date()));
       should(endpoint.getLatestHealthChecks()).have.lengthOf(50);
     })
@@ -58,8 +58,14 @@ describe('EndpointStatus entity', () => {
     it('should update the first health check date', () => {
       const endpoint = EndpointStatus.create('userId', 'test.com', 'Test website');
       endpoint.updateWithHealthCheck(new EndpointUpdatedEventData('id', 'ip', 'host', 123, new Date()));
-      should(endpoint.getFirstHealthCheckDate()).not.be.null();
-    });
+      should.exist(endpoint.getFirstHealthCheckDate());
+    })
+
+    it('should set the service down date', () => {
+      const endpoint = EndpointStatus.create('userId', 'test.com', 'Test website');
+      endpoint.updateWithHealthCheck(new EndpointUpdatedEventData('id', null, 'host', 0, new Date()));
+      should.exist(endpoint.getServiceDownDate());
+    })
   });
 
   context('Availability calculation', () => {
@@ -73,7 +79,7 @@ describe('EndpointStatus entity', () => {
     it('should calculate the availability from the first health check', () => {
       const from = new Date(Date.now() - 3600*24);
       const downtimeMinutes = 1;
-      const endpoint = new EndpointStatus('id', 'userID', 'host', 'name', 'updated', 'uptime', [], from, downtimeMinutes);
+      const endpoint = new EndpointStatus('id', 'userID', 'host', 'name', 'updated', 'uptime', [], from, downtimeMinutes, null);
       const availability = endpoint.getAvailability();
 
       should(availability).be.eql(99.9306);
