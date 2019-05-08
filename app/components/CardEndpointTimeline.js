@@ -1,26 +1,27 @@
 import React from 'react';
 import styled from 'styled-components';
 
+const theshold = 0.7;
 
 const CardEndpointTimeline = props => {
-  const theshold = 0.7;
-
+  const days = props.data.days;
+  
   return (
     <div className="flex">
-      {
-        props.data.days.map((dayValue, i) => {
-          if (dayValue < 1 && dayValue >= theshold) {
-            return <CardEndpointTimelineDayError key={i} />;
-          }
-          else if (dayValue < theshold) {
-            return <CardEndpointTimelineDayWarning key={i} />;
-          }
-          
-          return <CardEndpointTimelineDay key={i}  />;
-        })
-      }
+      {days.map(dayToComponent)}
     </div>
   )
+}
+
+const dayToComponent = (dayValue, i) => {
+  if (dayValue < 1 && dayValue >= theshold) {
+    return <CardEndpointTimelineDayError key={i} />;
+  }
+  else if (dayValue < theshold) {
+    return <CardEndpointTimelineDayWarning key={i} />;
+  }
+
+  return <CardEndpointTimelineDay key={i} />;
 }
 
 const CardEndpointTimelineDay = styled.div`
