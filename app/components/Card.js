@@ -5,6 +5,8 @@ import * as Utils from '../utils';
 
 import '../styles/components/Card.css';
 
+const timeAnimation = 300;
+
 class Card extends Component {
   constructor(props) {
     super();
@@ -12,14 +14,12 @@ class Card extends Component {
     this.state = {
       ready : false
     }
-
-    const timeAnimation = 300;
   }
 
   componentDidMount(){
     setTimeout(() => {
       this.setState({ready : 'ready'});
-    }, this.timeAnimation)
+    }, timeAnimation)
   }
 
   render() {
