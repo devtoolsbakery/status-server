@@ -11,7 +11,8 @@ export default class EndpointStatusMongoRepository implements EndpointStatusRepo
       userId: endpoint.getUserId(),
       uptime: endpoint.getUptime(),
       latestHealthChecks: endpoint.getLatestHealthChecks(),
-      updated: endpoint.getUpdated()
+      updated: endpoint.getUpdated(),
+      firstHealthCheckDate: endpoint.getFirstHealthCheckDate()
     })
     await EndpointMongoDocument.findOneAndUpdate({ _id: doc._id }, doc);
   }

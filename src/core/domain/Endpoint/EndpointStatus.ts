@@ -47,15 +47,27 @@ export default class EndpointStatus {
   getUpdated() { return this.updated; }
   getLatestHealthChecks() { return this.latestHealthChecks; }
   getUptime() { return this.uptime; }
+  getFirstHealthCheckDate() { return this.firstHealthCheckDate }
 
   updateWithHealthCheck(eventData: EndpointUpdatedEventData) {
+    this.updateLastHealthChecks(eventData);
+    this.updateFirstHealthCheckDate();
+    this.updated = new Date();
+  }
+
+  private updateLastHealthChecks(eventData: EndpointUpdatedEventData) {
     this.latestHealthChecks.unshift({
       date: eventData.date,
-      status: eventData.time === 0? FAILURE : OK,
+      status: eventData.time === 0 ? FAILURE : OK,
       timeInMs: eventData.time
     });
     this.latestHealthChecks.splice(TOTAL_LATEST_CHECKS);
-    this.updated = new Date();
+  }
+
+  private updateFirstHealthCheckDate() {
+    if (!this.firstHealthCheckDate) {
+      this.firstHealthCheckDate = new Date();
+    }
   }
 
   getAvailability(): number {    
