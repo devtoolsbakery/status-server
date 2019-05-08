@@ -24,26 +24,23 @@ class Card extends Component {
 
   render() {
     const { dayLimit, status, name } = this.props;
-    const data = Utils.loadCardMockData(dayLimit);
+    const endpoints = Utils.loadCardMockData(dayLimit);
 
-    // TODO: use status prop instead of classes or keep classes for theming with global vars?
     return (
       <CardView>
         <CardAnimation ready={this.state.ready}>
           <CardTitle className={`${status}`} status={status}>{name}</CardTitle>
           <CardEndPointContainer>
-            {
-              data.map((endpoint, i) => {
-                return(
-                  <CardEndpoint data={endpoint} key={i} />
-                )
-              })
-            }
+            {endpoints.map(endpointToComponent)}
           </CardEndPointContainer>
         </CardAnimation>
       </CardView>
     );
   }
+}
+
+const endpointToComponent = (endpointValue, i) => {
+  return <CardEndpoint data={endpointValue} key={i} />;
 }
 
 const CardView = styled.div`
