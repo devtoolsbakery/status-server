@@ -21,7 +21,7 @@ const dayToComponent = (dayValue, i) => {
     return <CardEndpointTimelineDayWarning key={i} />;
   }
 
-  return <CardEndpointTimelineDay key={i}  />;
+  return <CardEndpointTimelineDay key={i} />;
 }
 
 const CardEndpointTimelineDay = styled.div`
