@@ -1,6 +1,5 @@
 import * as should from 'should';
 import EndpointStatus from '../../../../src/core/domain/Endpoint/EndpointStatus';
-import { Statuses } from '../../../../src/core/domain/Endpoint/EndpointStatus';
 import { EndpointUpdatedEventData } from '../../../../src/core/domain/Endpoint/EndpointUpdatedEvent';
 
 describe('EndpointStatus entity', () => {
@@ -43,15 +42,34 @@ describe('EndpointStatus entity', () => {
 
   it('should add a health check information', () => {
     const endpoint = EndpointStatus.create('1234', 'test.com', 'Test website');
-    endpoint.updateWithHealthCheck(new EndpointUpdatedEventData('id', 'ip', 'host', 123));
+    endpoint.updateWithHealthCheck(new EndpointUpdatedEventData('id', 'ip', 'host', 123, new Date()));
     should(endpoint.getLatestHealthChecks()).not.be.empty();
   })
   
   it('should keep the latest 50 health checks', () => {
     const initialLastChecks = new Array(50);
-    initialLastChecks.fill({}, 0, 49)
-    const endpoint = new EndpointStatus('id', 'userID', 'host', 'name', 'updated', 'uptime', initialLastChecks);
-    endpoint.updateWithHealthCheck(new EndpointUpdatedEventData('id', 'ip', 'host', 123));
+    initialLastChecks.fill({}, 0, 49);
+    const endpoint = new EndpointStatus('id', 'userID', 'host', 'name', 'updated', 'uptime', initialLastChecks, new Date(), 0);
+    endpoint.updateWithHealthCheck(new EndpointUpdatedEventData('id', 'ip', 'host', 123, new Date()));
     should(endpoint.getLatestHealthChecks()).have.lengthOf(50);
+  })
+
+  context('Availability calculation', () => {
+    it('should return 0 if there is not first health check date', () => {
+      const endpoint = EndpointStatus.create('1', 'test.com', 'Test site');
+      const availability = endpoint.getAvailability();
+
+      should(availability).be.eql(0);
+    })
+
+    it('should calculate the availability from the first health check', () => {
+      const from = new Date(Date.now() - 3600*24);
+      const downtimeMinutes = 1;
+      const endpoint = new EndpointStatus('id', 'userID', 'host', 'name', 'updated', 'uptime', [], from, downtimeMinutes);
+      const availability = endpoint.getAvailability();
+
+      should(availability).be.eql(99.9306);
+    })
+
   })
 })

@@ -25,7 +25,9 @@ export default class EndpointStatusMongoRepository implements EndpointStatusRepo
       document.name, 
       document.updated, 
       document.uptime, 
-      document.latestHealthChecks
+      document.latestHealthChecks,
+      document.firstHealthCheckDate,
+      document.downtimeMinutes
     ));
   }
 
@@ -38,7 +40,9 @@ export default class EndpointStatusMongoRepository implements EndpointStatusRepo
       document.name, 
       document.updated, 
       document.uptime, 
-      document.latestHealthChecks
+      document.latestHealthChecks,
+      document.firstHealthCheckDate,
+      document.downtimeMinutes
     ));
   }
 
@@ -53,7 +57,9 @@ export default class EndpointStatusMongoRepository implements EndpointStatusRepo
       document.name, 
       document.updated, 
       document.uptime, 
-      document.latestHealthChecks
+      document.latestHealthChecks,
+      document.firstHealthCheckDate,
+      document.downtimeMinutes
     )
   }
 
