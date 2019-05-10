@@ -5,21 +5,24 @@ import * as Utils from '../utils';
 
 import '../styles/components/Card.css';
 
-const timeAnimation = 300;
 
 class Card extends Component {
   constructor(props) {
     super();
 
     this.state = {
-      ready : false
+      ready     : false,
+      endpoints : []
     }
   }
 
   componentDidMount(){
+    this.loadData(1);
+
+    const animationTime = 300;
     setTimeout(() => {
       this.setState({ready : 'ready'});
-    }, timeAnimation)
+    }, animationTime);
   }
 
   render() {
@@ -36,6 +39,21 @@ class Card extends Component {
         </CardAnimation>
       </CardView>
     );
+  }
+
+  loadData(userId) {
+    const host = 'http://localhost:3000/';
+    const path = `${userId}/endpoints`;
+    const input = host + path;
+  
+    console.log(`query: ${input}`);
+  
+    fetch(input)
+      .then(res => res.json())
+      .then(data => {
+        console.log(data.endpoints);
+        this.setState({ endpoints : data.endpoints });
+      });
   }
 }
 
