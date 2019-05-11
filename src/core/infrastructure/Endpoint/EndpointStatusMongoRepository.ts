@@ -1,5 +1,5 @@
 import EndpointStatusRepository from "../../domain/Endpoint/EndpointStatusRepository";
-import EndpointStatus from "../../domain/Endpoint/EndpointStatus";
+import Endpoint from "../../domain/Endpoint/Endpoint";
 import EndpointMongoDocument from "./EndpointMongoDocument";
 import EndpointId from "../../domain/Endpoint/EndpointId";
 import UserId from "../../domain/Shared/UserId";
@@ -8,7 +8,7 @@ import EndpointName from "../../domain/Endpoint/EndpointName";
 
 export default class EndpointStatusMongoRepository implements EndpointStatusRepository {
   
-  async save(endpoint: EndpointStatus): Promise<void> {
+  async save(endpoint: Endpoint): Promise<void> {
     const doc = new EndpointMongoDocument({
       _id: endpoint.getId().getValue(),
       host: endpoint.getUrl().getValue(),
@@ -23,9 +23,9 @@ export default class EndpointStatusMongoRepository implements EndpointStatusRepo
     await EndpointMongoDocument.findOneAndUpdate({ _id: doc._id }, doc);
   }
   
-  async findByUserId(userId: UserId): Promise<EndpointStatus[]> {
+  async findByUserId(userId: UserId): Promise<Endpoint[]> {
     const documents = await EndpointMongoDocument.find({ userId: userId.getValue() });
-    return documents.map(document => new EndpointStatus(
+    return documents.map(document => new Endpoint(
       new EndpointId(document._id),
       new UserId(document.userId), 
       new EndpointUrl(document.url),
@@ -38,9 +38,9 @@ export default class EndpointStatusMongoRepository implements EndpointStatusRepo
     ));
   }
 
-  async findAll(): Promise<EndpointStatus[]> {
+  async findAll(): Promise<Endpoint[]> {
     const documents = await EndpointMongoDocument.find({});
-    return documents.map(document => new EndpointStatus(
+    return documents.map(document => new Endpoint(
       new EndpointId(document._id),
       new UserId(document.userId), 
       new EndpointUrl(document.url),
@@ -53,11 +53,11 @@ export default class EndpointStatusMongoRepository implements EndpointStatusRepo
     ));
   }
 
-  async findById(id: EndpointId): Promise<EndpointStatus> {
+  async findById(id: EndpointId): Promise<Endpoint> {
     const document = await EndpointMongoDocument.findById(id.getValue());
     if (document == null) return null;
 
-    return new EndpointStatus(
+    return new Endpoint(
       new EndpointId(document._id),
       new UserId(document.userId), 
       new EndpointUrl(document.url),

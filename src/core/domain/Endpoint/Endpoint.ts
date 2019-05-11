@@ -11,7 +11,7 @@ const OK = 'OK';
 
 const AVAILABILITY_DECIMALS = 4;
 
-export default class EndpointStatus {
+export default class Endpoint {
   private id: EndpointId;
   private userId: UserId;
   private url: EndpointUrl;
@@ -40,7 +40,7 @@ export default class EndpointStatus {
     assert(url, 'The url is mandatory');
     assert(name, 'The name is mandatory');
 
-    return new EndpointStatus(EndpointId.generate(), userId, url, name, new Date(), [], null, 0, null);
+    return new Endpoint(EndpointId.generate(), userId, url, name, new Date(), [], null, 0, null);
   }
 
   getId() { return this.id; }

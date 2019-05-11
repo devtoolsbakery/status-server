@@ -3,11 +3,11 @@
 import PingService from '../domain/HealthCheck/PingService';
 import PingResult from '../domain/HealthCheck/PingResult';
 import * as ping from 'ping';
-import EndpointStatus from '../domain/Endpoint/EndpointStatus';
+import Endpoint from '../domain/Endpoint/Endpoint';
 
 export default class PingServiceImpl implements PingService {
 
-  async ping(endpointStatus: EndpointStatus): Promise<PingResult> {
+  async ping(endpointStatus: Endpoint): Promise<PingResult> {
     const config = {};
     const host = endpointStatus.getUrl().getValue();
     const result = await ping.promise.probe(host, config);

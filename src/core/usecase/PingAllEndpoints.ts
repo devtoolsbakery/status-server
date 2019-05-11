@@ -2,7 +2,7 @@ import EndpointStatusRepository from '../domain/Endpoint/EndpointStatusRepositor
 import PingService from '../domain/HealthCheck/PingService'
 import EventPublisher from '../domain/Shared/event/EventPublisher';
 import EndpointUpdatedEvent from '../domain/Endpoint/EndpointUpdatedEvent';
-import EndpointStatus from '../domain/Endpoint/EndpointStatus';
+import Endpoint from '../domain/Endpoint/Endpoint';
 
 export default class PingAllEndpoints {
   private pingService: PingService;
@@ -20,7 +20,7 @@ export default class PingAllEndpoints {
   }
 
   async execute() {
-    const iterator = async (endpointStatus: EndpointStatus) => {
+    const iterator = async (endpointStatus: Endpoint) => {
       const pingResult = await this.pingService.ping(endpointStatus);
       this.eventPublisher.publish(EndpointUpdatedEvent.from(endpointStatus.getId().getValue(), pingResult));
     };

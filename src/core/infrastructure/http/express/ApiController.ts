@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import container from '../../DependencyInjection';
 import FindEndpointsForUser from '../../../usecase/FindEndpointsForUser';
-import EndpointStatus from '../../../domain/Endpoint/EndpointStatus';
+import Endpoint from '../../../domain/Endpoint/Endpoint';
 
 const findEndpointsForUser = container.get('core.usecase.FindEndpointsForUser', FindEndpointsForUser);
 
@@ -24,7 +24,7 @@ export default class ApiController {
     }
   }
 
-  private map(endpoints: EndpointStatus[]) {
+  private map(endpoints: Endpoint[]) {
     return endpoints.map(endpoint => ({
       name: endpoint.getName(),
       uptime: endpoint.getAvailability(),

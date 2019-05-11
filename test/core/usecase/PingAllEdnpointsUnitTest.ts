@@ -4,7 +4,7 @@ import PingService from "../../../src/core/domain/HealthCheck/PingService";
 import EventPublisher from "../../../src/core/domain/Shared/event/EventPublisher";
 import PingServiceImpl from "../../../src/core/infrastructure/PingService";
 import PubSub from "../../../src/core/infrastructure/PubSub";
-import EndpointStatus from "../../../src/core/domain/Endpoint/EndpointStatus";
+import Endpoint from "../../../src/core/domain/Endpoint/Endpoint";
 import PingResult from "../../../src/core/domain/HealthCheck/PingResult";
 import PingAllEndpoints from "../../../src/core/usecase/PingAllEndpoints";
 import EndpointStatusMongoRepository from "../../../src/core/infrastructure/Endpoint/EndpointStatusMongoRepository";
@@ -17,7 +17,7 @@ const endpointId = EndpointId.generate();
 const userId = new UserId('userId');
 const url = new EndpointUrl('ivanguardado.com');
 const name = new EndpointName('Test website');
-const endpoint = new EndpointStatus(endpointId, userId, url, name, new Date(), [], new Date(), 0, null);
+const endpoint = new Endpoint(endpointId, userId, url, name, new Date(), [], new Date(), 0, null);
 
 export default class PingAllEndpointsUnitTest {
 
@@ -37,7 +37,7 @@ export default class PingAllEndpointsUnitTest {
   
   whenFailedfulPing() {
     const pingResult = new PingResult('error.com', null, 0, new Date());
-    when(this.mockedPingService.ping(anyOfClass(EndpointStatus))).thenResolve(pingResult);
+    when(this.mockedPingService.ping(anyOfClass(Endpoint))).thenResolve(pingResult);
   }
 
   eventPublisherShouldEmitEvent() {
@@ -45,7 +45,7 @@ export default class PingAllEndpointsUnitTest {
   }
 
   repositoryShouldSave() {
-    verify(this.mockedEndpointStatusRepository.save(anyOfClass(EndpointStatus))).twice();
+    verify(this.mockedEndpointStatusRepository.save(anyOfClass(Endpoint))).twice();
   }
 
   buildPingAllEndpointsUseCase(): PingAllEndpoints {
@@ -68,11 +68,11 @@ export default class PingAllEndpointsUnitTest {
     return instance(this.mockedPubSub);
   }
 
-  private whenRepositoryFind(endpoints: EndpointStatus[]) {
+  private whenRepositoryFind(endpoints: Endpoint[]) {
     when(this.mockedEndpointStatusRepository.findAll()).thenResolve(endpoints);
   }
 
   private whenSuccessfulPing(pingResult: PingResult) {
-    when(this.mockedPingService.ping(anyOfClass(EndpointStatus))).thenResolve(pingResult);
+    when(this.mockedPingService.ping(anyOfClass(Endpoint))).thenResolve(pingResult);
   }
 }
