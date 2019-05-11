@@ -1,5 +1,5 @@
-import Standalone from './src/core/infrastructure/application/Standalone';
+import PingWorker from './src/core/infrastructure/application/PingWorker';
 import WebApi from './src/core/infrastructure/application/WebApi';
 
-new Standalone().run();
+new PingWorker().run();
 new WebApi().run();
