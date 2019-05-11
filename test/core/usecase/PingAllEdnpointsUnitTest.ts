@@ -9,7 +9,7 @@ import PingResult from "../../../src/core/domain/HealthCheck/PingResult";
 import PingAllEndpoints from "../../../src/core/usecase/PingAllEndpoints";
 import EndpointStatusMongoRepository from "../../../src/core/infrastructure/Endpoint/EndpointStatusMongoRepository";
 
-const endpoint = new EndpointStatus('1', 'ivangc', 'ivanguardado.com', 'Ivan Site', new Date(), 100, []);
+const endpoint = new EndpointStatus('1', 'ivangc', 'ivanguardado.com', 'Ivan Site', new Date(), [], new Date(), 0, null);
 
 export default class PingAllEndpointsUnitTest {
 

@@ -9,9 +9,11 @@ export default class EndpointStatusMongoRepository implements EndpointStatusRepo
       _id: endpoint.getId(),
       host: endpoint.getHost(),
       userId: endpoint.getUserId(),
-      uptime: endpoint.getUptime(),
       latestHealthChecks: endpoint.getLatestHealthChecks(),
-      updated: endpoint.getUpdated()
+      updated: endpoint.getUpdated(),
+      firstHealthCheckDate: endpoint.getFirstHealthCheckDate(),
+      serviceDownDate: endpoint.getServiceDownDate(),
+      downtimeMinutes: endpoint.getDowntimeMinutes()
     })
     await EndpointMongoDocument.findOneAndUpdate({ _id: doc._id }, doc);
   }
@@ -24,8 +26,10 @@ export default class EndpointStatusMongoRepository implements EndpointStatusRepo
       document.host, 
       document.name, 
       document.updated, 
-      document.uptime, 
-      document.latestHealthChecks
+      document.latestHealthChecks,
+      document.firstHealthCheckDate,
+      document.downtimeMinutes,
+      document.serviceDownDate
     ));
   }
 
@@ -37,8 +41,10 @@ export default class EndpointStatusMongoRepository implements EndpointStatusRepo
       document.host, 
       document.name, 
       document.updated, 
-      document.uptime, 
-      document.latestHealthChecks
+      document.latestHealthChecks,
+      document.firstHealthCheckDate,
+      document.downtimeMinutes,
+      document.serviceDownDate
     ));
   }
 
@@ -52,8 +58,10 @@ export default class EndpointStatusMongoRepository implements EndpointStatusRepo
       document.host, 
       document.name, 
       document.updated, 
-      document.uptime, 
-      document.latestHealthChecks
+      document.latestHealthChecks,
+      document.firstHealthCheckDate,
+      document.downtimeMinutes,
+      document.serviceDownDate
     )
   }
 

@@ -1,5 +1,4 @@
 import Event from '../Shared/event/Event';
-import EndpointStatus from "./EndpointStatus";
 import PingResult from '../HealthCheck/PingResult';
 
 export class EndpointUpdatedEventData {
@@ -31,6 +30,9 @@ export class EndpointUpdatedEventData {
     }
     public get date(): Date {
       return this._date;
+    }
+    public isFailed(): boolean {
+      return !this._ip || this._time === 0;
     }
 }
 
