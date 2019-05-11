@@ -3,13 +3,14 @@ import EndpointStatus from "../../domain/Endpoint/EndpointStatus";
 import EndpointMongoDocument from "./EndpointMongoDocument";
 import EndpointId from "../../domain/Endpoint/EndpointId";
 import UserId from "../../domain/Shared/UserId";
+import EndpointUrl from "../../domain/Endpoint/EndpointUrl";
 
 export default class EndpointStatusMongoRepository implements EndpointStatusRepository {
   
   async save(endpoint: EndpointStatus): Promise<void> {
     const doc = new EndpointMongoDocument({
       _id: endpoint.getId().getValue(),
-      host: endpoint.getHost(),
+      host: endpoint.getUrl().getValue(),
       userId: endpoint.getUserId().getValue(),
       latestHealthChecks: endpoint.getLatestHealthChecks(),
       updated: endpoint.getUpdated(),
@@ -25,7 +26,7 @@ export default class EndpointStatusMongoRepository implements EndpointStatusRepo
     return documents.map(document => new EndpointStatus(
       new EndpointId(document._id),
       new UserId(document.userId), 
-      document.host, 
+      new EndpointUrl(document.url),
       document.name, 
       document.updated, 
       document.latestHealthChecks,
@@ -40,7 +41,7 @@ export default class EndpointStatusMongoRepository implements EndpointStatusRepo
     return documents.map(document => new EndpointStatus(
       new EndpointId(document._id),
       new UserId(document.userId), 
-      document.host, 
+      new EndpointUrl(document.url),
       document.name, 
       document.updated, 
       document.latestHealthChecks,
@@ -57,7 +58,7 @@ export default class EndpointStatusMongoRepository implements EndpointStatusRepo
     return new EndpointStatus(
       new EndpointId(document._id),
       new UserId(document.userId), 
-      document.host, 
+      new EndpointUrl(document.url),
       document.name, 
       document.updated, 
       document.latestHealthChecks,

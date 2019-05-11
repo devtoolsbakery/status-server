@@ -9,9 +9,13 @@ import PingResult from "../../../src/core/domain/HealthCheck/PingResult";
 import PingAllEndpoints from "../../../src/core/usecase/PingAllEndpoints";
 import EndpointStatusMongoRepository from "../../../src/core/infrastructure/Endpoint/EndpointStatusMongoRepository";
 import EndpointId from "../../../src/core/domain/Endpoint/EndpointId";
+import UserId from "../../../src/core/domain/Shared/UserId";
+import EndpointUrl from "../../../src/core/domain/Endpoint/EndpointUrl";
 
 const endpointId = EndpointId.generate();
-const endpoint = new EndpointStatus(endpointId, 'ivangc', 'ivanguardado.com', 'Ivan Site', new Date(), [], new Date(), 0, null);
+const userId = new UserId('userId');
+const url = new EndpointUrl('ivanguardado.com');
+const endpoint = new EndpointStatus(endpointId, userId, url, 'Ivan Site', new Date(), [], new Date(), 0, null);
 
 export default class PingAllEndpointsUnitTest {
 

@@ -3,7 +3,7 @@ import { Document, Schema, model} from 'mongoose';
 export interface EndpointMongoDocument extends Document {
   _id: string;
   userId: string; 
-  host: number;
+  url: string;
   name: string;
   latestHealthChecks: [{status: string, timeInMs: number, date: Date }];
   updated: Date;
@@ -15,7 +15,7 @@ export interface EndpointMongoDocument extends Document {
 export const EndpointMongoSchema = new Schema({
   _id: { type: String, required: true },
   userId: { type:String, required: true },
-  host: { type:String, required: true },
+  url: { type:String, required: true },
   name: { type:String, required: true },
   latestHealthChecks: [{ _id: false, status: String, timeInMs: Number, date: Date }],
   updated: { type: Date },
