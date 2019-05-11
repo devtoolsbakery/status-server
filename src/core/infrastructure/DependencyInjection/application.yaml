@@ -1,9 +1,4 @@
 services:
-  core.infrastructure.repository.FireBaseConnection:
-    factory:
-      class: ../repository/Connection
-      method: getConnection
-
   core.infrastructure.repository.EndpointStatusRepository:
     class: ../Endpoint/EndpointStatusMongoRepository
 
