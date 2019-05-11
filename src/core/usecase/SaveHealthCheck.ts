@@ -1,6 +1,7 @@
 import HealthCheckRepository from "../domain/HealthCheck/HealthCheckRepository";
 import EndpointUpdatedEvent, { EndpointUpdatedEventData } from "../domain/Endpoint/EndpointUpdatedEvent";
 import EndpointStatusRepository from "../domain/Endpoint/EndpointStatusRepository";
+import EndpointId from "../domain/Endpoint/EndpointId";
 
 export default class SaveEndpointUpdatedEvent {
 
@@ -22,7 +23,8 @@ export default class SaveEndpointUpdatedEvent {
     try {
       await this.healthCheckRepository.save(eventData);
 
-      const endpoint = await this.endpointStatusRepository.findById(eventData.id);
+      const endpointId = new EndpointId(eventData.id);
+      const endpoint = await this.endpointStatusRepository.findById(endpointId);
       if (endpoint) {
         endpoint.updateWithHealthCheck(eventData);
         this.endpointStatusRepository.save(endpoint);

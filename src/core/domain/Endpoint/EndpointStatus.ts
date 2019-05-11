@@ -1,4 +1,5 @@
 import { EndpointUpdatedEventData } from './EndpointUpdatedEvent';
+import EndpointId from './EndpointId';
 
 const assert = require('assert');
 const uuid = require('uuid/v4');
@@ -9,18 +10,23 @@ const OK = 'OK';
 
 const AVAILABILITY_DECIMALS = 4;
 
-export default class EndpointStatus {
-  id: string;
-  userId: string;
-  host: string;
-  name: string;
-  updated: Date;
-  latestHealthChecks: [{ date: Date, status: string, timeInMs: number }];
-  firstHealthCheckDate: Date;
-  downtimeMinutes: number;
-  serviceDownDate: Date;
+class UserId {}
+class EndpointHost {}
+class EndpointName {}
 
-  constructor(id, userId, host, name, updated, lastHealthChecks, firstHealthCheckDate, downtimeMinutes, serviceDownDate) {
+export default class EndpointStatus {
+  private id: EndpointId;
+  private userId: UserId;
+  private host: EndpointHost;
+  private name: EndpointName;
+  
+  private updated: Date;
+  private latestHealthChecks: [{ date: Date, status: string, timeInMs: number }];
+  private firstHealthCheckDate: Date;
+  private downtimeMinutes: number;
+  private serviceDownDate: Date;
+
+  constructor(id: EndpointId, userId: UserId, host: EndpointHost, name: EndpointName, updated: Date, lastHealthChecks, firstHealthCheckDate, downtimeMinutes, serviceDownDate) {
     this.id = id;
     this.userId = userId;
     this.host = host;
@@ -32,12 +38,12 @@ export default class EndpointStatus {
     this.serviceDownDate = serviceDownDate || null;
   }
 
-  static create(userId, host, name) {
+  static create(userId: UserId, host: EndpointHost, name: EndpointName) {
     assert(userId, 'The userId is mandatory');
     assert(host, 'The host is mandatory');
     assert(name, 'The name is mandatory');
 
-    return new EndpointStatus(uuid(), userId, host, name, new Date(), [], null, 0, null);
+    return new EndpointStatus(EndpointId.generate(), userId, host, name, new Date(), [], null, 0, null);
   }
 
   getId() { return this.id; }
