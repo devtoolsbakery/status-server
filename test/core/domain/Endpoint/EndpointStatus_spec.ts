@@ -77,6 +77,17 @@ describe('EndpointStatus entity', () => {
       endpoint.getDowntimeMinutes().should.be.greaterThan(initialMinutesDown);
       endpoint.getServiceDownDate().getTime().should.be.greaterThanOrEqual(now);
     })
+
+    it('should restore the service down date when the API is OK again', () => {
+      const now = Date.now();
+      const lastFailedDate = new Date(now - (60 * 1000));
+      const initialMinutesDown = 10;
+      const endpoint = new EndpointStatus('id', 'userID', 'host', 'name', 'updated', 'uptime', [], new Date(), initialMinutesDown, lastFailedDate);
+      endpoint.updateWithHealthCheck(new EndpointUpdatedEventData('id', 'ip', 'host', 100, new Date()));
+      
+      endpoint.getDowntimeMinutes().should.be.greaterThan(initialMinutesDown);
+      should.not.exist(endpoint.getServiceDownDate());
+    });
   });
 
   context('Availability calculation', () => {

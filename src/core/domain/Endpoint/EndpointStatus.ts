@@ -66,6 +66,7 @@ export default class EndpointStatus {
     if (eventData.isFailed()) {
       this.serviceDownDate = new Date();
     }
+    else this.serviceDownDate = null;
   }
 
   private increaseDowntimeMinutes() {
