@@ -1,8 +1,7 @@
 import { EndpointUpdatedEventData } from './EndpointUpdatedEvent';
 import EndpointId from './EndpointId';
 import UserId from '../Shared/UserId';
-
-const assert = require('assert');
+import { strict as assert } from 'assert';
 
 const TOTAL_LATEST_CHECKS = 50;
 const FAILURE = 'FAILURE';
