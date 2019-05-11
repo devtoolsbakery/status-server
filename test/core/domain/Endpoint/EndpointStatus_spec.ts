@@ -50,7 +50,7 @@ describe('EndpointStatus entity', () => {
     it('should keep the latest 50 health checks', () => {
       const initialLastChecks = new Array(50);
       initialLastChecks.fill({}, 0, 49);
-      const endpoint = new EndpointStatus('id', 'userID', 'host', 'name', 'updated', 'uptime', initialLastChecks, new Date(), 0, null);
+      const endpoint = new EndpointStatus('id', 'userID', 'host', 'name', 'updated', initialLastChecks, new Date(), 0, null);
       endpoint.updateWithHealthCheck(new EndpointUpdatedEventData('id', 'ip', 'host', 123, new Date()));
       should(endpoint.getLatestHealthChecks()).have.lengthOf(50);
     })
@@ -71,7 +71,7 @@ describe('EndpointStatus entity', () => {
       const now = Date.now();
       const lastFailedDate = new Date(now - (60 * 1000));
       const initialMinutesDown = 10;
-      const endpoint = new EndpointStatus('id', 'userID', 'host', 'name', 'updated', 'uptime', [], new Date(), initialMinutesDown, lastFailedDate);
+      const endpoint = new EndpointStatus('id', 'userID', 'host', 'name', 'updated', [], new Date(), initialMinutesDown, lastFailedDate);
       endpoint.updateWithHealthCheck(new EndpointUpdatedEventData('id', null, 'host', 1, new Date()));
       
       endpoint.getDowntimeMinutes().should.be.greaterThan(initialMinutesDown);
@@ -82,7 +82,7 @@ describe('EndpointStatus entity', () => {
       const now = Date.now();
       const lastFailedDate = new Date(now - (60 * 1000));
       const initialMinutesDown = 10;
-      const endpoint = new EndpointStatus('id', 'userID', 'host', 'name', 'updated', 'uptime', [], new Date(), initialMinutesDown, lastFailedDate);
+      const endpoint = new EndpointStatus('id', 'userID', 'host', 'name', 'updated', [], new Date(), initialMinutesDown, lastFailedDate);
       endpoint.updateWithHealthCheck(new EndpointUpdatedEventData('id', 'ip', 'host', 100, new Date()));
       
       endpoint.getDowntimeMinutes().should.be.greaterThan(initialMinutesDown);
@@ -101,7 +101,7 @@ describe('EndpointStatus entity', () => {
     it('should calculate the availability from the first health check', () => {
       const from = new Date(Date.now() - 3600*24*1000);
       const downtimeMinutes = 1;
-      const endpoint = new EndpointStatus('id', 'userID', 'host', 'name', 'updated', 'uptime', [], from, downtimeMinutes, null);
+      const endpoint = new EndpointStatus('id', 'userID', 'host', 'name', 'updated', [], from, downtimeMinutes, null);
       const availability = endpoint.getAvailability();
 
       should(availability).be.eql(99.9306);

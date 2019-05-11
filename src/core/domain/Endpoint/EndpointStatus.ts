@@ -15,19 +15,17 @@ export default class EndpointStatus {
   host: string;
   name: string;
   updated: Date;
-  uptime: number;
   latestHealthChecks: [{ date: Date, status: string, timeInMs: number }];
   firstHealthCheckDate: Date;
   downtimeMinutes: number;
   serviceDownDate: Date;
 
-  constructor(id, userId, host, name, updated, uptime, lastHealthChecks, firstHealthCheckDate, downtimeMinutes, serviceDownDate) {
+  constructor(id, userId, host, name, updated, lastHealthChecks, firstHealthCheckDate, downtimeMinutes, serviceDownDate) {
     this.id = id;
     this.userId = userId;
     this.host = host;
     this.name = name;
     this.updated = updated;
-    this.uptime = uptime;
     this.latestHealthChecks = lastHealthChecks;
     this.firstHealthCheckDate = firstHealthCheckDate;
     this.downtimeMinutes = downtimeMinutes;
@@ -39,7 +37,7 @@ export default class EndpointStatus {
     assert(host, 'The host is mandatory');
     assert(name, 'The name is mandatory');
 
-    return new EndpointStatus(uuid(), userId, host, name, new Date(), 100, [], null, 0, null);
+    return new EndpointStatus(uuid(), userId, host, name, new Date(), [], null, 0, null);
   }
 
   getId() { return this.id; }
@@ -48,7 +46,6 @@ export default class EndpointStatus {
   getName() { return this.name; }
   getUpdated() { return this.updated; }
   getLatestHealthChecks() { return this.latestHealthChecks; }
-  getUptime() { return this.uptime; }
   getFirstHealthCheckDate() { return this.firstHealthCheckDate }
   getServiceDownDate() { return this.serviceDownDate; }
   getDowntimeMinutes() { return this.downtimeMinutes }
