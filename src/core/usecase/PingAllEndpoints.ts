@@ -3,7 +3,6 @@ import PingService from '../domain/HealthCheck/PingService'
 import EventPublisher from '../domain/Shared/event/EventPublisher';
 import EndpointUpdatedEvent from '../domain/Endpoint/EndpointUpdatedEvent';
 import EndpointStatus from '../domain/Endpoint/EndpointStatus';
-import PingResult from '../domain/HealthCheck/PingResult';
 
 export default class PingAllEndpoints {
   private pingService: PingService;

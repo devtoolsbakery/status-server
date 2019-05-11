@@ -4,6 +4,7 @@ import EndpointMongoDocument from "./EndpointMongoDocument";
 import EndpointId from "../../domain/Endpoint/EndpointId";
 import UserId from "../../domain/Shared/UserId";
 import EndpointUrl from "../../domain/Endpoint/EndpointUrl";
+import EndpointName from "../../domain/Endpoint/EndpointName";
 
 export default class EndpointStatusMongoRepository implements EndpointStatusRepository {
   
@@ -12,6 +13,7 @@ export default class EndpointStatusMongoRepository implements EndpointStatusRepo
       _id: endpoint.getId().getValue(),
       host: endpoint.getUrl().getValue(),
       userId: endpoint.getUserId().getValue(),
+      name: endpoint.getName().getValue(),
       latestHealthChecks: endpoint.getLatestHealthChecks(),
       updated: endpoint.getUpdated(),
       firstHealthCheckDate: endpoint.getFirstHealthCheckDate(),
@@ -27,7 +29,7 @@ export default class EndpointStatusMongoRepository implements EndpointStatusRepo
       new EndpointId(document._id),
       new UserId(document.userId), 
       new EndpointUrl(document.url),
-      document.name, 
+      new EndpointName(document.name),
       document.updated, 
       document.latestHealthChecks,
       document.firstHealthCheckDate,
@@ -42,7 +44,7 @@ export default class EndpointStatusMongoRepository implements EndpointStatusRepo
       new EndpointId(document._id),
       new UserId(document.userId), 
       new EndpointUrl(document.url),
-      document.name, 
+      new EndpointName(document.name),
       document.updated, 
       document.latestHealthChecks,
       document.firstHealthCheckDate,
@@ -59,7 +61,7 @@ export default class EndpointStatusMongoRepository implements EndpointStatusRepo
       new EndpointId(document._id),
       new UserId(document.userId), 
       new EndpointUrl(document.url),
-      document.name, 
+      new EndpointName(document.name),
       document.updated, 
       document.latestHealthChecks,
       document.firstHealthCheckDate,

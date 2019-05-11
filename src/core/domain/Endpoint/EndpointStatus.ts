@@ -3,14 +3,13 @@ import EndpointId from './EndpointId';
 import UserId from '../Shared/UserId';
 import { strict as assert } from 'assert';
 import EndpointUrl from './EndpointUrl';
+import EndpointName from './EndpointName';
 
 const TOTAL_LATEST_CHECKS = 50;
 const FAILURE = 'FAILURE';
 const OK = 'OK';
 
 const AVAILABILITY_DECIMALS = 4;
-
-class EndpointName {}
 
 export default class EndpointStatus {
   private id: EndpointId;

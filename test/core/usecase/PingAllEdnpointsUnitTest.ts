@@ -11,11 +11,13 @@ import EndpointStatusMongoRepository from "../../../src/core/infrastructure/Endp
 import EndpointId from "../../../src/core/domain/Endpoint/EndpointId";
 import UserId from "../../../src/core/domain/Shared/UserId";
 import EndpointUrl from "../../../src/core/domain/Endpoint/EndpointUrl";
+import EndpointName from "../../../src/core/domain/Endpoint/EndpointName";
 
 const endpointId = EndpointId.generate();
 const userId = new UserId('userId');
 const url = new EndpointUrl('ivanguardado.com');
-const endpoint = new EndpointStatus(endpointId, userId, url, 'Ivan Site', new Date(), [], new Date(), 0, null);
+const name = new EndpointName('Test website');
+const endpoint = new EndpointStatus(endpointId, userId, url, name, new Date(), [], new Date(), 0, null);
 
 export default class PingAllEndpointsUnitTest {
 
