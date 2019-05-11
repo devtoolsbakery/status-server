@@ -1,4 +1,5 @@
-import { EndpointUpdatedEventData } from './EndpointUpdatedEvent';
+import { EndpointUpdatedEventData } from "../Endpoint/EndpointUpdatedEvent";
+
 
 export default interface EndpointUpdatedEventRepository {
   save(event: EndpointUpdatedEventData): Promise<void>;
