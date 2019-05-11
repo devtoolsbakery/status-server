@@ -6,15 +6,17 @@ import EndpointStatus from '../../../src/core/domain/Endpoint/EndpointStatus';
 import HealthCheckMongoRepository from '../../../src/core/infrastructure/HealthCheck/HealthCheckMongoRepository';
 import EndpointStatusMongoRepository from '../../../src/core/infrastructure/Endpoint/EndpointStatusMongoRepository';
 import PingResult from '../../../src/core/domain/HealthCheck/PingResult';
+import UserId from '../../../src/core/domain/Shared/UserId';
 
 describe('Scenario: Saved endpoint updated event', () => {
   
   const mockHealthCheckMongoRepository = mock(HealthCheckMongoRepository)
   const mockEndpointStatusMongoRepository = mock(EndpointStatusMongoRepository)
+  const username = UserId.generate();
   it('should save the event in the collection', async () => {
     const healthCheckMongoRepository = instance(mockHealthCheckMongoRepository);
     const endpointRepository = instance(mockEndpointStatusMongoRepository);
-    const endpointStatus = EndpointStatus.create('testUsername', 'test.com', 'Test');
+    const endpointStatus = EndpointStatus.create(username, 'test.com', 'Test');
     const pingResult = new PingResult('test.com', '127.0.0.1', 120, new Date());
     const event = EndpointUpdatedEvent.from(endpointStatus.getId().getValue(), pingResult);
     
@@ -25,7 +27,7 @@ describe('Scenario: Saved endpoint updated event', () => {
   })
 
   it('should add the check to the EndpointStatus latestHealthChecks', async () => {
-    const endpointStatus = EndpointStatus.create('testUsername', 'test.com', 'Test');
+    const endpointStatus = EndpointStatus.create(username, 'test.com', 'Test');
     const healthCheckMongoRepository = instance(mockHealthCheckMongoRepository);
     const endpointRepository = instance(mockEndpointStatusMongoRepository);
     const pingResult = new PingResult('test.com', '127.0.0.1', 120, new Date());

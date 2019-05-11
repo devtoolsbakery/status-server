@@ -1,8 +1,8 @@
 import { EndpointUpdatedEventData } from './EndpointUpdatedEvent';
 import EndpointId from './EndpointId';
+import UserId from '../Shared/UserId';
 
 const assert = require('assert');
-const uuid = require('uuid/v4');
 
 const TOTAL_LATEST_CHECKS = 50;
 const FAILURE = 'FAILURE';
@@ -10,7 +10,6 @@ const OK = 'OK';
 
 const AVAILABILITY_DECIMALS = 4;
 
-class UserId {}
 class EndpointHost {}
 class EndpointName {}
 

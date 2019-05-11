@@ -1,4 +1,5 @@
 import EndpointStatusRepository from "../domain/Endpoint/EndpointStatusRepository";
+import UserId from "../domain/Shared/UserId";
 
 export default class FindEndpointsForUser {
 
@@ -8,8 +9,9 @@ export default class FindEndpointsForUser {
     this.endpointStatusRepository = endpointStatusRepository;
   }
 
-  async execute(username: string): Promise<any> {
-    const endpoints = await this.endpointStatusRepository.findByUsername(username);
+  async execute(userIdValue: string): Promise<any> {
+    const userId = new UserId(userIdValue);
+    const endpoints = await this.endpointStatusRepository.findByUserId(userId);
     return endpoints;
   }
 }
