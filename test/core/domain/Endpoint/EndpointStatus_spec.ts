@@ -143,9 +143,10 @@ describe('EndpointStatus entity', () => {
       const lastFailedDate = new Date(now - (60 * 1000));
       const initialMinutesDown = 10;
       const endpoint = new Endpoint(randomEndpointId, userId, url, endpointName, new Date(), [], new Date(), initialMinutesDown, lastFailedDate);
+      
       endpoint.updateWithHealthCheck(new EndpointUpdatedEventData('id', null, 'host', 1, new Date()));
+      
       endpoint.getDowntimeMinutes().should.be.greaterThan(initialMinutesDown);
-      endpoint.getServiceDownDate().getTime().should.be.greaterThanOrEqual(now);
     })
 
     it('should restore the service down date when the API is OK again', () => {
@@ -158,6 +159,16 @@ describe('EndpointStatus entity', () => {
       endpoint.getDowntimeMinutes().should.be.greaterThan(initialMinutesDown);
       should.not.exist(endpoint.getServiceDownDate());
     });
+
+    it('should keep the service down date after multiple failed checks', () => {
+      const now = Date.now();
+      const lastFailedDate = new Date(now - (60 * 1000));
+      const initialMinutesDown = 10;
+      const endpoint = new Endpoint(randomEndpointId, userId, url, endpointName, new Date(), [], new Date(), initialMinutesDown, lastFailedDate);
+      endpoint.updateWithHealthCheck(new EndpointUpdatedEventData('id', null, null, 0, new Date()));
+      
+      should(endpoint.getServiceDownDate()).be.eql(lastFailedDate);
+    })
   });
 
   context('Availability calculation', () => {
