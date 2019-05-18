@@ -30,14 +30,16 @@ class Card extends Component {
     const endpoints = Utils.loadCardMockData(dayLimit);
 
     return (
-      <CardView>
-        <CardAnimation ready={this.state.ready}>
-          <CardTitle className={`${status}`} status={status}>{name}</CardTitle>
-          <CardEndPointContainer>
-            {endpoints.map(endpointToComponent)}
-          </CardEndPointContainer>
-        </CardAnimation>
-      </CardView>
+      <>
+        <CardView>
+          <CardAnimation ready={this.state.ready}>
+            <CardTitle className={`${status}`} status={status}>{name}</CardTitle>
+            <CardEndPointContainer>
+              {endpoints.map(endpointToComponent)}
+            </CardEndPointContainer>
+          </CardAnimation>
+        </CardView>
+      </>
     );
   }
 
