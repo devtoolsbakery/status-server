@@ -14,7 +14,7 @@ export default class EndpointStatusMongoRepository implements EndpointStatusRepo
       host: endpoint.getUrl().getValue(),
       userId: endpoint.getUserId().getValue(),
       name: endpoint.getName().getValue(),
-      latestHealthChecks: endpoint.getLatestHealthChecks(),
+      latestDailyStatuses: endpoint.getDailyStatuses(),
       updated: endpoint.getUpdated(),
       firstHealthCheckDate: endpoint.getFirstHealthCheckDate(),
       serviceDownDate: endpoint.getServiceDownDate(),
@@ -31,7 +31,7 @@ export default class EndpointStatusMongoRepository implements EndpointStatusRepo
       new EndpointUrl(document.url),
       new EndpointName(document.name),
       document.updated, 
-      document.latestHealthChecks,
+      document.latestDailyStatuses,
       document.firstHealthCheckDate,
       document.downtimeMinutes,
       document.serviceDownDate
@@ -46,7 +46,7 @@ export default class EndpointStatusMongoRepository implements EndpointStatusRepo
       new EndpointUrl(document.url),
       new EndpointName(document.name),
       document.updated, 
-      document.latestHealthChecks,
+      document.latestDailyStatuses,
       document.firstHealthCheckDate,
       document.downtimeMinutes,
       document.serviceDownDate
@@ -63,7 +63,7 @@ export default class EndpointStatusMongoRepository implements EndpointStatusRepo
       new EndpointUrl(document.url),
       new EndpointName(document.name),
       document.updated, 
-      document.latestHealthChecks,
+      document.latestDailyStatuses,
       document.firstHealthCheckDate,
       document.downtimeMinutes,
       document.serviceDownDate

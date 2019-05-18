@@ -5,11 +5,23 @@ import { strict as assert } from 'assert';
 import EndpointUrl from './EndpointUrl';
 import EndpointName from './EndpointName';
 
-const TOTAL_LATEST_CHECKS = 50;
-const FAILURE = 'FAILURE';
-const OK = 'OK';
+const HEALCHECK_INTERVAL_MINUTES = 1;
+const TOTAL_LATEST_CHECKS = 90;
 
 const AVAILABILITY_DECIMALS = 4;
+
+type Incident = {
+  incidentDate: Date,
+  duration: number,
+  reason: string
+}
+
+type Status = {
+  date: Date
+  incidents: Incident[]
+  averageResponseTime: number
+  totalSuccessfulHealthChecks: number
+};
 
 export default class Endpoint {
   private id: EndpointId;
@@ -18,18 +30,18 @@ export default class Endpoint {
   private name: EndpointName;
   
   private updated: Date;
-  private latestHealthChecks: [{ date: Date, status: string, timeInMs: number }];
+  private dailyStatuses: Status[];
   private firstHealthCheckDate: Date;
   private downtimeMinutes: number;
   private serviceDownDate: Date;
 
-  constructor(id: EndpointId, userId: UserId, url: EndpointUrl, name: EndpointName, updated: Date, lastHealthChecks, firstHealthCheckDate, downtimeMinutes, serviceDownDate) {
+  constructor(id: EndpointId, userId: UserId, url: EndpointUrl, name: EndpointName, updated: Date, dailyStatuses, firstHealthCheckDate, downtimeMinutes, serviceDownDate) {
     this.id = id;
     this.userId = userId;
     this.url = url;
     this.name = name;
     this.updated = updated;
-    this.latestHealthChecks = lastHealthChecks;
+    this.dailyStatuses = dailyStatuses;
     this.firstHealthCheckDate = firstHealthCheckDate;
     this.downtimeMinutes = downtimeMinutes;
     this.serviceDownDate = serviceDownDate || null;
@@ -48,7 +60,7 @@ export default class Endpoint {
   getUrl() { return this.url; }
   getName() { return this.name; }
   getUpdated() { return this.updated; }
-  getLatestHealthChecks() { return this.latestHealthChecks; }
+  getDailyStatuses() { return this.dailyStatuses; }
   getFirstHealthCheckDate() { return this.firstHealthCheckDate }
   getServiceDownDate() { return this.serviceDownDate; }
   getDowntimeMinutes() { return this.downtimeMinutes }
@@ -64,26 +76,65 @@ export default class Endpoint {
     this.increaseDowntimeMinutes();
 
     if (eventData.isFailed()) {
-      this.serviceDownDate = new Date();
+      if (this.serviceDownDate === null) {
+        this.serviceDownDate = eventData.date;
+      }
     }
     else this.serviceDownDate = null;
   }
 
   private increaseDowntimeMinutes() {
     if (this.serviceDownDate) {
-      const diffSeconds = (Date.now() - this.serviceDownDate.getTime()) / 1000;
-      const diffMinutes = diffSeconds / 60;
-      this.downtimeMinutes += diffMinutes;
+      this.downtimeMinutes += HEALCHECK_INTERVAL_MINUTES;
     }
   }
 
   private updateLastHealthChecks(eventData: EndpointUpdatedEventData) {
-    this.latestHealthChecks.unshift({
-      date: eventData.date,
-      status: eventData.time === 0 ? FAILURE : OK,
-      timeInMs: eventData.time
-    });
-    this.latestHealthChecks.splice(TOTAL_LATEST_CHECKS);
+
+    const addStatus = (eventData: EndpointUpdatedEventData, status: Status) => {
+      if (eventData.isFailed()) {
+        if (this.getServiceDownDate() === null || status.incidents.length === 0) {
+          status.incidents.push({
+            incidentDate: eventData.date,
+            duration: 0,
+            reason: ''
+          })
+        }
+        else {
+          const lastIncident = status.incidents[0];
+          const diffInMs = eventData.date.getTime() - this.getServiceDownDate().getTime();
+          lastIncident.duration = diffInMs / (60 * 1000);
+        }
+      }
+    }
+
+    if (this.dailyStatuses.length > 0) {
+      const lastStatus = this.dailyStatuses[0];
+      if (this.isSameDay(lastStatus.date, eventData.date)) {
+        if (!eventData.isFailed()) {
+          lastStatus.averageResponseTime = ((lastStatus.averageResponseTime * lastStatus.totalSuccessfulHealthChecks) + eventData.time) / (lastStatus.totalSuccessfulHealthChecks + 1);
+          lastStatus.totalSuccessfulHealthChecks += 1;
+        }
+        addStatus(eventData, lastStatus);
+      }
+    }
+    else {
+      const lastStatus = {
+        date: eventData.date,
+        averageResponseTime: eventData.isFailed()? 0 : eventData.time,
+        incidents: [] as Incident[],
+        totalSuccessfulHealthChecks: eventData.isFailed()? 0 : 1
+      };
+      addStatus(eventData, lastStatus);
+      this.dailyStatuses.unshift(lastStatus);
+      this.dailyStatuses.splice(TOTAL_LATEST_CHECKS);
+    }
+  }
+
+  private isSameDay(date1: Date, date2: Date): boolean {
+    return  date1.getUTCDate() === date2.getUTCDate() &&
+            date1.getUTCMonth() === date2.getUTCMonth() &&
+            date1.getUTCFullYear() === date2.getUTCFullYear();
   }
 
   private updateFirstHealthCheckDate() {

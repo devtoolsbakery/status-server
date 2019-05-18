@@ -42,7 +42,7 @@ describe('Scenario: Saved endpoint updated event', () => {
     const saveHealthCheck = new SaveHealthCheck(healthCheckMongoRepository, endpointRepository);
     await saveHealthCheck.execute(event);
 
-    should(endpointStatus.getLatestHealthChecks()).not.be.empty();
+    should(endpointStatus.getDailyStatuses()).not.be.empty();
     verify(mockEndpointStatusMongoRepository.save(anything())).once();
   })
 

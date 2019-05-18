@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import container from '../../DependencyInjection';
 import FindEndpointsForUser from '../../../usecase/FindEndpointsForUser';
-import Endpoint from '../../../domain/Endpoint/Endpoint';
+import Endpoint, {  } from '../../../domain/Endpoint/Endpoint';
 
 const findEndpointsForUser = container.get('core.usecase.FindEndpointsForUser', FindEndpointsForUser);
 
@@ -15,7 +15,7 @@ export default class ApiController {
 
       const response = {
         status: 'HEALTH',
-        endpoints: this.map(endpoints)
+        endpoints: this.mapEndpoints(endpoints)
       }
       res.status(200).json(response);
     }
@@ -24,12 +24,44 @@ export default class ApiController {
     }
   }
 
-  private map(endpoints: Endpoint[]) {
+  private mapEndpoints(endpoints: Endpoint[]) {
     return endpoints.map(endpoint => ({
       name: endpoint.getName(),
       uptime: endpoint.getAvailability(),
-      statuses: endpoint.getLatestHealthChecks()
+      dailyStats: this.mapDailyStats(endpoint.getDailyStatuses())
     }))
+  }
+
+  private mapDailyStats(dailyStats: any) {
+    const calculateIncidentsDuration = (incidents) => {
+      return incidents.reduce((total, incident) => {
+        return total + incident.duration;
+      }, 0)
+    }
+
+
+    return dailyStats.map(status => {
+      const totalIncidentsDuration = calculateIncidentsDuration(status.incidents);
+      return {
+        date: status.date,
+        responseTime: status.averageResponseTime,
+        totalIncidents: status.incidents.length,
+        totalDowntime: totalIncidentsDuration,
+        status: this.calculateHealth(status.incidents, totalIncidentsDuration)
+      }
+    })
+  }
+  
+  //TODO: move this to the domain
+  calculateHealth(incidents: any[], totalIncidentsDuration: number) {
+    
+    if (incidents.length > 50 || totalIncidentsDuration > 4*60) {
+      return 'ERROR';
+    }
+    else if (incidents.length > 10 || totalIncidentsDuration > 10) {
+      return 'WARNING';
+    }
+    else return 'OK';
   }
 
 }
