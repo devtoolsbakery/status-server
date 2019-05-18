@@ -34,7 +34,7 @@ const dayToComponent = (dayValue, i, daysNum) => {
     <Tooltip content={dayValue} key={i}>
       <CardEndpointTimelineDay className={className} />
     </Tooltip>
-    );
+  );
 }
 
 const CardEndpointTimelineDay = styled.div`
