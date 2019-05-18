@@ -1,4 +1,5 @@
 import React from 'react';
+import Tooltip from '../components/Tooltip';
 import styled from 'styled-components';
 
 const theshold = 0.7;
@@ -14,14 +15,20 @@ const CardEndpointTimeline = props => {
 }
 
 const dayToComponent = (dayValue, i) => {
+  let className = '';
+
   if (dayValue < 1 && dayValue >= theshold) {
-    return <CardEndpointTimelineDayError key={i} />;
+    className = 'error';
   }
   else if (dayValue < theshold) {
-    return <CardEndpointTimelineDayWarning key={i} />;
+    className = 'warning';
   }
 
-  return <CardEndpointTimelineDay key={i} />;
+  return(
+    <Tooltip content={dayValue} key={i}>
+      <CardEndpointTimelineDay className={className} />
+    </Tooltip>
+    );
 }
 
 const CardEndpointTimelineDay = styled.div`
@@ -35,14 +42,16 @@ const CardEndpointTimelineDay = styled.div`
   :last-child {
     margin-right: 0;
   }
-`
-const CardEndpointTimelineDayWarning = styled(CardEndpointTimelineDay)`
-  background: var(--theme-color-warning);
-  opacity: .5;
-`
-const CardEndpointTimelineDayError = styled(CardEndpointTimelineDay)`
-  background: var(--theme-color-error);
-  opacity: .5;
+
+  &.warning {
+    background: var(--theme-color-warning);
+    opacity: .5;
+  }
+
+  &.error {
+    background: var(--theme-color-error);
+    opacity: .5;
+  }
 `
 
 export default CardEndpointTimeline;
