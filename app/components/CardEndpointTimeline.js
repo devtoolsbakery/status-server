@@ -9,7 +9,7 @@ const CardEndpointTimeline = props => {
   const daysNum = days.length;
   
   return (
-    <div className="flex">
+    <div className="h-flex">
       {days.map((dayValue, i) => dayToComponent(dayValue, i, daysNum))}
     </div>
   )
