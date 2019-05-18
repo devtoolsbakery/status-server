@@ -37,9 +37,26 @@ export default class ApiController {
       return {
         date: status.date,
         responseTime: status.averageResponseTime,
-        totalIncidents: status.incidents.length
+        totalIncidents: status.incidents.length,
+        status: this.calculateHealth(status.incidents)
       }
     })
+  }
+  
+  //TODO: move this to the domain
+  calculateHealth(incidents: any[]) {
+    const totalIncidentsDuration = () => {
+      return incidents.reduce((total, incident) => {
+        return total + incident.duration;
+      }, 0)
+    }
+    if (incidents.length > 50 || totalIncidentsDuration() > 4*60) {
+      return 'ERROR';
+    }
+    else if (incidents.length > 10 || totalIncidentsDuration() > 10) {
+      return 'WARNING';
+    }
+    else return 'OK';
   }
 
 }
