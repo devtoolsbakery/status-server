@@ -5,7 +5,12 @@ export interface EndpointMongoDocument extends Document {
   userId: string; 
   url: string;
   name: string;
-  latestHealthChecks: [{status: string, timeInMs: number, date: Date }];
+  latestDailyStatuses: [{
+    date: Date, 
+    incidents: [], 
+    averageResponseTime: number, 
+    totalSuccessfulHealthChecks: number
+  }];
   updated: Date;
   downtimeMinutes: number;
   firstHealthCheckDate: Date;
@@ -17,7 +22,14 @@ export const EndpointMongoSchema = new Schema({
   userId: { type:String, required: true },
   url: { type:String, required: true },
   name: { type:String, required: true },
-  latestHealthChecks: [{ _id: false, status: String, timeInMs: Number, date: Date }],
+  latestDailyStatuses: [{ 
+    _id: false,
+    date: Date, 
+    incidents: [], 
+    averageResponseTime: Number, 
+    totalSuccessfulHealthChecks: Number
+
+  }],
   updated: { type: Date },
   downtimeMinutes: { type: Number, default: 0 },
   firstHealthCheckDate: { type: Date },

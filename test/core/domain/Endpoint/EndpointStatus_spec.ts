@@ -40,16 +40,91 @@ describe('EndpointStatus entity', () => {
     it('should add a health check information', () => {
       const endpoint = Endpoint.create(userId, url, endpointName);
       endpoint.updateWithHealthCheck(new EndpointUpdatedEventData('id', 'ip', 'host', 123, new Date()));
-      should(endpoint.getLatestHealthChecks()).not.be.empty();
+      should(endpoint.getDailyStatuses()).not.be.empty();
     })
     
-    it('should keep the latest 50 health checks', () => {
-      const initialLastChecks = new Array(50);
-      initialLastChecks.fill({}, 0, 49);
-      const endpoint = new Endpoint(randomEndpointId, userId, url, endpointName, new Date(), initialLastChecks, new Date(), 0, null);
-      endpoint.updateWithHealthCheck(new EndpointUpdatedEventData('id', 'ip', 'host', 123, new Date()));
-      should(endpoint.getLatestHealthChecks()).have.lengthOf(50);
+    it('should keep the latest 90 daily statuses', () => {
+      const now = Date.now();
+      const day = 3600 * 24 * 1000;
+      const initialDailyStatuses = Array.from({length: 90}).map((o, i) => {
+        const d = new Date(now - (i * day));
+        return {
+          date: d
+        }
+      });
+      const tomorrow = new Date(now + day);
+      const endpoint = new Endpoint(randomEndpointId, userId, url, endpointName, tomorrow, initialDailyStatuses, new Date(), 0, null);
+      const eventData = new EndpointUpdatedEventData('id', 'ip', 'host', 123, new Date());
+      
+      endpoint.updateWithHealthCheck(eventData);
+      
+      should(endpoint.getDailyStatuses()).have.lengthOf(90);
     })
+
+    it('should aggregate the health checks in the same day', () => {
+      const today = new Date();
+      const endpoint = new Endpoint(randomEndpointId, userId, url, endpointName, new Date(), [], new Date(), 0, null);
+      endpoint.updateWithHealthCheck(new EndpointUpdatedEventData('id', 'ip', 'host', 123, today));
+      endpoint.updateWithHealthCheck(new EndpointUpdatedEventData('id', 'ip', 'host', 321, today));
+      should(endpoint.getDailyStatuses()).have.lengthOf(1);
+    })
+
+    it('should add the incident for the day', () => {
+      const endpoint = Endpoint.create(userId, url, endpointName);
+      const failedHealthCheckEvent = new EndpointUpdatedEventData('id', null, 'host', 0, new Date());      
+      endpoint.updateWithHealthCheck(failedHealthCheckEvent);
+
+      const todayStatus = endpoint.getDailyStatuses().shift();
+
+      should(todayStatus.incidents).have.lengthOf(1);
+      should(todayStatus.totalSuccessfulHealthChecks).be.eql(0);
+    });
+
+    it('should add the incident to an existing aggregated day', () => {
+      const today = new Date();
+      const initialDailyStatuses = [{
+        date: today,
+        incidents: [],
+        averageResponseTime: 0,
+        totalSuccessfulHealthChecks: 0
+      }]
+      const endpoint = new Endpoint(randomEndpointId, userId, url, endpointName, new Date(), initialDailyStatuses, new Date(), 0, null);
+      const failedHealthCheckEvent = new EndpointUpdatedEventData('id', null, 'host', 0, new Date());      
+      endpoint.updateWithHealthCheck(failedHealthCheckEvent);
+
+      const todayStatus = endpoint.getDailyStatuses().shift();
+      
+      should(todayStatus.incidents).have.lengthOf(1);
+      should(todayStatus.totalSuccessfulHealthChecks).be.eql(0);
+    })
+
+    it('should accumulate multiple failed health checks', () => {
+      const endpoint = Endpoint.create(userId, url, endpointName);
+      const now = new Date();
+      const aMinuteAgo = new Date(now.getTime() - 60*1000);
+      const failedHealthCheckEvent1 = new EndpointUpdatedEventData('id', null, 'host', 0, aMinuteAgo);
+      const failedHealthCheckEvent2 = new EndpointUpdatedEventData('id', null, 'host', 0, now);
+      endpoint.updateWithHealthCheck(failedHealthCheckEvent1);
+      endpoint.updateWithHealthCheck(failedHealthCheckEvent2);
+
+      const todayStatus = endpoint.getDailyStatuses().shift();
+      should(todayStatus.incidents).have.lengthOf(1);
+      should(todayStatus.incidents[0].duration).greaterThanOrEqual(1).and.below(2);
+    });
+
+    it('should recaculate the AVG response time on every update', () => {
+      const endpoint = Endpoint.create(userId, url, endpointName);
+      const now = new Date();
+      const successfullHealthCheckEvent1 = new EndpointUpdatedEventData('id', 'ip', 'host', 200, now);
+      const successfullHealthCheckEvent2 = new EndpointUpdatedEventData('id', 'ip', 'host', 150, now);
+      const successfullHealthCheckEvent3 = new EndpointUpdatedEventData('id', 'ip', 'host', 160, now);
+      endpoint.updateWithHealthCheck(successfullHealthCheckEvent1);
+      endpoint.updateWithHealthCheck(successfullHealthCheckEvent2);
+      endpoint.updateWithHealthCheck(successfullHealthCheckEvent3);
+
+      const todayStatus = endpoint.getDailyStatuses().shift();
+      should(todayStatus.averageResponseTime).be.eql(170)
+    });
 
     it('should update the first health check date', () => {
       const endpoint = Endpoint.create(userId, url, endpointName);
