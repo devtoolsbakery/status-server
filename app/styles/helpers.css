@@ -4,3 +4,6 @@
 .h-relative {
   position: relative;
 }
+.h-pointer {
+  cursor: pointer;
+}

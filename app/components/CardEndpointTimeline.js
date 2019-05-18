@@ -9,7 +9,7 @@ const CardEndpointTimeline = props => {
   const daysNum = days.length;
   
   return (
-    <div className="h-flex">
+    <div className="h-flex h-pointer">
       {days.map((dayValue, i) => dayToComponent(dayValue, i, daysNum))}
     </div>
   )
@@ -31,7 +31,7 @@ const dayToComponent = (dayValue, i, daysNum) => {
   }  
 
   return(
-    <Tooltip content={dayValue} key={i}>
+    <Tooltip content={`Day and value ${dayValue}`} key={i}>
       <CardEndpointTimelineDay className={className} />
     </Tooltip>
   );
@@ -57,6 +57,10 @@ const CardEndpointTimelineDay = styled.div`
   &.error {
     background: var(--theme-color-error);
     opacity: .5;
+  }
+
+  &:hover {
+    transform: scale(1.5);
   }
 `
 

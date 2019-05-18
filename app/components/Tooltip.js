@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 
 class Tooltip extends Component {
@@ -34,17 +34,30 @@ class Tooltip extends Component {
   }
 }
 
+const TooltipAnimation = keyframes`
+  from {
+    transform: translateY(.4rem);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+`;
+
 const TooltipView = styled.div`
   line-height: 1.2em;
-  max-width: 12.0rem;
+  min-width: 13.2rem;
   background: #000;
   color: var(--theme-body-font-color);
   border-radius: .4rem;
   padding: .8rem 1.2rem;
   font-size: 1.3rem;
   position: absolute;
-  margin-top: -900%;
+  margin-top: -950%;
+  left: -200%;
   z-index: 1;
+  animation: ${TooltipAnimation} .15s linear;
 
   :after {
     width: .8rem;
