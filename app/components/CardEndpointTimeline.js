@@ -6,15 +6,16 @@ const theshold = 0.7;
 
 const CardEndpointTimeline = props => {
   const days = props.data.days;
+  const daysNum = days.length;
   
   return (
     <div className="flex">
-      {days.map(dayToComponent)}
+      {days.map((dayValue, i) => dayToComponent(dayValue, i, daysNum))}
     </div>
   )
 }
 
-const dayToComponent = (dayValue, i) => {
+const dayToComponent = (dayValue, i, daysNum) => {
   let className = '';
 
   if (dayValue < 1 && dayValue >= theshold) {
@@ -23,6 +24,11 @@ const dayToComponent = (dayValue, i) => {
   else if (dayValue < theshold) {
     className = 'warning';
   }
+
+  // last item of the row
+  if (i === (daysNum - 1)) {
+    className = `${className} last`;
+  }  
 
   return(
     <Tooltip content={dayValue} key={i}>
@@ -39,7 +45,7 @@ const CardEndpointTimelineDay = styled.div`
   border-radius: .1rem;
   display: flexbox;
 
-  :last-child {
+  &.last {
     margin-right: 0;
   }
 
