@@ -33,27 +33,32 @@ export default class ApiController {
   }
 
   private mapDailyStats(dailyStats: any) {
+    const calculateIncidentsDuration = (incidents) => {
+      return incidents.reduce((total, incident) => {
+        return total + incident.duration;
+      }, 0)
+    }
+
+
     return dailyStats.map(status => {
+      const totalIncidentsDuration = calculateIncidentsDuration(status.incidents);
       return {
         date: status.date,
         responseTime: status.averageResponseTime,
         totalIncidents: status.incidents.length,
-        status: this.calculateHealth(status.incidents)
+        totalDowntime: totalIncidentsDuration,
+        status: this.calculateHealth(status.incidents, totalIncidentsDuration)
       }
     })
   }
   
   //TODO: move this to the domain
-  calculateHealth(incidents: any[]) {
-    const totalIncidentsDuration = () => {
-      return incidents.reduce((total, incident) => {
-        return total + incident.duration;
-      }, 0)
-    }
-    if (incidents.length > 50 || totalIncidentsDuration() > 4*60) {
+  calculateHealth(incidents: any[], totalIncidentsDuration: number) {
+    
+    if (incidents.length > 50 || totalIncidentsDuration > 4*60) {
       return 'ERROR';
     }
-    else if (incidents.length > 10 || totalIncidentsDuration() > 10) {
+    else if (incidents.length > 10 || totalIncidentsDuration > 10) {
       return 'WARNING';
     }
     else return 'OK';
