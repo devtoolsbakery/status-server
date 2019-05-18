@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import container from '../../DependencyInjection';
 import FindEndpointsForUser from '../../../usecase/FindEndpointsForUser';
-import Endpoint from '../../../domain/Endpoint/Endpoint';
+import Endpoint, {  } from '../../../domain/Endpoint/Endpoint';
 
 const findEndpointsForUser = container.get('core.usecase.FindEndpointsForUser', FindEndpointsForUser);
 
@@ -15,7 +15,7 @@ export default class ApiController {
 
       const response = {
         status: 'HEALTH',
-        endpoints: this.map(endpoints)
+        endpoints: this.mapEndpoints(endpoints)
       }
       res.status(200).json(response);
     }
@@ -24,12 +24,22 @@ export default class ApiController {
     }
   }
 
-  private map(endpoints: Endpoint[]) {
+  private mapEndpoints(endpoints: Endpoint[]) {
     return endpoints.map(endpoint => ({
       name: endpoint.getName(),
       uptime: endpoint.getAvailability(),
-      statuses: endpoint.getDailyStatuses()
+      statuses: this.mapDailyStats(endpoint.getDailyStatuses())
     }))
+  }
+
+  private mapDailyStats(dailyStats: any) {
+    return dailyStats.map(status => {
+      return {
+        date: status.date,
+        responseTime: status.averageResponseTime,
+        totalIncidents: status.incidents.length
+      }
+    })
   }
 
 }
