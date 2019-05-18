@@ -140,23 +140,33 @@ describe('EndpointStatus entity', () => {
 
     it('should increase the downtime minutes after the first fail', () => {
       const now = Date.now();
-      const lastFailedDate = new Date(now - (60 * 1000));
-      const initialMinutesDown = 10;
+      const lastFailedDate = new Date(now - (10 * 60 * 1000));
+      const initialMinutesDown = 9;
       const endpoint = new Endpoint(randomEndpointId, userId, url, endpointName, new Date(), [], new Date(), initialMinutesDown, lastFailedDate);
       
       endpoint.updateWithHealthCheck(new EndpointUpdatedEventData('id', null, 'host', 1, new Date()));
       
-      endpoint.getDowntimeMinutes().should.be.greaterThan(initialMinutesDown);
+      endpoint.getDowntimeMinutes().should.be.eql(10);
+    })
+
+    it('should increase the downtime minutes when there was errors in the past', () => {
+      const lastFailedDate = new Date(Date.now() - (60 * 1000));;
+      const initialMinutesDown = 20;
+      const endpoint = new Endpoint(randomEndpointId, userId, url, endpointName, new Date(), [], new Date(), initialMinutesDown, lastFailedDate);
+      
+      endpoint.updateWithHealthCheck(new EndpointUpdatedEventData('id', null, 'host', 0, new Date()));
+      
+      endpoint.getDowntimeMinutes().should.be.eql(21);
     })
 
     it('should restore the service down date when the API is OK again', () => {
       const now = Date.now();
-      const lastFailedDate = new Date(now - (60 * 1000));
-      const initialMinutesDown = 10;
+      const lastFailedDate = new Date(now - (10 * 60 * 1000));
+      const initialMinutesDown = 9;
       const endpoint = new Endpoint(randomEndpointId, userId, url, endpointName, new Date(), [], new Date(), initialMinutesDown, lastFailedDate);
       endpoint.updateWithHealthCheck(new EndpointUpdatedEventData('id', 'ip', 'host', 100, new Date()));
       
-      endpoint.getDowntimeMinutes().should.be.greaterThan(initialMinutesDown);
+      endpoint.getDowntimeMinutes().should.be.eql(10);
       should.not.exist(endpoint.getServiceDownDate());
     });
 

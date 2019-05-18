@@ -5,9 +5,8 @@ import { strict as assert } from 'assert';
 import EndpointUrl from './EndpointUrl';
 import EndpointName from './EndpointName';
 
+const HEALCHECK_INTERVAL_MINUTES = 1;
 const TOTAL_LATEST_CHECKS = 90;
-const FAILURE = 'FAILURE';
-const OK = 'OK';
 
 const AVAILABILITY_DECIMALS = 4;
 
@@ -86,9 +85,7 @@ export default class Endpoint {
 
   private increaseDowntimeMinutes() {
     if (this.serviceDownDate) {
-      const diffSeconds = (Date.now() - this.serviceDownDate.getTime()) / 1000;
-      const diffMinutes = diffSeconds / 60;
-      this.downtimeMinutes += diffMinutes;
+      this.downtimeMinutes += HEALCHECK_INTERVAL_MINUTES;
     }
   }
 
