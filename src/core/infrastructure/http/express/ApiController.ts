@@ -28,7 +28,7 @@ export default class ApiController {
     return endpoints.map(endpoint => ({
       name: endpoint.getName(),
       uptime: endpoint.getAvailability(),
-      statuses: this.mapDailyStats(endpoint.getDailyStatuses())
+      dailyStats: this.mapDailyStats(endpoint.getDailyStatuses())
     }))
   }
 
