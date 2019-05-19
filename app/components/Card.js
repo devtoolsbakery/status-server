@@ -5,21 +5,24 @@ import * as Utils from '../utils';
 
 import '../styles/components/Card.css';
 
+
 class Card extends Component {
   constructor(props) {
     super();
 
     this.state = {
-      ready : false
+      ready     : false,
+      endpoints : []
     }
-
-    const timeAnimation = 300;
   }
 
   componentDidMount(){
+    this.loadData(1);
+
+    const animationTime = 300;
     setTimeout(() => {
       this.setState({ready : 'ready'});
-    }, this.timeAnimation)
+    }, animationTime);
   }
 
   render() {
@@ -27,15 +30,32 @@ class Card extends Component {
     const endpoints = Utils.loadCardMockData(dayLimit);
 
     return (
-      <CardView>
-        <CardAnimation ready={this.state.ready}>
-          <CardTitle className={`${status}`} status={status}>{name}</CardTitle>
-          <CardEndPointContainer>
-            {endpoints.map(endpointToComponent)}
-          </CardEndPointContainer>
-        </CardAnimation>
-      </CardView>
+      <>
+        <CardView>
+          <CardAnimation ready={this.state.ready}>
+            <CardTitle className={`${status}`} status={status}>{name}</CardTitle>
+            <CardEndPointContainer>
+              {endpoints.map(endpointToComponent)}
+            </CardEndPointContainer>
+          </CardAnimation>
+        </CardView>
+      </>
     );
+  }
+
+  loadData(userId) {
+    const host = 'http://localhost:3000/';
+    const path = `${userId}/endpoints`;
+    const input = host + path;
+  
+    console.log(`query: ${input}`);
+  
+    fetch(input)
+      .then(res => res.json())
+      .then(data => {
+        console.log(data.endpoints);
+        this.setState({ endpoints : data.endpoints });
+      });
   }
 }
 
