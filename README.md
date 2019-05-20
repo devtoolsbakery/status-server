@@ -8,3 +8,9 @@ Monitoring service for endpoints. A small tool by [@adrianmg](https://twitter.co
 npm install
 npm run start
 ```
+
+### Client instructions
+```
+npm install
+npm run dev
+```
