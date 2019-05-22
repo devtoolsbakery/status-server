@@ -9,8 +9,6 @@ class Tooltip extends Component {
     this.state = {
       content: props.content, // TODO: pass the real data once we implement the fetch of real data
       display: false,
-      // posX: 0,
-      // posY: 0,
     }
   }
   
