@@ -13,7 +13,7 @@ export default class WebApi implements Application {
     
     app.get('/:username/endpoints', apiController.getUserEndpoints.bind(apiController));
     
-    app.listen(3000)
+    app.listen(3001)
   }
 
 }
