@@ -91,49 +91,68 @@ export default class Endpoint {
 
   private updateLastHealthChecks(eventData: EndpointUpdatedEventData) {
 
-    const addStatus = (eventData: EndpointUpdatedEventData, status: Status) => {
+    const isNewIncident = (status) => {
+      return this.getServiceDownDate() === null || status.incidents.length === 0;
+    }
+
+    const addIncident = (status: Status) => {
+      status.incidents.push({
+        incidentDate: eventData.date,
+        duration: 0,
+        reason: ''
+      });
+    }
+
+    const updateLastIncident = (status: Status) => {
+      const lastIncident = status.incidents[0];
+      const diffInMs = eventData.date.getTime() - this.getServiceDownDate().getTime();
+      lastIncident.duration = diffInMs / (60 * 1000);
+    }
+
+    const updateStatusIncident = (eventData: EndpointUpdatedEventData, status: Status) => {
       if (eventData.isFailed()) {
-        if (this.getServiceDownDate() === null || status.incidents.length === 0) {
-          status.incidents.push({
-            incidentDate: eventData.date,
-            duration: 0,
-            reason: ''
-          })
+        if (isNewIncident(status)) {
+          addIncident(status);
         }
         else {
-          const lastIncident = status.incidents[0];
-          const diffInMs = eventData.date.getTime() - this.getServiceDownDate().getTime();
-          lastIncident.duration = diffInMs / (60 * 1000);
+          updateLastIncident(status)
         }
       }
     }
 
-    if (this.dailyStatuses.length > 0) {
-      const lastStatus = this.dailyStatuses[0];
-      if (this.isSameDay(lastStatus.date, eventData.date)) {
-        if (!eventData.isFailed()) {
-          lastStatus.averageResponseTime = ((lastStatus.averageResponseTime * lastStatus.totalSuccessfulHealthChecks) + eventData.time) / (lastStatus.totalSuccessfulHealthChecks + 1);
-          lastStatus.totalSuccessfulHealthChecks += 1;
-        }
-        addStatus(eventData, lastStatus);
+    const shoudAggregateStatus = () => {
+      return this.dailyStatuses.length > 0 &&
+        this.isSameDay(this.getLastStatus().date, eventData.date)
+    }
+
+    if (shoudAggregateStatus()) {
+      const lastStatus = this.getLastStatus();
+      if (!eventData.isFailed()) {
+        lastStatus.averageResponseTime = ((lastStatus.averageResponseTime * lastStatus.totalSuccessfulHealthChecks) + eventData.time) / (lastStatus.totalSuccessfulHealthChecks + 1);
+        lastStatus.totalSuccessfulHealthChecks += 1;
       }
-      else {
-        addStatus(eventData, lastStatus);
-        this.dailyStatuses.unshift(lastStatus);
-        this.dailyStatuses.splice(TOTAL_LATEST_CHECKS);
-      }
+      updateStatusIncident(eventData, lastStatus);
     }
     else {
-      const lastStatus = {
-        date: eventData.date,
-        averageResponseTime: eventData.isFailed()? 0 : eventData.time,
-        incidents: [] as Incident[],
-        totalSuccessfulHealthChecks: eventData.isFailed()? 0 : 1
-      };
-      addStatus(eventData, lastStatus);
+      const lastStatus = this.createStatus(eventData);
+      updateStatusIncident(eventData, lastStatus);
       this.dailyStatuses.unshift(lastStatus);
       this.dailyStatuses.splice(TOTAL_LATEST_CHECKS);
     }
+  }
+
+
+  private createStatus(eventData: EndpointUpdatedEventData): Status {
+    return {
+      date: eventData.date,
+      averageResponseTime: eventData.isFailed()? 0 : eventData.time,
+      incidents: [] as Incident[],
+      totalSuccessfulHealthChecks: eventData.isFailed()? 0 : 1
+    };
+  }
+
+  private getLastStatus(): Status {
+    return this.dailyStatuses[0];
   }
 
   private isSameDay(date1: Date, date2: Date): boolean {
@@ -165,3 +184,5 @@ export enum Statuses {
   UP, 
   DOWN
 }
+
+

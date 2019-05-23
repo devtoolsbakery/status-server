@@ -40,7 +40,7 @@ describe('EndpointStatus entity', () => {
     it('should add a health check information', () => {
       const endpoint = Endpoint.create(userId, url, endpointName);
       endpoint.updateWithHealthCheck(new EndpointUpdatedEventData('id', 'ip', 'host', 123, new Date()));
-      should(endpoint.getDailyStatuses()).not.be.empty();
+      should(endpoint.getDailyStatuses()).lengthOf(1);
     })
     
     it('should keep the latest 90 daily statuses', () => {
@@ -76,6 +76,7 @@ describe('EndpointStatus entity', () => {
       endpoint.updateWithHealthCheck(new EndpointUpdatedEventData('id', 'ip', 'host', 123, yesterday));
       endpoint.updateWithHealthCheck(new EndpointUpdatedEventData('id', 'ip', 'host', 321, today));
       should(endpoint.getDailyStatuses()).have.lengthOf(2);
+      should(endpoint.getDailyStatuses()[0].date).be.eql(today);
     })
 
     it('should add the incident for the day', () => {
