@@ -4,12 +4,13 @@
   "description": "Front-end client to consume date from the server.",
   "main": "index.js",
   "scripts": {
-    "dev": "next -p 8080",
+    "dev": "node server.js",
     "build": "next build",
-    "start": "next start"
+    "start": "NODE_ENV=production node server.js"
   },
   "dependencies": {
     "@zeit/next-css": "^1.0.1",
+    "express": "^4.17.0",
     "next": "latest",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
