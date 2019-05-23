@@ -117,6 +117,11 @@ export default class Endpoint {
         }
         addStatus(eventData, lastStatus);
       }
+      else {
+        addStatus(eventData, lastStatus);
+        this.dailyStatuses.unshift(lastStatus);
+        this.dailyStatuses.splice(TOTAL_LATEST_CHECKS);
+      }
     }
     else {
       const lastStatus = {

@@ -69,6 +69,15 @@ describe('EndpointStatus entity', () => {
       should(endpoint.getDailyStatuses()).have.lengthOf(1);
     })
 
+    it('should create a new day', () => {
+      const today = new Date();
+      const yesterday = new Date(today.getTime() - 3600*1000*24);
+      const endpoint = new Endpoint(randomEndpointId, userId, url, endpointName, new Date(), [], new Date(), 0, null);
+      endpoint.updateWithHealthCheck(new EndpointUpdatedEventData('id', 'ip', 'host', 123, yesterday));
+      endpoint.updateWithHealthCheck(new EndpointUpdatedEventData('id', 'ip', 'host', 321, today));
+      should(endpoint.getDailyStatuses()).have.lengthOf(2);
+    })
+
     it('should add the incident for the day', () => {
       const endpoint = Endpoint.create(userId, url, endpointName);
       const failedHealthCheckEvent = new EndpointUpdatedEventData('id', null, 'host', 0, new Date());      
