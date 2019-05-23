@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import styled, { css } from 'styled-components';
 import CardEndpoint from '../components/CardEndpoint';
-import * as Utils from '../utils';
 
 import '../styles/components/Card.css';
 
