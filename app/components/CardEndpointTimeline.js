@@ -5,7 +5,7 @@ import styled from 'styled-components';
 const theshold = 0.7;
 
 const CardEndpointTimeline = props => {
-  const days = props.data.days;
+  const days = props.data.dailyStats;
   const daysNum = days.length;
   
   return (
@@ -15,13 +15,14 @@ const CardEndpointTimeline = props => {
   )
 }
 
-const dayToComponent = (dayValue, i, daysNum) => {
+const dayToComponent = (dayStats, i, daysNum) => {
+  const { status, responseTime } = dayStats;
   let className = '';
 
-  if (dayValue < 1 && dayValue >= theshold) {
+  if (status === 'ERROR') {
     className = 'error';
   }
-  else if (dayValue < theshold) {
+  else if (status === 'WARNING') {
     className = 'warning';
   }
 
@@ -31,7 +32,7 @@ const dayToComponent = (dayValue, i, daysNum) => {
   }  
 
   return(
-    <Tooltip content={`Day and value ${dayValue}`} key={i}>
+    <Tooltip content={`Day and value ${responseTime}`} key={i}>
       <CardEndpointTimelineDay className={className} />
     </Tooltip>
   );

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import styled, { css } from 'styled-components';
 import CardEndpoint from '../components/CardEndpoint';
-import * as Utils from '../utils';
 
 import '../styles/components/Card.css';
 
@@ -11,14 +10,11 @@ class Card extends Component {
     super();
 
     this.state = {
-      ready     : false,
-      endpoints : []
+      ready     : false
     }
   }
 
   componentDidMount(){
-    this.loadData(1);
-
     const animationTime = 300;
     setTimeout(() => {
       this.setState({ready : 'ready'});
@@ -26,8 +22,7 @@ class Card extends Component {
   }
 
   render() {
-    const { dayLimit, status, name } = this.props;
-    const endpoints = Utils.loadCardMockData(dayLimit);
+    const { status, name, endpoints } = this.props;
 
     return (
       <>
@@ -42,21 +37,7 @@ class Card extends Component {
       </>
     );
   }
-
-  loadData(userId) {
-    const host = 'http://localhost:3000/';
-    const path = `${userId}/endpoints`;
-    const input = host + path;
   
-    console.log(`query: ${input}`);
-  
-    fetch(input)
-      .then(res => res.json())
-      .then(data => {
-        console.log(data.endpoints);
-        this.setState({ endpoints : data.endpoints });
-      });
-  }
 }
 
 const endpointToComponent = (endpointValue, i) => {
