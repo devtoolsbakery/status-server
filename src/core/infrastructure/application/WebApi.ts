@@ -3,17 +3,20 @@ import * as express from 'express';
 import * as cors from 'cors';
 import container from '../DependencyInjection';
 import ApiController from "../http/express/ApiController";
+import Configuration from "../configuration/Configuration";
 
 export default class WebApi implements Application {
-  
+
+
   run() {
+    const config: Configuration = container.get("app.configuration");
     const app = express();
     app.use(cors());
     const apiController = new ApiController();
     
     app.get('/:username/endpoints', apiController.getUserEndpoints.bind(apiController));
     
-    app.listen(3001)
+    app.listen(config.api.port);
   }
 
 }

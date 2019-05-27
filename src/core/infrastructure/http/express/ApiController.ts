@@ -3,7 +3,7 @@ import container from '../../DependencyInjection';
 import FindEndpointsForUser from '../../../usecase/FindEndpointsForUser';
 import Endpoint, {  } from '../../../domain/Endpoint/Endpoint';
 
-const findEndpointsForUser = container.get('core.usecase.FindEndpointsForUser', FindEndpointsForUser);
+const findEndpointsForUser = container.getAs('core.usecase.FindEndpointsForUser', FindEndpointsForUser);
 
 export default class ApiController {
     
