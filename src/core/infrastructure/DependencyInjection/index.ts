@@ -8,7 +8,12 @@ loader.load(`${__dirname}/application_${env}.yaml`);
 
 const typedSafeContainer = {
 
-  get<T>(name: string, ctor: { new(...args: any[]): T }): T {
+  get<T>(name: string): T {
+    const item = container.get(name) as T;
+    return item;
+  },
+
+  getAs<T>(name: string, ctor: { new(...args: any[]): T }): T {
     const item = container.get(name);
 
     if (!(item instanceof ctor)) {

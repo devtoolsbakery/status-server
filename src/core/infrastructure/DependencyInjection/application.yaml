@@ -31,3 +31,6 @@ services:
     arguments: [
       "@core.infrastructure.repository.EndpointStatusRepository"
     ]
+  
+  app.configuration:
+    class: ../configuration/DevelopmentConfiguration
