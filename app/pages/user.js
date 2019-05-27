@@ -17,8 +17,9 @@ class User extends Component {
   }
 
   static async getInitialProps({ query }) {
+    const apiEndpoint = process.env.API_ENDPOINT;
     const { userId } = query;
-    const result = await fetch(`http://localhost:3001/${userId}/endpoints`);
+    const result = await fetch(`${apiEndpoint}/${userId}/endpoints`);
     return await result.json();
   }
 

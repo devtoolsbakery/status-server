@@ -4,7 +4,7 @@
   "description": "Front-end client to consume date from the server.",
   "main": "index.js",
   "scripts": {
-    "dev": "node server.js",
+    "dev": "PORT=3000 node server.js",
     "build": "next build",
     "start": "NODE_ENV=production node server.js"
   },
