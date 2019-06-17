@@ -18,11 +18,19 @@ export default class Standalone implements Application {
   
   async run() {
     
+    const dbUser = config.pingService.dbUser;
+    const dbPassword = config.pingService.dbPassword;
     const dbHost = config.pingService.dbHost;
     const dbPort = config.pingService.dbPort;
     const dbName = config.pingService.dbName;
+    const dbUseSSL = config.pingService.dbUseSSL;
+    const dbReplicasetName = config.pingService.dbReplicasetName;
+    
+    const authParams = dbPassword ? `${dbUser}:${dbPassword}` : '';
+    const replicasetParam = dbReplicasetName? `&replicaset=${dbReplicasetName}` : '';
 
-    connect(`mongodb://${dbHost}:${dbPort}/${dbName}`, { useNewUrlParser: true });
+    const connection = `mongodb://${authParams}@${dbHost}:${dbPort}/${dbName}?ssl=${dbUseSSL}${replicasetParam}`;
+    connect(connection, { useNewUrlParser: true });
 
     listener.subscribe(EndpointUpdatedEvent.eventName, (message) => {
       const data = message.data;
