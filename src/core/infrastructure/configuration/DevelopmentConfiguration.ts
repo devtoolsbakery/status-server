@@ -6,9 +6,13 @@ export default class DevelopmentConfiguration implements Configuration {
 }
 
 class PingServiceDevelopmentConfiguration implements PingServiceConfiguration {
+  dbUser = 'root';
+  dbPassword = '';
   dbHost = 'localhost';
   dbPort = 27017;
   dbName = 'endpoint';
+  dbUseSSL = false;
+  dbReplicasetName = '';
   minutesBetweenPings = 1;
 }
 

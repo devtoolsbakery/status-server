@@ -4,10 +4,14 @@ export default interface Configuration {
 }
 
 export interface PingServiceConfiguration {
+  dbUser: string;
+  dbPassword: string;
   dbHost: string;
   dbPort: number;
   dbName: string;
-  minutesBetweenPings: number;  
+  dbUseSSL: boolean;
+  dbReplicasetName: string;
+  minutesBetweenPings: number;
 }
 
 export interface ApiConfiguration {
