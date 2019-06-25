@@ -1,3 +1,4 @@
 node_modules
+serviceAccountKey.json
+serviceAccountTestKey.json
 .vscode
-src/core/infrastructure/configuration/ProductionConfiguration.ts

@@ -1,13 +1,18 @@
-export default class Configuration {
-  pingService = new PingServiceConfiguration();
-  api = new ApiConfiguration();
+export default interface Configuration {
+  pingService: PingServiceConfiguration;
+  api: ApiConfiguration
 }
 
-class PingServiceConfiguration {
-  dbConnectionString: string = process.env.DB_CONNECTION_STRING;
-  minutesBetweenPings: number = 1;
+export interface PingServiceConfiguration {
+  dbHost: string;
+  dbPort: number;
+  dbName: string;
+  minutesBetweenPings: number;  
 }
 
-class ApiConfiguration {
-  port: number = Number(process.env.API_PORT);
+export interface ApiConfiguration {
+  port: number;
+  dbHost: string;
+  dbPort: number;
+  dbName: string;  
 }
