@@ -1,6 +1,0 @@
-imports:
-  - { resource: ./application.yaml }
-
-services:
-  app.configuration:
-    class: ../configuration/ProductionConfiguration
