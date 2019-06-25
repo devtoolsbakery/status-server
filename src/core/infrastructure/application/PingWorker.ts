@@ -17,12 +17,9 @@ const MINUTE_MS = 60000;
 export default class Standalone implements Application {
   
   async run() {
-    
-    const dbHost = config.pingService.dbHost;
-    const dbPort = config.pingService.dbPort;
-    const dbName = config.pingService.dbName;
 
-    connect(`mongodb://${dbHost}:${dbPort}/${dbName}`, { useNewUrlParser: true });
+    const dbConnectionString = config.pingService.dbConnectionString;
+    connect(dbConnectionString, { useNewUrlParser: true });
 
     listener.subscribe(EndpointUpdatedEvent.eventName, (message) => {
       const data = message.data;

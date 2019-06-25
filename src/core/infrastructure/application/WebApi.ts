@@ -10,13 +10,14 @@ export default class WebApi implements Application {
 
   run() {
     const config: Configuration = container.get("app.configuration");
+    const port = config.api.port;
     const app = express();
     app.use(cors());
     const apiController = new ApiController();
     
     app.get('/:username/endpoints', apiController.getUserEndpoints.bind(apiController));
-    
-    app.listen(config.api.port);
+    console.log(`Listening ${port}`)
+    app.listen(port);
   }
 
 }

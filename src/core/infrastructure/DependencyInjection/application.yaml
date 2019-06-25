@@ -33,4 +33,4 @@ services:
     ]
   
   app.configuration:
-    class: ../configuration/DevelopmentConfiguration
+    class: ../configuration/Configuration
