@@ -1,35 +1,15 @@
-import React, { Component, Fragment } from 'react';
+import React, { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 
+const Tooltip = ({content}) => {
+  const [display,setDisplay] = useState(false);
 
-class Tooltip extends Component {
-  constructor(props) {
-    super(props);
-    
-    this.state = {
-      content: props.content, // TODO: pass the real data once we implement the fetch of real data
-      display: false,
-    }
-  }
-  
-  render() {
-    const { display, content } = this.state;
-
-    return (
-      <div className='h-relative' onMouseEnter={() => this.showTooltip()} onMouseLeave={() => this.hideTooltip()}>
-        {this.props.children}
-        {display && <TooltipView>{content}</TooltipView>}
-      </div>
-    )
-  }
-
-  showTooltip() {
-    this.setState({ display: true });
-  }
-
-  hideTooltip() {
-    this.setState({ display: false });
-  }
+  return ( 
+    <div className='h-relative' onMouseEnter={() => setDisplay(true)} onMouseLeave={() => setDisplay(false) }>
+      {this.props.children}
+      {display && <TooltipView>{content}</TooltipView>}
+    </div>
+  )
 }
 
 const TooltipAnimation = keyframes`
