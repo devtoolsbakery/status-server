@@ -7,7 +7,7 @@ services:
 
   core.infrastructure.PubSub:
     class: ../PubSub
-  
+
   core.infrastructure.PingService:
     class: '../PingService'
 
@@ -19,11 +19,16 @@ services:
       "@core.infrastructure.PubSub"
     ]
 
+  core.usecase.UpdateEndpointStatus:
+    class: '../../usecase/UpdateEndpointStatus'
+    arguments: [
+      "@core.infrastructure.repository.EndpointStatusRepository"
+    ]
+
   core.usecase.SaveHealthCheck:
     class: "../../usecase/SaveHealthCheck"
     arguments: [
-      "@core.infrastructure.repository.HealthCheckRepository",
-      "@core.infrastructure.repository.EndpointStatusRepository"
+      "@core.infrastructure.repository.HealthCheckRepository"
     ]
 
   core.usecase.FindEndpointsForUser:
@@ -31,6 +36,6 @@ services:
     arguments: [
       "@core.infrastructure.repository.EndpointStatusRepository"
     ]
-  
+
   app.configuration:
     class: ../configuration/Configuration

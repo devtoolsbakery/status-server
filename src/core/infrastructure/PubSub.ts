@@ -5,7 +5,7 @@ import EventSubscriber from '../domain/Shared/event/EventSubscriber';
 
 
 export default class PubSub implements EventPublisher, EventSubscriber {
-    
+
     emitter: EventEmitter;
 
     constructor() {
@@ -17,8 +17,10 @@ export default class PubSub implements EventPublisher, EventSubscriber {
         this.emitter.emit(json.event, json);
     }
 
-    subscribe(eventName: string, fn: (data: any) => void): void {
-        this.emitter.addListener(eventName, fn);
+    subscribe<T extends Event>(e: any, fn: (data: T) => void): void {
+      this.emitter.addListener(e.eventName, (event) => {
+        fn(new e(event.data))
+      });
     }
 
     removeAllListeners() {
