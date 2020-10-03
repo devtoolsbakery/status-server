@@ -1,6 +1,6 @@
 import EndpointId from "../domain/Endpoint/EndpointId";
 import EndpointStatusRepository from "../domain/Endpoint/EndpointStatusRepository";
-import { EndpointUpdatedEventData } from "../domain/Endpoint/EndpointUpdatedEvent";
+import { EndpointUpdatedEventData } from "../domain/HealthCheck/EndpointUpdatedEvent";
 
 export default class UpdateEndpointStatus {
 

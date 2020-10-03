@@ -1,4 +1,4 @@
-import { EndpointUpdatedEventData } from './EndpointUpdatedEvent';
+import { EndpointUpdatedEventData } from '../HealthCheck/EndpointUpdatedEvent';
 import EndpointId from './EndpointId';
 import UserId from '../Shared/UserId';
 import { strict as assert } from 'assert';
@@ -28,7 +28,7 @@ export default class Endpoint {
   private userId: UserId;
   private url: EndpointUrl;
   private name: EndpointName;
-  
+
   private updated: Date;
   private dailyStatuses: Status[];
   private firstHealthCheckDate: Date;
@@ -167,9 +167,9 @@ export default class Endpoint {
     }
   }
 
-  getAvailability(): number {    
+  getAvailability(): number {
     if(!this.firstHealthCheckDate) return 0;
-    
+
     const diffSeconds = (Date.now() - this.firstHealthCheckDate.getTime()) / 1000;
     const diffMinutes = diffSeconds / 60;
     const availabilityRatio = (diffMinutes - this.downtimeMinutes) / diffMinutes;
@@ -181,7 +181,7 @@ export default class Endpoint {
 }
 
 export enum Statuses {
-  UP, 
+  UP,
   DOWN
 }
 

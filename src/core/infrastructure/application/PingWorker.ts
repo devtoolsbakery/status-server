@@ -1,6 +1,6 @@
 import Application from './Application';
 import container from '../di';
-import EndpointUpdatedEvent, { EndpointUpdatedEventData } from '../../domain/Endpoint/EndpointUpdatedEvent';
+import EndpointUpdatedEvent, { EndpointUpdatedEventData } from '../../domain/HealthCheck/EndpointUpdatedEvent';
 import PingAllEndpoints from '../../usecase/PingAllEndpoints';
 import { connect } from 'mongoose';
 import Configuration from '../configuration/Configuration';
