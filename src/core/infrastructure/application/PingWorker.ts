@@ -15,19 +15,19 @@ const config: Configuration = container.get('app.configuration');
 const MINUTE_MS = 60000;
 
 export default class Standalone implements Application {
-  
+
   async run() {
 
     const dbConnectionString = config.pingService.dbConnectionString;
-    connect(dbConnectionString, { useNewUrlParser: true });
+    connect(dbConnectionString, { useNewUrlParser: true, useFindAndModify: false, useUnifiedTopology: false });
 
     listener.subscribe(EndpointUpdatedEvent.eventName, (message) => {
       const data = message.data;
       const eventData = new EndpointUpdatedEventData(data.id, data.ip, data.host, data.time, data.date);
       saveHealthCheck.execute(EndpointUpdatedEvent.fromData(eventData));
     });
-    
-    this.loop(); 
+
+    this.loop();
   }
 
   async loop() {
