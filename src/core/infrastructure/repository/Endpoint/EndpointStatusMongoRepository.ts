@@ -1,13 +1,13 @@
-import EndpointStatusRepository from "../../domain/Endpoint/EndpointStatusRepository";
-import Endpoint from "../../domain/Endpoint/Endpoint";
+import EndpointStatusRepository from "../../../domain/Endpoint/EndpointStatusRepository";
+import Endpoint from "../../../domain/Endpoint/Endpoint";
 import EndpointMongoDocument from "./EndpointMongoDocument";
-import EndpointId from "../../domain/Endpoint/EndpointId";
-import UserId from "../../domain/Shared/UserId";
-import EndpointUrl from "../../domain/Endpoint/EndpointUrl";
-import EndpointName from "../../domain/Endpoint/EndpointName";
+import EndpointId from "../../../domain/Endpoint/EndpointId";
+import UserId from "../../../domain/Shared/UserId";
+import EndpointUrl from "../../../domain/Endpoint/EndpointUrl";
+import EndpointName from "../../../domain/Endpoint/EndpointName";
 
 export default class EndpointStatusMongoRepository implements EndpointStatusRepository {
-  
+
   async save(endpoint: Endpoint): Promise<void> {
     const doc = new EndpointMongoDocument({
       _id: endpoint.getId().getValue(),
@@ -22,15 +22,15 @@ export default class EndpointStatusMongoRepository implements EndpointStatusRepo
     })
     await EndpointMongoDocument.findOneAndUpdate({ _id: doc._id }, doc);
   }
-  
+
   async findByUserId(userId: UserId): Promise<Endpoint[]> {
     const documents = await EndpointMongoDocument.find({ userId: userId.getValue() });
     return documents.map(document => new Endpoint(
       new EndpointId(document._id),
-      new UserId(document.userId), 
+      new UserId(document.userId),
       new EndpointUrl(document.url),
       new EndpointName(document.name),
-      document.updated, 
+      document.updated,
       document.latestDailyStatuses,
       document.firstHealthCheckDate,
       document.downtimeMinutes,
@@ -42,10 +42,10 @@ export default class EndpointStatusMongoRepository implements EndpointStatusRepo
     const documents = await EndpointMongoDocument.find({});
     return documents.map(document => new Endpoint(
       new EndpointId(document._id),
-      new UserId(document.userId), 
+      new UserId(document.userId),
       new EndpointUrl(document.url),
       new EndpointName(document.name),
-      document.updated, 
+      document.updated,
       document.latestDailyStatuses,
       document.firstHealthCheckDate,
       document.downtimeMinutes,
@@ -59,10 +59,10 @@ export default class EndpointStatusMongoRepository implements EndpointStatusRepo
 
     return new Endpoint(
       new EndpointId(document._id),
-      new UserId(document.userId), 
+      new UserId(document.userId),
       new EndpointUrl(document.url),
       new EndpointName(document.name),
-      document.updated, 
+      document.updated,
       document.latestDailyStatuses,
       document.firstHealthCheckDate,
       document.downtimeMinutes,

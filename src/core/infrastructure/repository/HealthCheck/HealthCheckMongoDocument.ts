@@ -2,12 +2,12 @@ import { Document, Schema, model} from 'mongoose';
 
 export interface HealthCheckMongoDocument extends Document {
   _id: {};
-  endpointId: string; 
+  endpointId: string;
   host: number;
   address: string;
   statusCode: number;
   time: number;
-  body: string; 
+  body: string;
   createdAt: Date;
 };
 

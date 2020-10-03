@@ -1,10 +1,10 @@
 import {EventEmitter} from 'events';
-import Event from '../domain/Shared/event/Event';
-import EventPublisher from "../domain/Shared/event/EventPublisher";
-import EventSubscriber from '../domain/Shared/event/EventSubscriber';
+import Event from '../../domain/Shared/event/Event';
+import EventPublisher from "../../domain/Shared/event/EventPublisher";
+import EventSubscriber from '../../domain/Shared/event/EventSubscriber';
 
 
-export default class PubSub implements EventPublisher, EventSubscriber {
+export default class implements EventPublisher, EventSubscriber {
 
     emitter: EventEmitter;
 

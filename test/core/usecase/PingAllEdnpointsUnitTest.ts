@@ -1,13 +1,13 @@
 import { mock, verify, when, instance, anyOfClass, anything } from "ts-mockito";
 import EndpointStatusRepository from "../../../src/core/domain/Endpoint/EndpointStatusRepository";
-import PingService from "../../../src/core/domain/HealthCheck/PingService";
+import PingMeasurer from "../../../src/core/domain/HealthCheck/PingMeasurer";
 import EventPublisher from "../../../src/core/domain/Shared/event/EventPublisher";
-import PingServiceImpl from "../../../src/core/infrastructure/PingService";
-import PubSub from "../../../src/core/infrastructure/PubSub";
+import PingMeasurerImpl from "../../../src/core/infrastructure/SystemPingMeasurer";
+import PubSub from "../../../src/core/infrastructure/event/InProcessPubSub";
 import Endpoint from "../../../src/core/domain/Endpoint/Endpoint";
 import PingResult from "../../../src/core/domain/HealthCheck/PingResult";
 import PingAllEndpoints from "../../../src/core/usecase/PingAllEndpoints";
-import EndpointStatusMongoRepository from "../../../src/core/infrastructure/Endpoint/EndpointStatusMongoRepository";
+import EndpointStatusMongoRepository from "../../../src/core/infrastructure/repository/Endpoint/EndpointStatusMongoRepository";
 import EndpointId from "../../../src/core/domain/Endpoint/EndpointId";
 import UserId from "../../../src/core/domain/Shared/UserId";
 import EndpointUrl from "../../../src/core/domain/Endpoint/EndpointUrl";
@@ -22,7 +22,7 @@ const endpoint = new Endpoint(endpointId, userId, url, name, new Date(), [], new
 export default class PingAllEndpointsUnitTest {
 
   private mockedEndpointStatusRepository: EndpointStatusRepository = mock(EndpointStatusMongoRepository);
-  private mockedPingService: PingService = mock(PingServiceImpl);
+  private mockedPingMeasurer: PingMeasurer = mock(PingMeasurerImpl);
   private mockedPubSub: PubSub = mock(PubSub);
 
   givenMultipleSuccessfullEndpoints(): void {
@@ -34,10 +34,10 @@ export default class PingAllEndpointsUnitTest {
     this.whenRepositoryFind([endpoint, endpoint]);
     this.whenFailedfulPing();
   }
-  
+
   whenFailedfulPing() {
     const pingResult = new PingResult('error.com', null, 0, new Date());
-    when(this.mockedPingService.ping(anyOfClass(Endpoint))).thenResolve(pingResult);
+    when(this.mockedPingMeasurer.ping(anyOfClass(Endpoint))).thenResolve(pingResult);
   }
 
   eventPublisherShouldEmitEvent() {
@@ -51,7 +51,7 @@ export default class PingAllEndpointsUnitTest {
   buildPingAllEndpointsUseCase(): PingAllEndpoints {
     return new PingAllEndpoints(
       this.getEndpointStatusRepository(),
-      this.getPingService(),
+      this.getPingMeasurer(),
       this.getEventPublisher()
     );
   }
@@ -60,8 +60,8 @@ export default class PingAllEndpointsUnitTest {
     return instance(this.mockedEndpointStatusRepository);
   }
 
-  private getPingService(): PingService {
-    return instance(this.mockedPingService);
+  private getPingMeasurer(): PingMeasurer {
+    return instance(this.mockedPingMeasurer);
   }
 
   private getEventPublisher(): EventPublisher {
@@ -73,6 +73,6 @@ export default class PingAllEndpointsUnitTest {
   }
 
   private whenSuccessfulPing(pingResult: PingResult) {
-    when(this.mockedPingService.ping(anyOfClass(Endpoint))).thenResolve(pingResult);
+    when(this.mockedPingMeasurer.ping(anyOfClass(Endpoint))).thenResolve(pingResult);
   }
 }

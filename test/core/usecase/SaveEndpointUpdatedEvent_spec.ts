@@ -2,7 +2,7 @@ import { mock, verify, instance } from "ts-mockito";
 import SaveHealthCheck from '../../../src/core/usecase/SaveHealthCheck';
 import EndpointUpdatedEvent from '../../../src/core/domain/Endpoint/EndpointUpdatedEvent';
 import Endpoint from '../../../src/core/domain/Endpoint/Endpoint';
-import HealthCheckMongoRepository from '../../../src/core/infrastructure/HealthCheck/HealthCheckMongoRepository';
+import HealthCheckMongoRepository from '../../../src/core/infrastructure/repository/HealthCheck/HealthCheckMongoRepository';
 import PingResult from '../../../src/core/domain/HealthCheck/PingResult';
 import UserId from '../../../src/core/domain/Shared/UserId';
 import EndpointUrl from '../../../src/core/domain/Endpoint/EndpointUrl';

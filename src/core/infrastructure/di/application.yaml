@@ -1,22 +1,22 @@
 services:
   core.infrastructure.repository.EndpointStatusRepository:
-    class: ../Endpoint/EndpointStatusMongoRepository
+    class: ../repository/Endpoint/EndpointStatusMongoRepository
 
   core.infrastructure.repository.HealthCheckRepository:
-    class: ../HealthCheck/HealthCheckMongoRepository
+    class: ../repository/HealthCheck/HealthCheckMongoRepository
 
-  core.infrastructure.PubSub:
-    class: ../PubSub
+  core.infrastructure.InProcessPubSub:
+    class: ../event/InProcessPubSub
 
-  core.infrastructure.PingService:
-    class: '../PingService'
+  core.infrastructure.SystemPingMeasurer:
+    class: '../SystemPingMeasurer'
 
   core.usecase.PingAllEndpoints:
     class: '../../usecase/PingAllEndpoints'
     arguments: [
       "@core.infrastructure.repository.EndpointStatusRepository",
-      "@core.infrastructure.PingService",
-      "@core.infrastructure.PubSub"
+      "@core.infrastructure.SystemPingMeasurer",
+      "@core.infrastructure.InProcessPubSub"
     ]
 
   core.usecase.UpdateEndpointStatus:

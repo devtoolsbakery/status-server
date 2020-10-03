@@ -1,12 +1,12 @@
 import { Request, Response } from 'express';
-import container from '../../DependencyInjection';
+import container from '../../di';
 import FindEndpointsForUser from '../../../usecase/FindEndpointsForUser';
 import Endpoint, {  } from '../../../domain/Endpoint/Endpoint';
 
 const findEndpointsForUser = container.getAs('core.usecase.FindEndpointsForUser', FindEndpointsForUser);
 
 export default class ApiController {
-    
+
   public async getUserEndpoints(req: Request, res: Response, next) {
     try {
       const username = req.params.username;
@@ -51,10 +51,10 @@ export default class ApiController {
       }
     })
   }
-  
+
   //TODO: move this to the domain
   calculateHealth(incidents: any[], totalIncidentsDuration: number) {
-    
+
     if (incidents.length > 50 || totalIncidentsDuration > 4*60) {
       return 'ERROR';
     }

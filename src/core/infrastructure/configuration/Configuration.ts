@@ -1,9 +1,9 @@
 export default class Configuration {
-  pingService = new PingServiceConfiguration();
+  PingMeasurer = new PingMeasurerConfiguration();
   api = new ApiConfiguration();
 }
 
-class PingServiceConfiguration {
+class PingMeasurerConfiguration {
   dbConnectionString: string = process.env.DB_CONNECTION_STRING;
   minutesBetweenPings: number = 1;
 }

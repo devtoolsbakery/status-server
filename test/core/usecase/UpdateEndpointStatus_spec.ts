@@ -2,7 +2,7 @@ import * as should from 'should';
 import { mock, verify, instance, anything, when } from "ts-mockito";
 import EndpointUpdatedEvent from '../../../src/core/domain/Endpoint/EndpointUpdatedEvent';
 import Endpoint from '../../../src/core/domain/Endpoint/Endpoint';
-import EndpointStatusMongoRepository from '../../../src/core/infrastructure/Endpoint/EndpointStatusMongoRepository';
+import EndpointStatusMongoRepository from '../../../src/core/infrastructure/repository/Endpoint/EndpointStatusMongoRepository';
 import PingResult from '../../../src/core/domain/HealthCheck/PingResult';
 import UserId from '../../../src/core/domain/Shared/UserId';
 import EndpointUrl from '../../../src/core/domain/Endpoint/EndpointUrl';
