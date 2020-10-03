@@ -1,5 +1,6 @@
 import Event from '../Shared/event/Event';
 import PingResult from '../HealthCheck/PingResult';
+import HealthCheck from '../HealthCheck/HealthCheck';
 
 export class EndpointUpdatedEventData {
     private _id: string;
@@ -44,14 +45,14 @@ export default class EndpointUpdatedEvent extends Event {
         this.data = data;
     }
 
-    static from(endpointId: string, pingResult: PingResult): EndpointUpdatedEvent {
+    static from(endpointId: string, HealthCheck: HealthCheck): EndpointUpdatedEvent {
         return new EndpointUpdatedEvent(
             new EndpointUpdatedEventData(
                 endpointId,
-                pingResult.getIp(),
-                pingResult.getHost(),
-                pingResult.getTimeInMilliseconds(),
-                pingResult.getDate()
+                HealthCheck.address,
+                HealthCheck.host,
+                HealthCheck.time,
+                HealthCheck.createdAt
             )
         );
     }

@@ -1,22 +1,21 @@
 import HealthCheckRepository from "../../../domain/HealthCheck/HealthCheckRepository";
-import { EndpointUpdatedEventData } from "../../../domain/Endpoint/EndpointUpdatedEvent";
 import HealthCheckMongoDocument from "./HealthCheckMongoDocument";
+import HealthCheck from "../../../domain/HealthCheck/HealthCheck";
+import EndpointId from "../../../domain/Endpoint/EndpointId";
 
 export default class HealthCheckMongoRepository implements HealthCheckRepository {
 
-  save(event: EndpointUpdatedEventData): Promise<void> {
+  save(healthCheck: HealthCheck): Promise<void> {
     return HealthCheckMongoDocument.create(new HealthCheckMongoDocument({
-      endpointId: '1',
-      host: event.host,
-      address: event.ip,
-      statusCode: 0,
-      time: event.time,
-      body: '',
-      createdAt: event.date
+      endpointId: healthCheck.id.getValue(),
+      host: healthCheck.host,
+      address: healthCheck.address,
+      time: healthCheck.time,
+      createdAt: healthCheck.createdAt
     }))
   }
 
-  findAll(endpointStatusId: string): Promise<EndpointUpdatedEventData[]> {
+  findAll(endpointId: EndpointId): Promise<HealthCheck[]> {
     return HealthCheckMongoDocument.find({});
   }
 

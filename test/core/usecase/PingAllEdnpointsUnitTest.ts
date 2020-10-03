@@ -5,7 +5,6 @@ import EventPublisher from "../../../src/core/domain/Shared/event/EventPublisher
 import PingMeasurerImpl from "../../../src/core/infrastructure/SystemPingMeasurer";
 import PubSub from "../../../src/core/infrastructure/event/InProcessPubSub";
 import Endpoint from "../../../src/core/domain/Endpoint/Endpoint";
-import PingResult from "../../../src/core/domain/HealthCheck/PingResult";
 import PingAllEndpoints from "../../../src/core/usecase/PingAllEndpoints";
 import EndpointStatusMongoRepository from "../../../src/core/infrastructure/repository/Endpoint/EndpointStatusMongoRepository";
 import EndpointId from "../../../src/core/domain/Endpoint/EndpointId";
@@ -14,7 +13,7 @@ import EndpointUrl from "../../../src/core/domain/Endpoint/EndpointUrl";
 import EndpointName from "../../../src/core/domain/Endpoint/EndpointName";
 import EndpointUpdatedEventRepository from "../../../src/core/domain/HealthCheck/HealthCheckRepository";
 import HealthCheckMongoRepository from "../../../src/core/infrastructure/repository/HealthCheck/HealthCheckMongoRepository";
-import { EndpointUpdatedEventData } from "../../../src/core/domain/Endpoint/EndpointUpdatedEvent";
+import HealthCheck from "../../../src/core/domain/HealthCheck/HealthCheck";
 
 const endpointId = EndpointId.generate();
 const userId = new UserId('userId');
@@ -30,8 +29,9 @@ export default class PingAllEndpointsUnitTest {
   private mockedPubSub: PubSub = mock(PubSub);
 
   givenMultipleSuccessfullEndpoints(): void {
+    const healthCheck = HealthCheck.create(endpoint.getId(), 'success.com', "0.0.0.0", 100);
     this.whenRepositoryFind([endpoint, endpoint]);
-    this.whenSuccessfulPing(new PingResult('', '', 100, new Date()));
+    this.whenSuccessfulPing(healthCheck);
   }
 
   givenSomeFailedEndpoint() {
@@ -40,20 +40,16 @@ export default class PingAllEndpointsUnitTest {
   }
 
   whenFailedfulPing() {
-    const pingResult = new PingResult('error.com', null, 0, new Date());
-    when(this.mockedPingMeasurer.ping(anyOfClass(Endpoint))).thenResolve(pingResult);
+    const healthCheck = HealthCheck.create(endpoint.getId(), 'error.com', null, 0);
+    when(this.mockedPingMeasurer.ping(anyOfClass(Endpoint))).thenResolve(healthCheck);
   }
 
   eventPublisherShouldEmitEvent() {
-    verify(this.mockedPubSub.publish(anything())).twice();
-  }
-
-  repositoryShouldSave() {
-    verify(this.mockedEndpointStatusRepository.save(anyOfClass(Endpoint))).twice();
+    return verify(this.mockedPubSub.publish(anything()))
   }
 
   healthCheckRepositoryShouldSave() {
-    verify(this.mockedHealthCheckRepository.save(anyOfClass(EndpointUpdatedEventData))).twice()
+    return verify(this.mockedHealthCheckRepository.save(anyOfClass(HealthCheck)))
   }
 
   buildPingAllEndpointsUseCase(): PingAllEndpoints {
@@ -85,7 +81,7 @@ export default class PingAllEndpointsUnitTest {
     when(this.mockedEndpointStatusRepository.findAll()).thenResolve(endpoints);
   }
 
-  private whenSuccessfulPing(pingResult: PingResult) {
-    when(this.mockedPingMeasurer.ping(anyOfClass(Endpoint))).thenResolve(pingResult);
+  private whenSuccessfulPing(healthCheck: HealthCheck) {
+    when(this.mockedPingMeasurer.ping(anyOfClass(Endpoint))).thenResolve(healthCheck);
   }
 }

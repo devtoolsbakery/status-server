@@ -25,9 +25,9 @@ export default class PingAllEndpoints {
 
   async execute() {
     const iterator = async (endpointStatus: Endpoint) => {
-      const pingResult = await this.PingMeasurer.ping(endpointStatus);
-      const event = EndpointUpdatedEvent.from(endpointStatus.getId().getValue(), pingResult)
-      await this.healthCheckRepository.save(event.getData());
+      const healthCheck = await this.PingMeasurer.ping(endpointStatus);
+      const event = EndpointUpdatedEvent.from(endpointStatus.getId().getValue(), healthCheck)
+      await this.healthCheckRepository.save(healthCheck);
       this.eventPublisher.publish(event);
     };
 

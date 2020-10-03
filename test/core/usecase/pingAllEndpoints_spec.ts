@@ -11,7 +11,7 @@ describe('Scenario: Ping all endpoints usecase', () => {
 
       await pingAllEndpoints.execute();
 
-      testCase.healthCheckRepositoryShouldSave();
+      testCase.healthCheckRepositoryShouldSave().twice();
     });
 
     it('should emit the endpoint_updated event', async () => {
@@ -21,7 +21,7 @@ describe('Scenario: Ping all endpoints usecase', () => {
 
       await pingAllEndpoints.execute();
 
-      testCase.eventPublisherShouldEmitEvent();
+      testCase.eventPublisherShouldEmitEvent().twice();;
     });
 
 
@@ -36,7 +36,7 @@ describe('Scenario: Ping all endpoints usecase', () => {
 
       await pingAllEndpoints.execute();
 
-      testCase.eventPublisherShouldEmitEvent();
+      testCase.eventPublisherShouldEmitEvent().twice();;
     });
 
   });

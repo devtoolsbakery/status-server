@@ -1,7 +1,8 @@
-import { EndpointUpdatedEventData } from "../Endpoint/EndpointUpdatedEvent";
+import EndpointId from "../Endpoint/EndpointId";
+import HealthCheck from "./HealthCheck";
 
 
 export default interface EndpointUpdatedEventRepository {
-  save(event: EndpointUpdatedEventData): Promise<void>;
-  findAll(endpointStatusId: string): Promise<EndpointUpdatedEventData[]>;
+  save(healthCheck: HealthCheck): Promise<void>;
+  findAll(endpointId: EndpointId): Promise<HealthCheck[]>;
 }
