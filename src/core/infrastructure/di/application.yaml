@@ -16,19 +16,14 @@ services:
     arguments: [
       "@core.infrastructure.repository.EndpointStatusRepository",
       "@core.infrastructure.SystemPingMeasurer",
-      "@core.infrastructure.InProcessPubSub"
+      "@core.infrastructure.InProcessPubSub",
+      "@core.infrastructure.repository.HealthCheckRepository"
     ]
 
   core.usecase.UpdateEndpointStatus:
     class: '../../usecase/UpdateEndpointStatus'
     arguments: [
       "@core.infrastructure.repository.EndpointStatusRepository"
-    ]
-
-  core.usecase.SaveHealthCheck:
-    class: "../../usecase/SaveHealthCheck"
-    arguments: [
-      "@core.infrastructure.repository.HealthCheckRepository"
     ]
 
   core.usecase.FindEndpointsForUser:

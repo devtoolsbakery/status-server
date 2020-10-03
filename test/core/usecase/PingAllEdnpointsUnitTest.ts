@@ -12,6 +12,9 @@ import EndpointId from "../../../src/core/domain/Endpoint/EndpointId";
 import UserId from "../../../src/core/domain/Shared/UserId";
 import EndpointUrl from "../../../src/core/domain/Endpoint/EndpointUrl";
 import EndpointName from "../../../src/core/domain/Endpoint/EndpointName";
+import EndpointUpdatedEventRepository from "../../../src/core/domain/HealthCheck/HealthCheckRepository";
+import HealthCheckMongoRepository from "../../../src/core/infrastructure/repository/HealthCheck/HealthCheckMongoRepository";
+import { EndpointUpdatedEventData } from "../../../src/core/domain/Endpoint/EndpointUpdatedEvent";
 
 const endpointId = EndpointId.generate();
 const userId = new UserId('userId');
@@ -21,7 +24,8 @@ const endpoint = new Endpoint(endpointId, userId, url, name, new Date(), [], new
 
 export default class PingAllEndpointsUnitTest {
 
-  private mockedEndpointStatusRepository: EndpointStatusRepository = mock(EndpointStatusMongoRepository);
+  private mockedEndpointStatusRepository : EndpointStatusRepository = mock(EndpointStatusMongoRepository);
+  private mockedHealthCheckRepository : EndpointUpdatedEventRepository = mock(HealthCheckMongoRepository);
   private mockedPingMeasurer: PingMeasurer = mock(PingMeasurerImpl);
   private mockedPubSub: PubSub = mock(PubSub);
 
@@ -48,11 +52,16 @@ export default class PingAllEndpointsUnitTest {
     verify(this.mockedEndpointStatusRepository.save(anyOfClass(Endpoint))).twice();
   }
 
+  healthCheckRepositoryShouldSave() {
+    verify(this.mockedHealthCheckRepository.save(anyOfClass(EndpointUpdatedEventData))).twice()
+  }
+
   buildPingAllEndpointsUseCase(): PingAllEndpoints {
     return new PingAllEndpoints(
       this.getEndpointStatusRepository(),
       this.getPingMeasurer(),
-      this.getEventPublisher()
+      this.getEventPublisher(),
+      this.healthCheckRepository(),
     );
   }
 
@@ -66,6 +75,10 @@ export default class PingAllEndpointsUnitTest {
 
   private getEventPublisher(): EventPublisher {
     return instance(this.mockedPubSub);
+  }
+
+  private healthCheckRepository(): EndpointUpdatedEventRepository {
+    return instance(this.mockedHealthCheckRepository);
   }
 
   private whenRepositoryFind(endpoints: Endpoint[]) {

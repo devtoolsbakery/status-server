@@ -1,14 +1,12 @@
 import Application from './Application';
 import container from '../di';
 import EndpointUpdatedEvent, { EndpointUpdatedEventData } from '../../domain/Endpoint/EndpointUpdatedEvent';
-import SaveHealthCheck from '../../usecase/SaveHealthCheck';
 import PingAllEndpoints from '../../usecase/PingAllEndpoints';
 import { connect } from 'mongoose';
 import Configuration from '../configuration/Configuration';
 import UpdateEndpointStatus from '../../usecase/UpdateEndpointStatus';
 import InProcessPubSub from '../event/InProcessPubSub';
 
-const saveHealthCheck = container.getAs('core.usecase.SaveHealthCheck', SaveHealthCheck);
 const updateEndpointStatus = container.getAs('core.usecase.UpdateEndpointStatus', UpdateEndpointStatus)
 const listener = container.getAs('core.infrastructure.InProcessPubSub', InProcessPubSub);
 const pingAllEndpoints = container.getAs('core.usecase.PingAllEndpoints', PingAllEndpoints);
@@ -22,12 +20,6 @@ export default class Standalone implements Application {
 
     const dbConnectionString = config.PingMeasurer.dbConnectionString;
     connect(dbConnectionString, { useNewUrlParser: true, useFindAndModify: false, useUnifiedTopology: false });
-
-    listener.subscribe(EndpointUpdatedEvent, (message: EndpointUpdatedEvent) => {
-      const eventData: EndpointUpdatedEventData = message.getData();
-
-      saveHealthCheck.execute(eventData);
-    })
 
     listener.subscribe(EndpointUpdatedEvent, async (message: EndpointUpdatedEvent) => {
       const eventData: EndpointUpdatedEventData = message.getData();
