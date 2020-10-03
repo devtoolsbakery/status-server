@@ -1,9 +1,9 @@
-import { EndpointUpdatedEventData } from '../HealthCheck/EndpointUpdatedEvent';
 import EndpointId from './EndpointId';
 import UserId from '../Shared/UserId';
 import { strict as assert } from 'assert';
 import EndpointUrl from './EndpointUrl';
 import EndpointName from './EndpointName';
+import HealthCheck from '../HealthCheck/HealthCheck';
 
 const HEALCHECK_INTERVAL_MINUTES = 1;
 const TOTAL_LATEST_CHECKS = 90;
@@ -65,19 +65,19 @@ export default class Endpoint {
   getServiceDownDate() { return this.serviceDownDate; }
   getDowntimeMinutes() { return this.downtimeMinutes }
 
-  updateWithHealthCheck(eventData: EndpointUpdatedEventData) {
-    this.updateLastHealthChecks(eventData);
+  updateWithHealthCheck(healthCheck: HealthCheck) {
+    this.updateLastHealthChecks(healthCheck);
     this.updateFirstHealthCheckDate();
-    this.updateServiceDown(eventData);
+    this.updateServiceDown(healthCheck);
     this.updated = new Date();
   }
 
-  private updateServiceDown(eventData: EndpointUpdatedEventData) {
+  private updateServiceDown(healthCheck: HealthCheck) {
     this.increaseDowntimeMinutes();
 
-    if (eventData.isFailed()) {
+    if (healthCheck.hasFailed()) {
       if (this.serviceDownDate === null) {
-        this.serviceDownDate = eventData.date;
+        this.serviceDownDate = healthCheck.createdAt;
       }
     }
     else this.serviceDownDate = null;
@@ -89,7 +89,7 @@ export default class Endpoint {
     }
   }
 
-  private updateLastHealthChecks(eventData: EndpointUpdatedEventData) {
+  private updateLastHealthChecks(healthCheck: HealthCheck) {
 
     const isNewIncident = (status) => {
       return this.getServiceDownDate() === null || status.incidents.length === 0;
@@ -97,7 +97,7 @@ export default class Endpoint {
 
     const addIncident = (status: Status) => {
       status.incidents.push({
-        incidentDate: eventData.date,
+        incidentDate: healthCheck.createdAt,
         duration: 0,
         reason: ''
       });
@@ -105,12 +105,12 @@ export default class Endpoint {
 
     const updateLastIncident = (status: Status) => {
       const lastIncident = status.incidents[0];
-      const diffInMs = eventData.date.getTime() - this.getServiceDownDate().getTime();
+      const diffInMs = healthCheck.createdAt.getTime() - this.getServiceDownDate().getTime();
       lastIncident.duration = diffInMs / (60 * 1000);
     }
 
-    const updateStatusIncident = (eventData: EndpointUpdatedEventData, status: Status) => {
-      if (eventData.isFailed()) {
+    const updateStatusIncident = (healthCheck: HealthCheck, status: Status) => {
+      if (healthCheck.hasFailed()) {
         if (isNewIncident(status)) {
           addIncident(status);
         }
@@ -122,32 +122,32 @@ export default class Endpoint {
 
     const shoudAggregateStatus = () => {
       return this.dailyStatuses.length > 0 &&
-        this.isSameDay(this.getLastStatus().date, eventData.date)
+        this.isSameDay(this.getLastStatus().date, healthCheck.createdAt)
     }
 
     if (shoudAggregateStatus()) {
       const lastStatus = this.getLastStatus();
-      if (!eventData.isFailed()) {
-        lastStatus.averageResponseTime = ((lastStatus.averageResponseTime * lastStatus.totalSuccessfulHealthChecks) + eventData.time) / (lastStatus.totalSuccessfulHealthChecks + 1);
+      if (!healthCheck.hasFailed()) {
+        lastStatus.averageResponseTime = ((lastStatus.averageResponseTime * lastStatus.totalSuccessfulHealthChecks) + healthCheck.time) / (lastStatus.totalSuccessfulHealthChecks + 1);
         lastStatus.totalSuccessfulHealthChecks += 1;
       }
-      updateStatusIncident(eventData, lastStatus);
+      updateStatusIncident(healthCheck, lastStatus);
     }
     else {
-      const lastStatus = this.createStatus(eventData);
-      updateStatusIncident(eventData, lastStatus);
+      const lastStatus = this.createStatus(healthCheck);
+      updateStatusIncident(healthCheck, lastStatus);
       this.dailyStatuses.unshift(lastStatus);
       this.dailyStatuses.splice(TOTAL_LATEST_CHECKS);
     }
   }
 
 
-  private createStatus(eventData: EndpointUpdatedEventData): Status {
+  private createStatus(healthCheck: HealthCheck): Status {
     return {
-      date: eventData.date,
-      averageResponseTime: eventData.isFailed()? 0 : eventData.time,
+      date: healthCheck.createdAt,
+      averageResponseTime: healthCheck.hasFailed()? 0 : healthCheck.time,
       incidents: [] as Incident[],
-      totalSuccessfulHealthChecks: eventData.isFailed()? 0 : 1
+      totalSuccessfulHealthChecks: healthCheck.hasFailed()? 0 : 1
     };
   }
 

@@ -1,10 +1,11 @@
 import * as should from 'should';
 import Endpoint from '../../../../src/core/domain/Endpoint/Endpoint';
-import { EndpointUpdatedEventData } from '../../../../src/core/domain/HealthCheck/EndpointUpdatedEvent';
 import EndpointId from '../../../../src/core/domain/Endpoint/EndpointId';
 import UserId from '../../../../src/core/domain/Shared/UserId';
 import EndpointUrl from '../../../../src/core/domain/Endpoint/EndpointUrl';
 import EndpointName from '../../../../src/core/domain/Endpoint/EndpointName';
+import HealthCheck from '../../../../src/core/domain/HealthCheck/HealthCheck';
+import HealthCheckId from '../../../../src/core/domain/HealthCheck/HealthCheckId';
 
 describe('EndpointStatus entity', () => {
   const randomEndpointId = EndpointId.generate();
@@ -39,7 +40,7 @@ describe('EndpointStatus entity', () => {
   context('Update from a health check', () => {
     it('should add a health check information', () => {
       const endpoint = Endpoint.create(userId, url, endpointName);
-      endpoint.updateWithHealthCheck(new EndpointUpdatedEventData('id', 'ip', 'host', 123, new Date()));
+      endpoint.updateWithHealthCheck(HealthCheck.create(endpoint.getId(), 'ip', 'host', 123));
       should(endpoint.getDailyStatuses()).lengthOf(1);
     })
 
@@ -54,7 +55,7 @@ describe('EndpointStatus entity', () => {
       });
       const tomorrow = new Date(now + day);
       const endpoint = new Endpoint(randomEndpointId, userId, url, endpointName, tomorrow, initialDailyStatuses, new Date(), 0, null);
-      const eventData = new EndpointUpdatedEventData('id', 'ip', 'host', 123, new Date());
+      const eventData = HealthCheck.create(endpoint.getId(), 'ip', 'host', 123);
 
       endpoint.updateWithHealthCheck(eventData);
 
@@ -64,8 +65,8 @@ describe('EndpointStatus entity', () => {
     it('should aggregate the health checks in the same day', () => {
       const today = new Date();
       const endpoint = new Endpoint(randomEndpointId, userId, url, endpointName, new Date(), [], new Date(), 0, null);
-      endpoint.updateWithHealthCheck(new EndpointUpdatedEventData('id', 'ip', 'host', 123, today));
-      endpoint.updateWithHealthCheck(new EndpointUpdatedEventData('id', 'ip', 'host', 321, today));
+      endpoint.updateWithHealthCheck(new HealthCheck(HealthCheckId.generate(), endpoint.getId(), 'ip', 'host', 123, today));
+      endpoint.updateWithHealthCheck(new HealthCheck(HealthCheckId.generate(), endpoint.getId(), 'ip', 'host', 321, today));
       should(endpoint.getDailyStatuses()).have.lengthOf(1);
     })
 
@@ -73,15 +74,15 @@ describe('EndpointStatus entity', () => {
       const today = new Date();
       const yesterday = new Date(today.getTime() - 3600*1000*24);
       const endpoint = new Endpoint(randomEndpointId, userId, url, endpointName, new Date(), [], new Date(), 0, null);
-      endpoint.updateWithHealthCheck(new EndpointUpdatedEventData('id', 'ip', 'host', 123, yesterday));
-      endpoint.updateWithHealthCheck(new EndpointUpdatedEventData('id', 'ip', 'host', 321, today));
+      endpoint.updateWithHealthCheck(new HealthCheck(HealthCheckId.generate(), endpoint.getId(), 'ip', 'host', 123, yesterday));
+      endpoint.updateWithHealthCheck(new HealthCheck(HealthCheckId.generate(), endpoint.getId(), 'ip', 'host', 321, today));
       should(endpoint.getDailyStatuses()).have.lengthOf(2);
       should(endpoint.getDailyStatuses()[0].date).be.eql(today);
     })
 
     it('should add the incident for the day', () => {
       const endpoint = Endpoint.create(userId, url, endpointName);
-      const failedHealthCheckEvent = new EndpointUpdatedEventData('id', null, 'host', 0, new Date());
+      const failedHealthCheckEvent = new HealthCheck(HealthCheckId.generate(), endpoint.getId(), null, 'host', 0, new Date());
       endpoint.updateWithHealthCheck(failedHealthCheckEvent);
 
       const todayStatus = endpoint.getDailyStatuses().shift();
@@ -99,7 +100,7 @@ describe('EndpointStatus entity', () => {
         totalSuccessfulHealthChecks: 0
       }]
       const endpoint = new Endpoint(randomEndpointId, userId, url, endpointName, new Date(), initialDailyStatuses, new Date(), 0, null);
-      const failedHealthCheckEvent = new EndpointUpdatedEventData('id', null, 'host', 0, new Date());
+      const failedHealthCheckEvent = new HealthCheck(HealthCheckId.generate(), endpoint.getId(), null, 'host', 0, new Date());
       endpoint.updateWithHealthCheck(failedHealthCheckEvent);
 
       const todayStatus = endpoint.getDailyStatuses().shift();
@@ -112,8 +113,8 @@ describe('EndpointStatus entity', () => {
       const endpoint = Endpoint.create(userId, url, endpointName);
       const now = new Date();
       const aMinuteAgo = new Date(now.getTime() - 60*1000);
-      const failedHealthCheckEvent1 = new EndpointUpdatedEventData('id', null, 'host', 0, aMinuteAgo);
-      const failedHealthCheckEvent2 = new EndpointUpdatedEventData('id', null, 'host', 0, now);
+      const failedHealthCheckEvent1 = new HealthCheck(HealthCheckId.generate(), endpoint.getId(), null, 'host', 0, aMinuteAgo);
+      const failedHealthCheckEvent2 = new HealthCheck(HealthCheckId.generate(), endpoint.getId(), null, 'host', 0, now);
       endpoint.updateWithHealthCheck(failedHealthCheckEvent1);
       endpoint.updateWithHealthCheck(failedHealthCheckEvent2);
 
@@ -125,9 +126,9 @@ describe('EndpointStatus entity', () => {
     it('should recaculate the AVG response time on every update', () => {
       const endpoint = Endpoint.create(userId, url, endpointName);
       const now = new Date();
-      const successfullHealthCheckEvent1 = new EndpointUpdatedEventData('id', 'ip', 'host', 200, now);
-      const successfullHealthCheckEvent2 = new EndpointUpdatedEventData('id', 'ip', 'host', 150, now);
-      const successfullHealthCheckEvent3 = new EndpointUpdatedEventData('id', 'ip', 'host', 160, now);
+      const successfullHealthCheckEvent1 = new HealthCheck(HealthCheckId.generate(), endpoint.getId(), 'ip', 'host', 200, now);
+      const successfullHealthCheckEvent2 = new HealthCheck(HealthCheckId.generate(), endpoint.getId(), 'ip', 'host', 150, now);
+      const successfullHealthCheckEvent3 = new HealthCheck(HealthCheckId.generate(), endpoint.getId(), 'ip', 'host', 160, now);
       endpoint.updateWithHealthCheck(successfullHealthCheckEvent1);
       endpoint.updateWithHealthCheck(successfullHealthCheckEvent2);
       endpoint.updateWithHealthCheck(successfullHealthCheckEvent3);
@@ -138,13 +139,13 @@ describe('EndpointStatus entity', () => {
 
     it('should update the first health check date', () => {
       const endpoint = Endpoint.create(userId, url, endpointName);
-      endpoint.updateWithHealthCheck(new EndpointUpdatedEventData('id', 'ip', 'host', 123, new Date()));
+      endpoint.updateWithHealthCheck(new HealthCheck(HealthCheckId.generate(), endpoint.getId(), 'ip', 'host', 123, new Date()));
       should.exist(endpoint.getFirstHealthCheckDate());
     })
 
     it('should set the service down date', () => {
       const endpoint = Endpoint.create(userId, url, endpointName);
-      endpoint.updateWithHealthCheck(new EndpointUpdatedEventData('id', null, 'host', 0, new Date()));
+      endpoint.updateWithHealthCheck(new HealthCheck(HealthCheckId.generate(), endpoint.getId(), null, 'host', 0, new Date()));
       should.exist(endpoint.getServiceDownDate());
     })
 
@@ -154,7 +155,7 @@ describe('EndpointStatus entity', () => {
       const initialMinutesDown = 9;
       const endpoint = new Endpoint(randomEndpointId, userId, url, endpointName, new Date(), [], new Date(), initialMinutesDown, lastFailedDate);
 
-      endpoint.updateWithHealthCheck(new EndpointUpdatedEventData('id', null, 'host', 1, new Date()));
+      endpoint.updateWithHealthCheck(new HealthCheck(HealthCheckId.generate(), endpoint.getId(), null, 'host', 1, new Date()));
 
       endpoint.getDowntimeMinutes().should.be.eql(10);
     })
@@ -164,7 +165,7 @@ describe('EndpointStatus entity', () => {
       const initialMinutesDown = 20;
       const endpoint = new Endpoint(randomEndpointId, userId, url, endpointName, new Date(), [], new Date(), initialMinutesDown, lastFailedDate);
 
-      endpoint.updateWithHealthCheck(new EndpointUpdatedEventData('id', null, 'host', 0, new Date()));
+      endpoint.updateWithHealthCheck(new HealthCheck(HealthCheckId.generate(), endpoint.getId(), null, 'host', 0, new Date()));
 
       endpoint.getDowntimeMinutes().should.be.eql(21);
     })
@@ -174,7 +175,7 @@ describe('EndpointStatus entity', () => {
       const lastFailedDate = new Date(now - (10 * 60 * 1000));
       const initialMinutesDown = 9;
       const endpoint = new Endpoint(randomEndpointId, userId, url, endpointName, new Date(), [], new Date(), initialMinutesDown, lastFailedDate);
-      endpoint.updateWithHealthCheck(new EndpointUpdatedEventData('id', 'ip', 'host', 100, new Date()));
+      endpoint.updateWithHealthCheck(new HealthCheck(HealthCheckId.generate(), endpoint.getId(), 'ip', 'host', 100, new Date()));
 
       endpoint.getDowntimeMinutes().should.be.eql(10);
       should.not.exist(endpoint.getServiceDownDate());
@@ -185,7 +186,7 @@ describe('EndpointStatus entity', () => {
       const lastFailedDate = new Date(now - (60 * 1000));
       const initialMinutesDown = 10;
       const endpoint = new Endpoint(randomEndpointId, userId, url, endpointName, new Date(), [], new Date(), initialMinutesDown, lastFailedDate);
-      endpoint.updateWithHealthCheck(new EndpointUpdatedEventData('id', null, null, 0, new Date()));
+      endpoint.updateWithHealthCheck(new HealthCheck(HealthCheckId.generate(), endpoint.getId(), null, null, 0, new Date()));
 
       should(endpoint.getServiceDownDate()).be.eql(lastFailedDate);
     })

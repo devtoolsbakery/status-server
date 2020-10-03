@@ -1,6 +1,6 @@
 import Application from './Application';
 import container from '../di';
-import EndpointUpdatedEvent, { EndpointUpdatedEventData } from '../../domain/HealthCheck/EndpointUpdatedEvent';
+import HealthCheckCreated, { HealthCheckCreatedData } from '../../domain/HealthCheck/HealthCheckCreated';
 import PingAllEndpoints from '../../usecase/PingAllEndpoints';
 import { connect } from 'mongoose';
 import Configuration from '../configuration/Configuration';
@@ -21,18 +21,10 @@ export default class Standalone implements Application {
     const dbConnectionString = config.PingMeasurer.dbConnectionString;
     connect(dbConnectionString, { useNewUrlParser: true, useFindAndModify: false, useUnifiedTopology: false });
 
-    listener.subscribe(EndpointUpdatedEvent, async (message: EndpointUpdatedEvent) => {
-      const eventData: EndpointUpdatedEventData = message.getData();
+    listener.subscribe(HealthCheckCreated, async (message: HealthCheckCreated) => {
+      const eventData: HealthCheckCreatedData = message.getData();
 
-      updateEndpointStatus.execute(eventData)
-    })
-
-    listener.subscribe(EndpointUpdatedEvent, (message: EndpointUpdatedEvent) => {
-      const eventData: EndpointUpdatedEventData = message.getData();
-
-      if (eventData.time > 0) {
-        console.log(`✅ ${eventData.time}ms \t ${eventData.host}`);
-      } else console.log(`🔴 failed \t ${eventData.host}`);
+      updateEndpointStatus.execute(eventData.healthCheckId)
     })
 
     this.loop();

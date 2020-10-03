@@ -23,7 +23,8 @@ services:
   core.usecase.UpdateEndpointStatus:
     class: '../../usecase/UpdateEndpointStatus'
     arguments: [
-      "@core.infrastructure.repository.EndpointStatusRepository"
+      "@core.infrastructure.repository.EndpointStatusRepository",
+      "@core.infrastructure.repository.HealthCheckRepository"
     ]
 
   core.usecase.FindEndpointsForUser:

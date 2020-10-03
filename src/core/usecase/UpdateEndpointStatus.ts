@@ -1,20 +1,28 @@
-import EndpointId from "../domain/Endpoint/EndpointId";
 import EndpointStatusRepository from "../domain/Endpoint/EndpointStatusRepository";
-import { EndpointUpdatedEventData } from "../domain/HealthCheck/EndpointUpdatedEvent";
+import HealthCheckId from "../domain/HealthCheck/HealthCheckId";
+import HealthCheckRepository from "../domain/HealthCheck/HealthCheckRepository";
 
 export default class UpdateEndpointStatus {
 
   private endpointStatusRepository: EndpointStatusRepository;
+  private healthCheckRepository: HealthCheckRepository
 
-  constructor(endpointRepository: EndpointStatusRepository) {
+  constructor(endpointRepository: EndpointStatusRepository, healthCheckRepository: HealthCheckRepository) {
     this.endpointStatusRepository = endpointRepository
+    this.healthCheckRepository = healthCheckRepository
   }
 
-  async execute(eventData: EndpointUpdatedEventData) {
-    const endpointId = new EndpointId(eventData.id);
-    const endpoint = await this.endpointStatusRepository.findById(endpointId);
+  async execute(healthCheckId: string) {
+    const healthCheck = await this.healthCheckRepository.findById(new HealthCheckId(healthCheckId))
+    const endpoint = await this.endpointStatusRepository.findById(healthCheck.endpointId);
+
+    if (healthCheck.hasFailed()) {
+      console.log(`🔴 failed \t ${healthCheck.host}`);
+    }
+    else console.log(`✅ ${healthCheck.time}ms \t ${healthCheck.host}`);
+
     if (endpoint) {
-      endpoint.updateWithHealthCheck(eventData);
+      endpoint.updateWithHealthCheck(healthCheck);
       this.endpointStatusRepository.save(endpoint);
     }
   }

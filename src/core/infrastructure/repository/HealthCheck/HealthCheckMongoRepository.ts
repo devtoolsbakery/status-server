@@ -2,17 +2,31 @@ import HealthCheckRepository from "../../../domain/HealthCheck/HealthCheckReposi
 import HealthCheckMongoDocument from "./HealthCheckMongoDocument";
 import HealthCheck from "../../../domain/HealthCheck/HealthCheck";
 import EndpointId from "../../../domain/Endpoint/EndpointId";
+import HealthCheckId from "../../../domain/HealthCheck/HealthCheckId";
 
 export default class HealthCheckMongoRepository implements HealthCheckRepository {
 
-  save(healthCheck: HealthCheck): Promise<void> {
+  async save(healthCheck: HealthCheck): Promise<void> {
     return HealthCheckMongoDocument.create(new HealthCheckMongoDocument({
-      endpointId: healthCheck.id.getValue(),
+      _id: healthCheck.id.getValue(),
+      endpointId: healthCheck.endpointId.getValue(),
       host: healthCheck.host,
       address: healthCheck.address,
       time: healthCheck.time,
       createdAt: healthCheck.createdAt
     }))
+  }
+
+  async findById(healthCheckId: HealthCheckId): Promise<HealthCheck> {
+    const document = await HealthCheckMongoDocument.findById(healthCheckId.getValue())
+    return new HealthCheck(
+      new HealthCheckId(document._id),
+      new EndpointId(document.endpointId),
+      document.host,
+      document.address,
+      document.time,
+      document.createdAt
+    )
   }
 
   findAll(endpointId: EndpointId): Promise<HealthCheck[]> {

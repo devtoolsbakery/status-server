@@ -1,7 +1,7 @@
 import EndpointStatusRepository from '../domain/Endpoint/EndpointStatusRepository';
 import PingMeasurer from '../domain/HealthCheck/PingMeasurer'
 import EventPublisher from '../domain/Shared/event/EventPublisher';
-import EndpointUpdatedEvent from '../domain/HealthCheck/EndpointUpdatedEvent';
+import HealthCheckCreated from '../domain/HealthCheck/HealthCheckCreated';
 import Endpoint from '../domain/Endpoint/Endpoint';
 import EndpointUpdatedEventRepository from '../domain/HealthCheck/HealthCheckRepository';
 
@@ -26,7 +26,7 @@ export default class PingAllEndpoints {
   async execute() {
     const iterator = async (endpointStatus: Endpoint) => {
       const healthCheck = await this.PingMeasurer.ping(endpointStatus);
-      const event = EndpointUpdatedEvent.from(endpointStatus.getId().getValue(), healthCheck)
+      const event = HealthCheckCreated.from(healthCheck)
       await this.healthCheckRepository.save(healthCheck);
       this.eventPublisher.publish(event);
     };

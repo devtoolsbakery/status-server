@@ -1,7 +1,7 @@
 import { Document, Schema, model} from 'mongoose';
 
 export interface HealthCheckMongoDocument extends Document {
-  _id: {};
+  _id: string;
   endpointId: string;
   host: number;
   address: string;
@@ -10,6 +10,7 @@ export interface HealthCheckMongoDocument extends Document {
 };
 
 export const HealthCheckSchema = new Schema({
+  _id: { type: String, required: true },
   endpointId: { type:String, required: true },
   host: { type:String, required: true },
   address: { type:String },
