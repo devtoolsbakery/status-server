@@ -1,11 +1,11 @@
-import Application from './Application';
-import container from '../di';
-import HealthCheckCreated, { HealthCheckCreatedData } from '../../domain/HealthCheck/HealthCheckCreated';
-import PingAllEndpoints from '../../usecase/PingAllEndpoints';
+import { default as BaseApplication } from "../Application";
+import container from '../../di';
+import HealthCheckCreated, { HealthCheckCreatedData } from '../../../domain/HealthCheck/HealthCheckCreated';
+import PingAllEndpoints from '../../../usecase/PingAllEndpoints';
 import { connect } from 'mongoose';
-import Configuration from '../configuration/Configuration';
-import UpdateEndpointStatus from '../../usecase/UpdateEndpointStatus';
-import InProcessPubSub from '../event/InProcessPubSub';
+import Configuration from '../../configuration/Configuration';
+import UpdateEndpointStatus from '../../../usecase/UpdateEndpointStatus';
+import InProcessPubSub from '../../event/InProcessPubSub';
 
 const updateEndpointStatus = container.getAs('core.usecase.UpdateEndpointStatus', UpdateEndpointStatus)
 const listener = container.getAs('core.infrastructure.InProcessPubSub', InProcessPubSub);
@@ -14,7 +14,7 @@ const config: Configuration = container.get('app.configuration');
 
 const MINUTE_MS = 60000;
 
-export default class Standalone implements Application {
+export default class Application implements BaseApplication {
 
   async run() {
 

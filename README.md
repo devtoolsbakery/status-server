@@ -14,12 +14,17 @@ docker-compose up
 npm i
 ```
 
-3/ Now you can run the API service
+3/ Now you can run the API service.
 ```sh
-dotenv npm run start
+npm run webapi
 ```
 
-4/ Open the local url:
+4/ And the health checker worker.
+```sh
+npm run healthchecker
+```
+
+5/ Open the local url:
 ```sh
 http://localhost:3001/{username}/endpoints
 ```
