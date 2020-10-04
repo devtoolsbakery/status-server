@@ -18,7 +18,7 @@ export default class Standalone implements Application {
 
   async run() {
 
-    const dbConnectionString = config.PingMeasurer.dbConnectionString;
+    const dbConnectionString = config.healthChecker.dbConnectionString;
     connect(dbConnectionString, { useNewUrlParser: true, useFindAndModify: false, useUnifiedTopology: false });
 
     listener.subscribe(HealthCheckCreated, async (message: HealthCheckCreated) => {
@@ -33,7 +33,7 @@ export default class Standalone implements Application {
   async loop() {
     try {
       await pingAllEndpoints.execute();
-      setTimeout(() => this.loop(), config.PingMeasurer.minutesBetweenPings * MINUTE_MS);
+      setTimeout(() => this.loop(), config.healthChecker.minutesBetweenChecks * MINUTE_MS);
     }
     catch(e) {
       console.error(e);

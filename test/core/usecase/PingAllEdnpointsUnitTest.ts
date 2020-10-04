@@ -1,8 +1,8 @@
 import { mock, verify, when, instance, anyOfClass, anything } from "ts-mockito";
 import EndpointStatusRepository from "../../../src/core/domain/Endpoint/EndpointStatusRepository";
-import PingMeasurer from "../../../src/core/domain/HealthCheck/PingMeasurer";
+import HealthChecker from "../../../src/core/domain/HealthCheck/HealthChecker";
 import EventPublisher from "../../../src/core/domain/Shared/event/EventPublisher";
-import PingMeasurerImpl from "../../../src/core/infrastructure/SystemPingMeasurer";
+import PingHealthChecker from "../../../src/core/infrastructure/PingHealthChecker";
 import PubSub from "../../../src/core/infrastructure/event/InProcessPubSub";
 import Endpoint from "../../../src/core/domain/Endpoint/Endpoint";
 import PingAllEndpoints from "../../../src/core/usecase/PingAllEndpoints";
@@ -25,7 +25,7 @@ export default class PingAllEndpointsUnitTest {
 
   private mockedEndpointStatusRepository : EndpointStatusRepository = mock(EndpointStatusMongoRepository);
   private mockedHealthCheckRepository : EndpointUpdatedEventRepository = mock(HealthCheckMongoRepository);
-  private mockedPingMeasurer: PingMeasurer = mock(PingMeasurerImpl);
+  private mockedHealthChecker: HealthChecker = mock(PingHealthChecker);
   private mockedPubSub: PubSub = mock(PubSub);
 
   givenMultipleSuccessfullEndpoints(): void {
@@ -41,7 +41,7 @@ export default class PingAllEndpointsUnitTest {
 
   whenFailedfulPing() {
     const healthCheck = HealthCheck.create(endpoint.getId(), 'error.com', null, 0);
-    when(this.mockedPingMeasurer.ping(anyOfClass(Endpoint))).thenResolve(healthCheck);
+    when(this.mockedHealthChecker.check(anyOfClass(Endpoint))).thenResolve(healthCheck);
   }
 
   eventPublisherShouldEmitEvent() {
@@ -55,7 +55,7 @@ export default class PingAllEndpointsUnitTest {
   buildPingAllEndpointsUseCase(): PingAllEndpoints {
     return new PingAllEndpoints(
       this.getEndpointStatusRepository(),
-      this.getPingMeasurer(),
+      this.getHealthChecker(),
       this.getEventPublisher(),
       this.healthCheckRepository(),
     );
@@ -65,8 +65,8 @@ export default class PingAllEndpointsUnitTest {
     return instance(this.mockedEndpointStatusRepository);
   }
 
-  private getPingMeasurer(): PingMeasurer {
-    return instance(this.mockedPingMeasurer);
+  private getHealthChecker(): HealthChecker {
+    return instance(this.mockedHealthChecker);
   }
 
   private getEventPublisher(): EventPublisher {
@@ -82,6 +82,6 @@ export default class PingAllEndpointsUnitTest {
   }
 
   private whenSuccessfulPing(healthCheck: HealthCheck) {
-    when(this.mockedPingMeasurer.ping(anyOfClass(Endpoint))).thenResolve(healthCheck);
+    when(this.mockedHealthChecker.check(anyOfClass(Endpoint))).thenResolve(healthCheck);
   }
 }

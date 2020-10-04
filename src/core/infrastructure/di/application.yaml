@@ -8,14 +8,14 @@ services:
   core.infrastructure.InProcessPubSub:
     class: ../event/InProcessPubSub
 
-  core.infrastructure.SystemPingMeasurer:
-    class: '../SystemPingMeasurer'
+  core.infrastructure.PingHealthChecker:
+    class: '../PingHealthChecker'
 
   core.usecase.PingAllEndpoints:
     class: '../../usecase/PingAllEndpoints'
     arguments: [
       "@core.infrastructure.repository.EndpointStatusRepository",
-      "@core.infrastructure.SystemPingMeasurer",
+      "@core.infrastructure.PingHealthChecker",
       "@core.infrastructure.InProcessPubSub",
       "@core.infrastructure.repository.HealthCheckRepository"
     ]

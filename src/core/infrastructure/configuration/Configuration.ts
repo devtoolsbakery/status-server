@@ -1,11 +1,11 @@
 export default class Configuration {
-  PingMeasurer = new PingMeasurerConfiguration();
+  healthChecker = new HealthCheckerConfiguration();
   api = new ApiConfiguration();
 }
 
-class PingMeasurerConfiguration {
+class HealthCheckerConfiguration {
   dbConnectionString: string = process.env.DB_CONNECTION_STRING;
-  minutesBetweenPings: number = 1;
+  minutesBetweenChecks: number = 1;
 }
 
 class ApiConfiguration {
