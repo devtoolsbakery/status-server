@@ -8,6 +8,8 @@
     "test": "NODE_ENV=test mocha -r ts-node/register --timeout 5000 test/**/*_spec.*",
     "webapi": "ts-node -r dotenv/config tasks/run_web_api",
     "healthchecker": "ts-node -r dotenv/config tasks/run_health_checker",
+    "core": "ts-node -r dotenv/config tasks/run_api_and_checker",
+    "app": "cd app && npm run dev",
     "lint": "eslint ./src"
   },
   "author": "Adrian Mato (@adrianmg) and Ivan Guardado (@ivanguardado)",
