@@ -22,7 +22,7 @@
     "cors": "^2.8.5",
     "dotenv": "^8.0.0",
     "express": "^4.16.4",
-    "mongoose": "^5.7.5",
+    "mongoose": "^5.13.19",
     "node-dependency-injection": "^2.2.1",
     "ping": "^0.2.2",
     "typescript": "^3.2.2",
@@ -31,7 +31,7 @@
   "devDependencies": {
     "@types/mocha": "^5.2.5",
     "@types/node": "^12.0.0",
-    "eslint": "^5.9.0",
+    "eslint": "^8.43.0",
     "mocha": "^5.2.0",
     "node-mocks-http": "^1.7.3",
     "should": "^13.2.3",
